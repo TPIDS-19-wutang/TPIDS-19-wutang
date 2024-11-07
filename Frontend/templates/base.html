@@ -6,7 +6,7 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> El nombre de la cadena de hoteles</title>
+    <title> Trivium </title>
     <meta name="description" content="(El nombre de la cadena de hoteles) ofrece las mejores opciones de alojamiento en todo el mundo.">
     <meta name="keywords" content="hoteles, alojamiento, cadenas de hoteles, vacaciones, viajes, hospedaje, habitaciones">
   
@@ -43,7 +43,6 @@
 
         {% block header %}
         <nav id="navbar-example2" class="navbar navbar-expand-lg py-2">
-            <!-- bloque nav -->
 
             
     
@@ -76,14 +75,8 @@
                   <li class="nav-item">
                     <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
                   </li>
-                  <li class="nav-item dropdown ">
-                    <a class="nav-link me-md-4 text-center dropdown-toggle" href="{{url_for ('rooms')}}" >Habitaciones</a>
-                    <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a href="" class="dropdown-item">Classic</a></li>
-                      <li><a href="" class="dropdown-item">Doble</a></li>
-                      <li><a href="" class="dropdown-item">Premium</a></li>
-                      <li><a href="" class="dropdown-item">Deluxe</a></li>
-                    </ul>
+                  <li class="nav-item">
+                    <a class="nav-link me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
                   </li>
                   <li class="nav-item dropdown ">
                     <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -237,7 +230,7 @@
         </div>
 
         <div class="col-md-2 ">
-          <h5>Movimientos</h5>
+          <h5>Movs</h5>
           <ul class="nav flex-column">
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movimientos</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Apoyanos</a></li>
@@ -264,7 +257,7 @@
     <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 ">
         <div class="col-md-8 d-flex align-items-center">
-          <p>© 2024 (nombre de la cadena de hoteles), Inc. All rights reserved.</p>
+          <p>© 2024 (Trivium), Inc. All rights reserved.</p>
 
         </div>
         <div class="col-md-4 d-flex align-items-center">

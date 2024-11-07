@@ -30,8 +30,7 @@ def get_users(id = None) -> list :
         users.append(user)
     return users
 
-def add_user(nombre: str, apellido: str, email: str) -> :
-    
+def add_user(nombre: str, apellido: str, email: str)  :
     
     query = f"INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `auth_level`) VALUES (NULL, '{nombre}', '{apellido}', '{email}'"
     result = send_query(query)

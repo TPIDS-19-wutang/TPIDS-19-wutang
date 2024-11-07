@@ -1,220 +1,50 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Rentiz - Real Estate Free Website Template</title>
-
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor.css') }}">
-
-  <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-
-  <!-- Link Bootstrap's CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-  <!-- Google Fonts ================================================== -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-
-  <!-- script ================================================== -->
-  <script src="{{ url_for('static', filename='js/modernizr.js') }}"></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</head>
-
-<body data-bs-spy="scroll" data-bs-target="#navbar-example2" tabindex="0">
-
-  <!-- nav bar start  -->
-  <header id="nav" class="site-header position-fixed text-white bg-dark">
-    <nav id="navbar-example2" class="navbar navbar-expand-lg py-2">
-
-      <div class="container ">
-        
-        <a class="navbar-brand" href="{{url_for('index')}}">
-          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="image">
-        </a>
-
-        <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
-          <ion-icon name="menu-outline" style="font-size: 30px;"></ion-icon>
-        </button>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2"
-          aria-labelledby="offcanvasNavbar2Label">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-              aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
-              <li class="nav-item">
-                <a class="nav-link active me-md-4" href="{{url_for('index')}}">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
-              </li>
-              <li class="nav-item dropdown ">
-                <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                  aria-expanded="false">Habitaciones</a>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a href="" class="dropdown-item">Habitacion Classic</a></li>
-                  <li><a href="" class="dropdown-item">Habitación Doble</a></li>
-                  <li><a href="" class="dropdown-item">Habitación Premium</a></li>
-                  <li><a href="" class="dropdown-item">Habitación Deluxe</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
-              </li>
-
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="tabs-listing mt-4">
-                        <nav>
-                          <div class="nav nav-tabs d-flex justify-content-center border-0" id="nav-tab" role="tablist">
-                            <button class="btn btn-outline-primary text-uppercase me-3 active" id="nav-sign-in-tab"
-                              data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button" role="tab"
-                              aria-controls="nav-sign-in" aria-selected="true">Iniciar sesión</button>
-                            <button class="btn btn-outline-primary text-uppercase" id="nav-register-tab"
-                              data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab"
-                              aria-controls="nav-register" aria-selected="false">Registrarse</button>
-                          </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                          <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
-                            aria-labelledby="nav-sign-in-tab">
-                            <form id="form1" class="form-group flex-wrap p-3 ">
-                              <div class="form-input col-lg-12 my-4">
-                                <label for="exampleInputEmail1"
-                                  class="form-label fs-6 text-uppercase fw-bold text-black">Correo
-                                  Electrónico</label>
-                                <input type="text" id="exampleInputEmail1" name="email" placeholder="Email"
-                                  class="form-control ps-3">
-                              </div>
-                              <div class="form-input col-lg-12 my-4">
-                                <label for="inputPassword1"
-                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
-                                <input type="password" id="inputPassword1" placeholder="contraseña"
-                                  class="form-control ps-3" aria-describedby="passwordHelpBlock">
-                                <div id="passwordHelpBlock" class="form-text text-center">
-                                  <a href="#" class=" password">¿Has olvidado tu contraseña?</a>
-                                </div>
-                              </div>
-                              <label class="py-3">
-                                <input type="checkbox" required="" class="d-inline">
-                                <span class="label-body text-black">Recuérdame</span>
-                              </label>
-                              <div class="d-grid my-3">
-                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Iniciar sesión</button>
-                              </div>
-                            </form>
-                          </div>
-                          <div class="tab-pane fade" id="nav-register" role="tabpanel"
-                            aria-labelledby="nav-register-tab">
-                            <form id="form2" class="form-group flex-wrap p-3 ">
-                              <div class="form-input col-lg-12 my-4">
-                                <label for="exampleInputEmail2"
-                                  class="form-label fs-6 text-uppercase fw-bold text-black">Correo
-                                  Electrónico o contraseña</label>
-                                <input type="text" id="exampleInputEmail2" name="email" placeholder="Email"
-                                  class="form-control ps-3">
-                              </div>
-                              <div class="form-input col-lg-12 my-4">
-                                <label for="inputPassword2"
-                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
-                                <input type="password" id="inputPassword2" placeholder="Password"
-                                  class="form-control ps-3">
-                              </div>
-                              <div class="d-grid my-3">
-                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Registrarse</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-    </nav>
-  </header>
-  <!-- nav bar end  -->
-
-
+{% block content %}
   <!-- billboard start  -->
   <section id="billboard">
     <div class="container ">
       <div class="row flex-lg-row-reverse align-items-center ">
 
         <div class="col-lg-6">
-          <img src="{{ url_for('static', filename='/images/billboard.png', _external=True) }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+          <img src="{{ url_for('static', filename='/images/hotel-principal.jpeg', _external=True) }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
             height="500" loading="lazy">
         </div>
 
         <div class="col-lg-6">
-          <h1 class=" text-capitalize  lh-1 my-3">Perfect way to buy and sell a home</h1>
-          <p class="lead">Diam vitae, nec mattis lectus quam pretium amet facilisis. Urna, massa aliqua dui
-            pellentesque. Ac, gravida in eget non amet eget purus non.</p>
+          <h1 class=" text-capitalize  lh-1 my-3">Hotel Trivium</h1>
+          <p class="lead">El hotel simbolo de nuestro pais.</p>
           <nav class="navbar navbar-expand-lg billboard-nav">
             <div class="container billboard-search p-0">
 
               <div class="row billboard-row">
                 <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Purpose">
-                    <option selected>Purpose</option>
-                    <option value="1">Buy</option>
-                    <option value="2">Rent</option>
-                    <option value="3">Sell</option>
-                    <option value="4">Something else here</option>
+                  <select class="form-select mb-2 mb-lg-0" aria-label="Location">
+                    <option selected>Mendoza</option>
+                    <option value="1">Misiones</option>
+                    <option value="2">Cordoba</option>
+                    <option value="3">Salta</option>
+                    <option value="4">Santa Cruz</option>
+                    <option value="5">Ciudad de Buenos Aires</option>
+                  </select>
+                </div>
+                <div class="col-lg-3 billboard-select">
+                  <select class="form-select mb-2 mb-lg-0" aria-label="Personas">
+                    <option selected>Personas</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">+4</option>
 
                   </select>
                 </div>
                 <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Location">
-                    <option selected>Location</option>
-                    <option value="1">Texas</option>
-                    <option value="2">Miami</option>
-                    <option value="3">Chicago</option>
-                    <option value="4">New York</option>
-                    <option value="5">Something else here</option>
-                  </select>
-                </div>
-                <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Type">
+                  <select class="form-select mb-2 mb-lg-0" aria-label="Habitaciones">
                     <option selected>Type</option>
-                    <option value="1">House</option>
-                    <option value="2">Appartment</option>
-                    <option value="3">Villa</option>
-                    <option value="4">Loft</option>
-                    <option value="5">Bungalow</option>
-                    <option value="3">Something else here</option>
+                    <option value="1">Classic</option>
+                    <option value="2">Doble</option>
+                    <option value="3">Premium</option>
+                    <option value="4">Deluxe</option>
                   </select>
                 </div>
 
@@ -230,42 +60,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Feature start  -->
-  <section id="feature">
-    <div class="container py-5">
-      <div class="row">
-        <div class="section-header align-center mb-5">
-          <h2 class=" text-capitalize m-0">Featured In</h2>
-        </div>
-      </div>
-      <div class="row d-flex justify-content-between">
-        <div class="col-md-2 ">
-          <div class="my-3" role="group" aria-label="3 / 7" style="width: 158.667px; margin-right: 20px;"><img
-              alt="image" src="{{ url_for('static', filename='/images/logo1.png', _external=True) }}"></div>
-        </div>
-        <div class="col-md-2">
-          <div class="my-3" role="group" aria-label="3 / 7" style="width: 158.667px; margin-right: 20px;"><img
-              alt="image" src="{{ url_for('static', filename='/images/logo2.png', _external=True) }}"></div>
-        </div>
-        <div class="col-md-2">
-          <div class="my-3" role="group" aria-label="3 / 7" style="width: 158.667px; margin-right: 20px;"><img
-              alt="image" src="{{ url_for('static', filename='/images/logo3.png', _external=True) }}"></div>
-        </div>
-        <div class="col-md-2">
-          <div class="my-3" role="group" aria-label="3 / 7" style="width: 158.667px; margin-right: 20px;"><img
-              alt="image" src="{{ url_for('static', filename='/images/logo4.png', _external=True) }}"></div>
-        </div>
-        <div class="col-md-2">
-          <div class="my-3" role="group" aria-label="3 / 7" style="width: 158.667px; margin-right: 20px;"><img
-              alt="image" src="{{ url_for('static', filename='/images/logo6.png', _external=True) }}"></div>
-        </div>
-
-
-      </div>
-    </div>
-  </section>
-
   <!-- Residence start  -->
   <section id="residence">
     <div class="container  my-5 py-5">
@@ -279,12 +73,12 @@
 
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item15.png', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-mendoza.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
                 <a href="index.html">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
+                  <h5 class="card-title pt-4">Trivium Mendoza</h5>
                 </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
+                <p class="card-text">General San Martin 1987, Mendoza</p>
 
                 <div class="card-text">
                   <ul class="d-flex">
@@ -299,12 +93,12 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item16.png', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-buenosaires.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
                 <a href="index.html">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
+                  <h5 class="card-title pt-4">Trivium Buenos Aires</h5>
                 </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
+                <p class="card-text">Corrientes 1087, CABA</p>
 
                 <div class="card-text">
                   <ul class="d-flex">
@@ -319,12 +113,12 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item17.png', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-misiones.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
                 <a href="index.html">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
+                  <h5 class="card-title pt-4">Trivium Misiones</h5>
                 </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
+                <p class="card-text">San Miguel de Guemes, Misiones</p>
 
                 <div class="card-text">
                   <ul class="d-flex">
@@ -419,16 +213,7 @@
           </div>
 
         </div>
-
-
-
-
       </div>
-
-      <div class="residence-btn">
-        <a href="index.html" class="btn btn-primary btn-lg my-5">View All Properties</a>
-      </div>
-
     </div>
   </section>
 
@@ -588,96 +373,7 @@
       </div>
     </div>
   </section>
-
-  <!-- Footer start  -->
-  <section id="footer">
-    <div class="container footer-container">
-      <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5  ">
-
-        <div class=" col-md-4">
-          <h3><img src="{{ url_for('static', filename='/images/logo.png', _external=True) }}" alt="image"></h3>
-          <p>Tu comodidad, es nuestra prioridad. Descubre el confort en cada una de nuestros habitaciones.</p>
-          <a href="https://www.facebook.com/profile.php?id=61568407109023" class="bi-facebook pe-4"></a>
-          <a href="https://www.instagram.com/triviumhotel/" class="bi-instagram pe-4"></a>
-          <a href="https://x.com/triviumhotel1" class="bi-twitter pe-4"></a>
-          <a href="https://www.youtube.com/@triviuhotel" class="bi-youtube pe-4"></a>
-        </div>
-
-        <div class="col-md-2 ">
-          <h5>Hoteleria</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habs</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Pisos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Deptos</a></li>
-          </ul>
-        </div>
-
-        <div class="col-md-2 ">
-          <h5>Compania</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Como    trabajamos?</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sedes </a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">seguridad </a></li>
-          </ul>
-        </div>
-
-        <div class="col-md-2 ">
-          <h5>Movs</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movimientos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Apoyanos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Precios</a></li>
-          </ul>
-        </div>
-
-        <div class="col-md-2 ">
-          <h5>Ayuda</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Privacidad </a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Condiciones</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Preguntas frecuentes</a></li>
-          </ul>
-        </div>
-      </footer>
-    </div>
-
-
-
-    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top"></footer>
-
-    <div class="container">
-      <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 ">
-        <div class="col-md-8 d-flex align-items-center">
-          <p>© 2024 (nombre de la cadena de hoteles), Inc. Todos los derechos reservados.</p>
-
-        </div>
-        <div class="col-md-4 d-flex align-items-center">
-          <p>Pagina web hecha por: <a href="https://github.com/thiagopedoni" class="link-primary"
-              target="_blank">Thiago Pedoni</a> <br>
-              <a href="https://github.com/blazromero" class="link-primary"
-              target="_blank">Blaz Romero</a> <br>
-              <a href="https://github.com/YANESGHD" class="link-primary"
-              target="_blank">Gabriela Yanes</a> <br>
-              <a href="https://github.com/Marinocabreraa" class="link-primary"
-              target="_blank">Marino Cabrera</a> <br>
-              <a href="https://github.com/Intiblanfiu" class="link-primary"
-              target="_blank">Inti Blanco</a> <br>
-
-        </div>
-
-      </footer>
-    </div>
-  </section>
-
-
-
-
-  <script src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
+{% endblock %}
 </body>
 
 </html>

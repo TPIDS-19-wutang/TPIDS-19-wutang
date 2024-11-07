@@ -18,5 +18,9 @@ def about():
 def contact():
     return render_template("contact.html")
 
+@app.route("/habitaciones")
+def rooms():
+    return render_template("rooms.html")
+
 if __name__ == "__main__":
     app.run("127.0.0.1", port="5000", debug=True)

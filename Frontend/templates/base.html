@@ -45,12 +45,12 @@
         <nav id="navbar-example2" class="navbar navbar-expand-lg py-2">
             <!-- bloque nav -->
 
-            {% block nav %}
+            
     
           <div class="container ">
     
             <a class="navbar-brand" href="{{url_for('index')}}">
-              <img src="{{ url_for('static', filename='images/logo.png') }}" alt="image">
+              <img src="{{ url_for('static', filename='images/download.jpeg') }}" alt="image">
             </a>
     
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas"
@@ -77,16 +77,12 @@
                     <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
                   </li>
                   <li class="nav-item dropdown ">
-                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                      aria-expanded="false">Disponibilidad</a>
+                    <a class="nav-link me-md-4 text-center dropdown-toggle" href="{{url_for ('rooms')}}" >Habitaciones</a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a href="" class="dropdown-item">habitaciones</a></li>
-                      <li><a href="" class="dropdown-item">Pisos</a></li>
-                      <li><a href="" class="dropdown-item">Pisos-enteros <span
-                            class="badge bg-secondary">PRO</span></a></li>
-                      <li><a href="" class="dropdown-item">Terrenos <span
-                            class="badge bg-secondary">PRO</span></a></li>
-                      <li><a href="" class="dropdown-item">Departamentos</a></li>
+                      <li><a href="" class="dropdown-item">Classic</a></li>
+                      <li><a href="" class="dropdown-item">Doble</a></li>
+                      <li><a href="" class="dropdown-item">Premium</a></li>
+                      <li><a href="" class="dropdown-item">Deluxe</a></li>
                     </ul>
                   </li>
                   <li class="nav-item dropdown ">
@@ -194,9 +190,6 @@
             </div>
     
           </div>
-            {% endblock %}
-
-            <!-- fin bloque nav -->
         </nav>
         {% endblock %}
 
@@ -204,18 +197,20 @@
     </header>
 
     <main class="body-content">
-      {% block content %} {% endblock %}
+      {% block content %} 
+
+      {% endblock %}
     </main>
 
     <section id="footer">
         <!-- bloque footer -->
 
-        {% block footer %}
+    {% block footer %}
     <div class="container footer-container">
       <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5  ">
 
         <div class=" col-md-4">
-            <h3><img src="{{ url_for('static', filename='/images/logo.png', _external=True) }}" alt="image"></h3>
+            <h3><img src="{{ url_for('static', filename='/images/download.jpeg', _external=True) }}" alt="image"></h3>
             <p>Tu comodidad, es nuestra prioridad. Descubre el confort en cada una de nuestros habitaciones.</p>
             <a href="https://www.facebook.com/profile.php?id=61568407109023" class="bi-facebook pe-4"></a>
             <a href="https://www.instagram.com/triviumhotel/" class="bi-instagram pe-4"></a>
@@ -226,10 +221,9 @@
         <div class="col-md-2 ">
           <h5>Hoteleria</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Casas</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habitaciomes</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Pisos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Departamentos</a></li>
+            <li class="nav-item mb-2"><a href="" class="nav-link p-0 ">Habitaciones</a></li>
+            <li class="nav-item mb-2"><a href= class="nav-link p-0 ">Sedes</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Amenities</a></li>
           </ul>
         </div>
 
@@ -289,21 +283,21 @@
 
       </footer>
     </div>
-        {% endblock %}
+    {% endblock %}
 
         <!-- fin bloque footer -->
   </section>
 
     <!-- bloque scripts -->
 
-    {% block scripts %}
+{% block scripts %}
 <script src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-    {% endblock %}
+{% endblock %}
 
     <!-- fin bloque scripts -->
 </body>

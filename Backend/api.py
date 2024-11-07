@@ -37,6 +37,51 @@ def add_user(nombre: str, apellido: str, email: str)  :
 
     return result, 200
 
+@app.errorhandler(404)
+def endp_not_found(e):
+    return 0
+
+#-------------------POSIBLES ENDPOINTS-------------------------
+@app.route('/user', methods=["POST"])
+def add_user():
+    return 0
+
+@app.route('/user', methods=["PUT"])
+def update_user():
+    return 0
+
+@app.route('/user', methods=["GET"])
+def log_in():
+    return 0
+
+@app.route('/rooms', methods=["POST"])
+def add_room():
+    return 0
+
+@app.route('/rooms', methods=["DELETE"])
+def delete_room():
+    return 0
+
+@app.route('/rooms', methods=["PUT"])
+def update_room():
+    return 0
+
+@app.route('/reservation', methods=["POST"])
+def create_reservation():
+    return 0
+
+@app.route('/reservation', methods=["PUT"])
+def update_reservation():
+    return 0
+
+@app.route('/reservation', methods=["DELETE"])
+def delete_reservation():
+    return 0
+
+@app.route('/reservation', methods=["GET"])
+def add_user():
+    return 0
+
 
 
 if __name__ == "__main__":

@@ -37,8 +37,8 @@
     <nav id="navbar-example2" class="navbar navbar-expand-lg py-2">
 
       <div class="container ">
-
-        <a class="navbar-brand" href="./index.html">
+        
+        <a class="navbar-brand" href="{{url_for('index')}}">
           <img src="{{ url_for('static', filename='images/logo.png') }}" alt="image">
         </a>
 
@@ -57,40 +57,27 @@
           <div class="offcanvas-body">
             <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
               <li class="nav-item">
-                <a class="nav-link active me-md-4" href="#billboard">Home</a>
+                <a class="nav-link active me-md-4" href="{{url_for('index')}}">Inicio</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-md-4" href="#residence">Properties</a>
+                <a class="nav-link me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-md-4" href="#about-us">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-md-4" href="#help">Contact</a>
+                <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
               </li>
               <li class="nav-item dropdown ">
                 <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                  aria-expanded="false">Pages</a>
+                  aria-expanded="false">Habitaciones</a>
                 <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a href="" class="dropdown-item">About</a></li>
-                  <li><a href="" class="dropdown-item">Blog</a></li>
-                  <li><a href="" class="dropdown-item">Blog-Single <span
-                        class="badge bg-secondary">PRO</span></a></li>
-                  <li><a href="" class="dropdown-item">Properties <span
-                        class="badge bg-secondary">PRO</span></a></li>
-                  <li><a href="" class="dropdown-item">Property-Single <span
-                        class="badge bg-secondary">PRO</span></a></li>
-                  <li><a href="" class="dropdown-item">Contact <span
-                        class="badge bg-secondary">PRO</span></a></li>
-                  <li><a href="" class="dropdown-item">Review <span
-                        class="badge bg-secondary">PRO</span></a></li>
-                  <li><a href="" class="dropdown-item">Agents</a></li>
-                  <li><a href="" class="dropdown-item">FAQs</a></li>
-                  <li><a href="" class="dropdown-item">Styles</a></li>
+                  <li><a href="" class="dropdown-item">Habitacion Classic</a></li>
+                  <li><a href="" class="dropdown-item">Habitación Doble</a></li>
+                  <li><a href="" class="dropdown-item">Habitación Premium</a></li>
+                  <li><a href="" class="dropdown-item">Habitación Deluxe</a></li>
                 </ul>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a>
+                <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
               </li>
 
               <!-- Modal -->
@@ -107,10 +94,10 @@
                           <div class="nav nav-tabs d-flex justify-content-center border-0" id="nav-tab" role="tablist">
                             <button class="btn btn-outline-primary text-uppercase me-3 active" id="nav-sign-in-tab"
                               data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button" role="tab"
-                              aria-controls="nav-sign-in" aria-selected="true">Log In</button>
+                              aria-controls="nav-sign-in" aria-selected="true">Iniciar sesión</button>
                             <button class="btn btn-outline-primary text-uppercase" id="nav-register-tab"
                               data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab"
-                              aria-controls="nav-register" aria-selected="false">Sign Up</button>
+                              aria-controls="nav-register" aria-selected="false">Registrarse</button>
                           </div>
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
@@ -119,27 +106,26 @@
                             <form id="form1" class="form-group flex-wrap p-3 ">
                               <div class="form-input col-lg-12 my-4">
                                 <label for="exampleInputEmail1"
-                                  class="form-label fs-6 text-uppercase fw-bold text-black">Email
-                                  Address</label>
+                                  class="form-label fs-6 text-uppercase fw-bold text-black">Correo
+                                  Electrónico</label>
                                 <input type="text" id="exampleInputEmail1" name="email" placeholder="Email"
                                   class="form-control ps-3">
                               </div>
                               <div class="form-input col-lg-12 my-4">
                                 <label for="inputPassword1"
-                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Password</label>
-                                <input type="password" id="inputPassword1" placeholder="Password"
+                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
+                                <input type="password" id="inputPassword1" placeholder="contraseña"
                                   class="form-control ps-3" aria-describedby="passwordHelpBlock">
                                 <div id="passwordHelpBlock" class="form-text text-center">
-                                  <a href="#" class=" password">Forgot Password ?</a>
+                                  <a href="#" class=" password">¿Has olvidado tu contraseña?</a>
                                 </div>
                               </div>
                               <label class="py-3">
                                 <input type="checkbox" required="" class="d-inline">
-                                <span class="label-body text-black">Remember Me</span>
+                                <span class="label-body text-black">Recuérdame</span>
                               </label>
                               <div class="d-grid my-3">
-                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Log
-                                  In</button>
+                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Iniciar sesión</button>
                               </div>
                             </form>
                           </div>
@@ -148,20 +134,19 @@
                             <form id="form2" class="form-group flex-wrap p-3 ">
                               <div class="form-input col-lg-12 my-4">
                                 <label for="exampleInputEmail2"
-                                  class="form-label fs-6 text-uppercase fw-bold text-black">Email
-                                  Address</label>
+                                  class="form-label fs-6 text-uppercase fw-bold text-black">Correo
+                                  Electrónico o contraseña</label>
                                 <input type="text" id="exampleInputEmail2" name="email" placeholder="Email"
                                   class="form-control ps-3">
                               </div>
                               <div class="form-input col-lg-12 my-4">
                                 <label for="inputPassword2"
-                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Password</label>
+                                  class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
                                 <input type="password" id="inputPassword2" placeholder="Password"
                                   class="form-control ps-3">
                               </div>
                               <div class="d-grid my-3">
-                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Sign
-                                  Up</button>
+                                <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Registrarse</button>
                               </div>
                             </form>
                           </div>
@@ -611,48 +596,46 @@
 
         <div class=" col-md-4">
           <h3><img src="{{ url_for('static', filename='/images/logo.png', _external=True) }}" alt="image"></h3>
-          <p>Neque, vestibulum sed varius magna et at. Eu, adipiscing morbi augue.</p>
-          <i class="bi-facebook pe-4"></i>
-          <i class="bi-instagram pe-4"></i>
-          <i class="bi-twitter pe-4"></i>
-          <i class="bi-youtube pe-4"></i>
+          <p>Tu comodidad, es nuestra prioridad. Descubre el confort en cada una de nuestros habitaciones.</p>
+          <a href="link de facebook" class="bi-facebook pe-4"></a>
+          <a href="link de instagram" class="bi-instagram pe-4"></a>
+          <a href="link de twitter" class="bi-twitter pe-4"></a>
+          <a href="link de youtube" class="bi-youtube pe-4"></a>
         </div>
 
         <div class="col-md-2 ">
-          <h5>Project</h5>
+          <h5>Hoteleria</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Houses</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Rooms</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Flats</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Appartments</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habs</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Pisos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Deptos</a></li>
           </ul>
         </div>
 
         <div class="col-md-2 ">
-          <h5>Company</h5>
+          <h5>Compania</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">How we work ?</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Capital </a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Security </a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Como    trabajamos?</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sedes </a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">seguridad </a></li>
           </ul>
         </div>
 
         <div class="col-md-2 ">
-          <h5>Movement</h5>
+          <h5>Movs</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movement</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Support us</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Pricing</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movimientos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Apoyanos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Precios</a></li>
           </ul>
         </div>
 
         <div class="col-md-2 ">
-          <h5>Help</h5>
+          <h5>Ayuda</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Privacy </a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Condition</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Blog</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">FAQs</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Privacidad </a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Condiciones</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Preguntas frecuentes</a></li>
           </ul>
         </div>
       </footer>
@@ -665,13 +648,20 @@
     <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 ">
         <div class="col-md-8 d-flex align-items-center">
-          <p>© 2023 TemplatesJungle, Inc. All rights reserved.</p>
+          <p>© 2024 (nombre de la cadena de hoteles), Inc. Todos los derechos reservados.</p>
 
         </div>
         <div class="col-md-4 d-flex align-items-center">
-          <p>HTML template by: <a href="https://templatesjungle.com/" class="link-primary"
-              target="_blank">TemplatesJungle</a> <br> Distributed by: <a href="https://themewagon.com" class="link-primary"
-              target="_blank">ThemeWagon</a></p>
+          <p>Pagina web hecha por: <a href="https://github.com/thiagopedoni" class="link-primary"
+              target="_blank">Thiago Pedoni</a> <br>
+              <a href="https://github.com/blazromero" class="link-primary"
+              target="_blank">Blaz Romero</a> <br>
+              <a href="https://github.com/YANESGHD" class="link-primary"
+              target="_blank">Gabriela Yanes</a> <br>
+              <a href="https://github.com/Marinocabreraa" class="link-primary"
+              target="_blank">Marino Cabrera</a> <br>
+              <a href="https://github.com/thiagopedoni" class="link-primary"
+              target="_blank">Inti Blanco</a> <br>
 
         </div>
 

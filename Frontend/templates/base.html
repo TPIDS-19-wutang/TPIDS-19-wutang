@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- bloque head -->
+
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> El nombre de la cadena de hoteles</title>
+    <meta name="description" content="(El nombre de la cadena de hoteles) ofrece las mejores opciones de alojamiento en todo el mundo.">
+    <meta name="keywords" content="hoteles, alojamiento, cadenas de hoteles, vacaciones, viajes, hospedaje, habitaciones">
+  
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor.css') }}">
+  
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  
+    <!-- Link Bootstrap's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
+    crossorigin="anonymous">
+  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+    <!-- Google Fonts ================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
+  
+    <!-- script ================================================== -->
+    <script src="{{ url_for('static', filename='js/modernizr.js') }}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    {% endblock %}
+
+    <!-- fin bloque head -->
+  </head>
+<body>
+    <header id="nav" class="site-header position-fixed text-white bg-dark">
+        <!-- bloque header -->
+
+        {% block header %}
+        <nav id="navbar-example2" class="navbar navbar-expand-lg py-2">
+            <!-- bloque nav -->
+
+            {% block nav %}
+    
+          <div class="container ">
+    
+            <a class="navbar-brand" href="{{url_for('index.html')}}">
+              <img src="{{ url_for('static', filename='images/logo.png') }}" alt="image">
+            </a>
+    
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+              <ion-icon name="menu-outline" style="font-size: 30px;"></ion-icon>
+            </button>
+    
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2"
+              aria-labelledby="offcanvasNavbar2Label">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                  aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
+                  <li class="nav-item">
+                    <a class="nav-link active me-md-4" href="{{url_for('index.html')}}">Inicio</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-md-4" href="{{url_for('about.html')}}">Sobre nosotros</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link me-md-4" href="{{url_for('contact.html')}}">Contacto</a>
+                  </li>
+                  <li class="nav-item dropdown ">
+                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                      aria-expanded="false">Disponibilidad</a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a href="" class="dropdown-item">habitaciones</a></li>
+                      <li><a href="" class="dropdown-item">Pisos</a></li>
+                      <li><a href="" class="dropdown-item">Pisos-enteros <span
+                            class="badge bg-secondary">PRO</span></a></li>
+                      <li><a href="" class="dropdown-item">Terrenos <span
+                            class="badge bg-secondary">PRO</span></a></li>
+                      <li><a href="" class="dropdown-item">Departamentos</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown ">
+                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                      aria-expanded="false">Compania</a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a href="" class="dropdown-item">Como trabajamos?</a></li>
+                      <li><a href="" class="dropdown-item">Sedes</a></li>
+                      <li><a href="" class="dropdown-item">seguridad</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown ">
+                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                      aria-expanded="false">Ayuda</a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a href="" class="dropdown-item">Privacidad</a></li>
+                      <li><a href="" class="dropdown-item">Condiciones</a></li>
+                      <li><a href="" class="dropdown-item">Preguntas frecuentes</a></li>
+                    </ul>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
+                  </li>
+    
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="tabs-listing mt-4">
+                            <nav>
+                              <div class="nav nav-tabs d-flex justify-content-center border-0" id="nav-tab" role="tablist">
+                                <button class="btn btn-outline-primary text-uppercase me-3 active" id="nav-sign-in-tab"
+                                  data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button" role="tab"
+                                  aria-controls="nav-sign-in" aria-selected="true">Iniciar sesión</button>
+                                <button class="btn btn-outline-primary text-uppercase" id="nav-register-tab"
+                                  data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab"
+                                  aria-controls="nav-register" aria-selected="false">Registrarse</button>
+                              </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                              <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
+                                aria-labelledby="nav-sign-in-tab">
+                                <form id="form1" class="form-group flex-wrap p-3 ">
+                                  <div class="form-input col-lg-12 my-4">
+                                    <label for="exampleInputEmail1"
+                                      class="form-label fs-6 text-uppercase fw-bold text-black">Correo
+                                      Electrónico</label>
+                                    <input type="text" id="exampleInputEmail1" name="email" placeholder="Email"
+                                      class="form-control ps-3">
+                                  </div>
+                                  <div class="form-input col-lg-12 my-4">
+                                    <label for="inputPassword1"
+                                      class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
+                                    <input type="password" id="inputPassword1" placeholder="Password"
+                                      class="form-control ps-3" aria-describedby="passwordHelpBlock">
+                                    <div id="passwordHelpBlock" class="form-text text-center">
+                                      <a href="#" class=" password">¿Has olvidado tu contraseña?</a>
+                                    </div>
+                                  </div>
+                                  <label class="py-3">
+                                    <input type="checkbox" required="" class="d-inline">
+                                    <span class="label-body text-black">Recuérdame</span>
+                                  </label>
+                                  <div class="d-grid my-3">
+                                    <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Iniciar sesión</button>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="tab-pane fade" id="nav-register" role="tabpanel"
+                                aria-labelledby="nav-register-tab">
+                                <form id="form2" class="form-group flex-wrap p-3 ">
+                                  <div class="form-input col-lg-12 my-4">
+                                    <label for="exampleInputEmail2"
+                                      class="form-label fs-6 text-uppercase fw-bold text-black">Correo
+                                      Electrónico o contraseña</label>
+                                    <input type="text" id="exampleInputEmail2" name="email" placeholder="Email"
+                                      class="form-control ps-3">
+                                  </div>
+                                  <div class="form-input col-lg-12 my-4">
+                                    <label for="inputPassword2"
+                                      class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
+                                    <input type="password" id="inputPassword2" placeholder="Password"
+                                      class="form-control ps-3">
+                                  </div>
+                                  <div class="d-grid my-3">
+                                    <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Registrarse</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                </ul>
+              </div>
+            </div>
+    
+          </div>
+            {% endblock %}
+
+            <!-- fin bloque nav -->
+        </nav>
+        {% endblock %}
+
+        <!-- fin bloque header -->
+    </header>
+    <section id="footer">
+        <!-- bloque footer -->
+
+        {% block footer %}
+    <div class="container footer-container">
+      <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5  ">
+
+        <div class=" col-md-4">
+          <h3><img src="{{ url_for('static', filename='/images/logo.png', _external=True) }}" alt="image"></h3>
+          <p>Tu comodidad, es nuestra prioridad. Descubre el confort en cada una de nuestros habitaciones.</p>
+          <a href="link de facebook" class="bi-facebook pe-4"></a>
+          <a href="link de instagram" class="bi-instagram pe-4"></a>
+          <a href="link de twitter" class="bi-twitter pe-4"></a>
+          <a href="link de youtube" class="bi-youtube pe-4"></a>
+        </div>
+
+        <div class="col-md-2 ">
+          <h5>Hoteleria</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Casas</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habitaciomes</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Pisos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Departamentos</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-2 ">
+          <h5>Compania</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Como    trabajamos?</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sede central </a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">seguridad </a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-2 ">
+          <h5>Movimientos</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movimientos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Apoyanos</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Precios</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-2 ">
+          <h5>Ayuda</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Privacidad </a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Condiciones</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Blog</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+
+
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top"></footer>
+
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 ">
+        <div class="col-md-8 d-flex align-items-center">
+          <p>© 2024 (nombre de la cadena de hoteles), Inc. All rights reserved.</p>
+
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+          <p>Pagina web hecha por: <a href="https://github.com/thiagopedoni" class="link-primary"
+              target="_blank">Thiago Pedoni</a> <br>
+              <a href="https://github.com/blazromero" class="link-primary"
+              target="_blank">Blaz Romero</a> <br>
+              <a href="https://github.com/YANESGHD" class="link-primary"
+              target="_blank">Gabriela Yanes</a> <br>
+              <a href="https://github.com/Marinocabreraa" class="link-primary"
+              target="_blank">Marino Cabrera</a> <br>
+              <a href="https://github.com/thiagopedoni" class="link-primary"
+              target="_blank">Inti Blanco</a> <br>
+
+        </div>
+
+      </footer>
+    </div>
+        {% endblock %}
+
+        <!-- fin bloque footer -->
+  </section>
+
+    <!-- bloque scripts -->
+
+    {% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+    {% endblock %}
+
+    <!-- fin bloque scripts -->
+</body>
+</html>

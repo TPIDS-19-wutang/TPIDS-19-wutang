@@ -49,7 +49,7 @@
     
           <div class="container ">
     
-            <a class="navbar-brand" href="{{url_for('index.html')}}">
+            <a class="navbar-brand" href="{{url_for('index')}}">
               <img src="{{ url_for('static', filename='images/logo.png') }}" alt="image">
             </a>
     
@@ -68,13 +68,13 @@
               <div class="offcanvas-body">
                 <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
                   <li class="nav-item">
-                    <a class="nav-link active me-md-4" href="{{url_for('index.html')}}">Inicio</a>
+                    <a class="nav-link active me-md-4" href="{{url_for('index')}}">Inicio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-md-4" href="{{url_for('about.html')}}">Sobre nosotros</a>
+                    <a class="nav-link me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-md-4" href="{{url_for('contact.html')}}">Contacto</a>
+                    <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
                   </li>
                   <li class="nav-item dropdown ">
                     <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -202,6 +202,11 @@
 
         <!-- fin bloque header -->
     </header>
+
+    <main class="body-content">
+      {% block content %} {% endblock %}
+    </main>
+
     <section id="footer">
         <!-- bloque footer -->
 

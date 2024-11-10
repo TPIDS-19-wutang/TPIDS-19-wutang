@@ -1,69 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <br>
   <!-- billboard start  -->
-  <section id="billboard">
-    <div class="container ">
-      <div class="row flex-lg-row-reverse align-items-center ">
-
-        <div class="col-lg-6">
-          <img src="{{ url_for('static', filename='/images/hotel-principal.jpeg', _external=True) }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
-            height="500" loading="lazy">
-        </div>
-
-        <div class="col-lg-6">
-          <h1 class=" text-capitalize  lh-1 my-3">Hotel Trivium</h1>
-          <p class="lead">El hotel simbolo de nuestro pais.</p>
-          <nav class="navbar navbar-expand-lg billboard-nav">
-            <div class="container billboard-search p-0">
-
-              <div class="row billboard-row">
-                <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Location">
-                    <option selected>Mendoza</option>
-                    <option value="1">Misiones</option>
-                    <option value="2">Cordoba</option>
-                    <option value="3">Salta</option>
-                    <option value="4">Santa Cruz</option>
-                    <option value="5">Ciudad de Buenos Aires</option>
-                  </select>
-                </div>
-                <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Personas">
-                    <option selected>Personas</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">+4</option>
-
-                  </select>
-                </div>
-                <div class="col-lg-3 billboard-select">
-                  <select class="form-select mb-2 mb-lg-0" aria-label="Habitaciones">
-                    <option selected>Tipo</option>
-                    <option value="1">Classic</option>
-                    <option value="2">Doble</option>
-                    <option value="3">Premium</option>
-                    <option value="4">Deluxe</option>
-                  </select>
-                </div>
-
-                <div class="col-lg-3 billboard-btn">
-                  <button type="submit" class="btn btn-primary btn-lg billboard-search">Buscar</button>
-                </div>
-              </div>
-
-
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
+  <section id="hero">
+    <h1>sentite como en casa</h1>
+    <h2>lejos de casa</h2> <br>
+    <form action="{{url_for('reservas')}}">
+      <button class="btn-reserva">Reservar</button>
+    </form>
   </section>
+
   <!-- Residence start  -->
   <section id="residence">
     <div class="container  my-5 py-5">
-      <h2 class="text-capitalize m-0 py-lg-5">Residencias Populares</h2>
+      <h2 class="text-capitalize m-0 py-lg-5">Residencias Populares</h2><br>
 
       <div class="swiper-button-next residence-swiper-next  residence-arrow"></div>
       <div class="swiper-button-prev residence-swiper-prev residence-arrow"></div>
@@ -222,7 +173,7 @@
     <!-- Residence start  -->
     <section id="residence">
       <div class="container  my-5 py-5">
-        <h2 class="text-capitalize m-0 py-lg-5">Ofertas de fin de semana</h2>
+        <h2 class="text-capitalize m-0 py-lg-5">Ofertas de fin de semana</h2><br>
   
         <div class="swiper-button-next residence-swiper-next  residence-arrow"></div>
         <div class="swiper-button-prev residence-swiper-prev residence-arrow"></div>
@@ -279,16 +230,15 @@
   <section id="about-us">
     <div class="container">
       <div class="row py-lg-5">
-
         <h2 class="text-capitalize text-center m-0 py-lg-5">Porque elegirnos</h2>
-
+        <br>
         <div class="text-center col-lg-4">
           <img src="{{ url_for('static', filename='/images/search.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
           <h4 class="fw-normal mt-5 ">Facil de encontrar</h4>
           <p>Nos encontrarás fácilmente, rodeados de naturaleza y a pocos minutos de las principales rutas de acceso.
              Un viaje sencillo para comenzar tu escapada perfecta.</p>
-        </div>
+        </div><br>
 
         <div class="text-center col-lg-4">
           <img src="{{ url_for('static', filename='/images/price.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
@@ -296,7 +246,7 @@
           <h4 class="fw-normal mt-5">Precios Asequibles</h4>
           <p>Disfruta de una experiencia única en medio de la naturaleza sin comprometer tu presupuesto. 
             Ofrecemos tarifas accesibles para que tu estancia sea cómoda y memorable.</p>
-        </div>
+        </div><br>
 
         <div class="text-center col-lg-4">
           <img src="{{ url_for('static', filename='/images/time.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
@@ -372,10 +322,6 @@
               </div>
             </div>
           </div>
-
-
-
-
         </div>
 
         <div class=" testimonial-swiper-button col-md-3 position-absolute">
@@ -383,9 +329,15 @@
           <div class="arrow-divider"> | </div>
           <div class="swiper-button-next testimonial-arrow"></div>
         </div>
-
       </div>
     </div>
+  </section>
+
+  <section id="reserva-ya">
+    <h2>Listo para reservar?</h2>
+    <form action="{{url_for('reservas')}}">
+      <button class="btn-reserva">Reservar</button>
+    </form>
   </section>
   
 {% endblock %}

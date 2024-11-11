@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+
+<h1 class="relleno">asdasdasdasdasdas</h1>
+<h2 class="reserv-heading">Reserva ya</h2>
+<p class="reserv-description">Por favor, completá el siguiente formulario para reservar tu hospedaje.</p>
+
+<section id="formulario-reserva">
+  <section>
+    <h3 class="titulos-reserv">Paso 1: Tus datos</h3>
+    <form class="reserv-form" action="/reserv" method="post">
+      <label class="reserv-form-label" for="nombre">Nombre:</label>
+      <input class="reserv-form-input" type="text" id="nombre" name="nombre" required>
+      
+      <label class="reserv-form-label" for="apellido">Apellido:</label>
+      <input class="reserv-form-input" type="text" id="apellido" name="apellido" required>
+      
+      <label class="reserv-form-label" for="email">Correo electrónico:</label>
+      <input class="reserv-form-input" type="email" id="email" name="email" required>
+      
+      <button class="reserv-submit-button" type="submit">Enviar</button>
+    </form>
+  </section><br>
+
+  <h3 class="titulos-reserv">Paso 2: Información del hospedaje</h3>
+  <!-- billboard start  -->
+  <form class="reserv-form" action="/reserv" method="post">
+    <section id="billboard">
+      <div class="container ">
+        <div class="col-lg-3 billboard-select">
+          <select class="form-select mb-2 mb-lg-0" aria-label="Location">
+            <option selected>Lugar</option>
+            <option value="1">Misiones</option>
+            <option value="2">Cordoba</option>
+            <option value="3">Salta</option>
+            <option value="4">Santa Cruz</option>
+            <option value="5">Mendoza</option>
+            <option value="6">Ciudad de Buenos Aires</option>
+          </select>
+        </div>
+        <div class="col-lg-3 billboard-select">
+          <select class="form-select mb-2 mb-lg-0" aria-label="Personas">
+            <option selected>Personas</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">+4</option>
+          </select>
+        </div>
+        <div class="col-lg-3 billboard-select">
+          <select class="form-select mb-2 mb-lg-0" aria-label="Habitaciones">
+            <option selected>Tipo de habitación</option>
+            <option value="1">Classic</option>
+            <option value="2">Doble</option>
+            <option value="3">Premium</option>
+            <option value="4">Deluxe</option>
+          </select>
+        </div><br>
+        
+        <div class="col-lg-3 billboard-btn">
+          <button class="reserv-submit-button" type="submit">Enviar</button>>
+        </div>
+      </div>
+    </section>
+  </form>
+  <section>
+    <h3 class="titulos-reserv">Paso 3: Detalles del pago</h3>
+    <form class="reserv-form" action="/reserv" method="post">
+      <label class="reserv-form-label" for="nombre">Nombre:</label>
+      <input class="reserv-form-input" type="text" id="nombre" name="nombre" required>
+      
+      <label class="reserv-form-label" for="apellido">Apellido:</label>
+      <input class="reserv-form-input" type="text" id="apellido" name="apellido" required>
+      
+      <label class="reserv-form-label" for="number-card">Número de la tarjeta:</label>
+      <input class="reserv-form-input" type="number-card" id="number-card" name="number-card" required>
+      
+      <button class="reserv-submit-button" type="submit">Enviar</button>
+    </form>
+  </section>
+</section>
+{% endblock %}

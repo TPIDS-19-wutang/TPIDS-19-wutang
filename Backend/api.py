@@ -1,57 +1,107 @@
 from flask import Flask, jsonify, request
-from sqlalchemy import create_engine, text
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
-
-engine = create_engine("mysql+mysqlconnector://root:@localhost/hotel")
+from models import db, User, Contact
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost/hotel'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-def send_query(query: str):
+db.init_app(app)
 
-    try:
-        conn = engine.connect()
-        result = conn.execute(text(query))
-        conn.commit()
-        conn.close()
-    except SQLAlchemyError as err:
-       
-        return jsonify({'error': str(err)}), 500
-    return result
-
-def get_users(id = None) -> list :
-    
-    query = f"SELECT id, nombre, apellido, email, FROM `users`" + (f" WHERE id={id};" if id else ";")
-    success, result = send_query(query)
-    if not success:
-        return False
-    users = []
-    for row in result:
-        user = {"id": row[0], "name": row[1], "surname": row[2], "email": row[3], "auth_level": row[4], "created_at": row[5], "updated_at": row[6]}
-        users.append(user)
-    return users
-
-def add_user(nombre: str, apellido: str, email: str)  :
-    
-    query = f"INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `auth_level`) VALUES (NULL, '{nombre}', '{apellido}', '{email}'"
-    result = send_query(query)
-
-    return result, 200
+with app.app_context():
+    db.create_all()
 
 @app.errorhandler(404)
 def endp_not_found(e):
     return 0
 
-#-------------------POSIBLES ENDPOINTS-------------------------
-@app.route('/user', methods=["POST"])
+@app.route('/users', methods=["POST"])
 def add_user():
-    return 0
+    data = request.get_json()
+    try:
+        new_user = User(
+            name=data['name'],
+            lastname=data['lastname'],
+            email=data['email'],
+            phone=data['phone'],
+            password=data['password']
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({"message": "User added successfully"}), 201
+    except SQLAlchemyError as err:
+        db.session.rollback()
+        return jsonify({'error': str(err)}), 500
+    
+@app.route('/users', methods=["GET"])
+def get_users():
+    id = request.args.get('id')
+    try:
+        if id:
+            user = User.query.get(id)
+            if not user:
+                return jsonify({'error': 'User not found'}), 404
+            return jsonify({
+                "id": user.id_user,
+                "name": user.name,
+                "lastname": user.lastname,
+                "email": user.email,
+                "phone": user.phone,
+                "created_at": user.created_at
+            })
+        else:
+            users = User.query.all()
+            return jsonify([{
+                "id": user.id_user,
+                "name": user.name,
+                "lastname": user.lastname,
+                "email": user.email,
+                "phone": user.phone,
+                "created_at": user.created_at
+            } for user in users])
+    except SQLAlchemyError as err:
+        return jsonify({'error': str(err)}), 500
+    
+@app.route('/contacts', methods=["GET"])
+def get_contacts():
+    try:
+        contacts = Contact.query.all()
+        contact_list = [{
+            "id": contact.id_contact,
+            "name": contact.name,
+            "lastname": contact.lastname,
+            "email": contact.email,
+            "topic": contact.topic,
+            "message": contact.message,
+            "status": contact.status,
+            "created_at": contact.created_at
+        } for contact in contacts]
+
+        return jsonify(contact_list), 200
+    except SQLAlchemyError as err:
+        return jsonify({'error': str(err)}), 500
+
+@app.route('/contacts', methods=["POST"])
+def contact():
+    data = request.get_json()
+    try:
+        new_contact = Contact(
+            name=data['name'],
+            lastname=data['lastname'],
+            email=data['email'],
+            topic=data['topic'],
+            message=data['message']
+        )
+        db.session.add(new_contact)
+        db.session.commit()
+        return jsonify({"message": "Contact added successfully"}), 201
+    except SQLAlchemyError as err:
+        db.session.rollback()
+        return jsonify({'error': str(err)}), 500
 
 @app.route('/user', methods=["PUT"])
 def update_user():
-    return 0
-
-@app.route('/user', methods=["GET"])
-def log_in():
     return 0
 
 @app.route('/rooms', methods=["POST"])
@@ -79,10 +129,8 @@ def delete_reservation():
     return 0
 
 @app.route('/reservation', methods=["GET"])
-def add_user():
+def get_reservations():
     return 0
 
-
-
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+    app.run("127.0.0.1", port="5001", debug=True)

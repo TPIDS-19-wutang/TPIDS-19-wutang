@@ -1,17 +1,21 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError
-from backend.models import db
+from flask import Flask
+from backend.models import db, bcrypt
 from backend.api import home
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@127.0.0.1/wutang'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "postgresql://postgres:postgres@127.0.0.1/wutang"
+)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.register_blueprint(home, url_prefix='')
+app.register_blueprint(home, url_prefix="")
+
+migrate = Migrate(app, db)
 
 db.init_app(app)
+bcrypt.init_app(app)
 
 with app.app_context():
     db.create_all()

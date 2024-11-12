@@ -1,5 +1,6 @@
 from flask import Blueprint
-
-home = Blueprint('home', __name__)
-
 from . import routes
+
+home = Blueprint("home", __name__)
+
+__all__ = ["routes"]

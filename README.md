@@ -9,6 +9,7 @@ Otros requerimientos:
 - [pyenv](https://github.com/pyenv/pyenv)
 - [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+- [poetry](https://python-poetry.org/docs/#installation)
 
 
 # Documentation

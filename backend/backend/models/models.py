@@ -15,22 +15,14 @@ class User(db.Model):
 class Hotel(db.Model):
     __tablename__ = 'hotels'
     id_hotel = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(80), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     image = db.Column(db.String(120))
     cant_rooms = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
-
-class Room(db.Model):
-    __tablename__ = 'rooms'
-    id_room = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_hotel = db.Column(db.Integer, db.ForeignKey('hotels.id_hotel'), nullable=False)
-    number_room = db.Column(db.Integer)
-    title = db.Column(db.String(80), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    image = db.Column(db.String(120))
-    max_guests = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    rating = db.Column(db.Float, nullable=False)
+    amenities = db.Column(db.String(255), nullable=True)
+    contact_info = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
 class Reservation(db.Model):
@@ -54,3 +46,11 @@ class Contact(db.Model):
     message = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(20), server_default="Pending")
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+
+class Room(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    room_number = db.Column(db.String(10), nullable=False, unique=True)
+    room_type = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    available = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())

@@ -6,9 +6,9 @@ engine = create_engine("mysql+mysqlconnector://root:@localhost/hotel")
 
 QUERY_DELETE_USER = "DELETE from `users` WHERE id = :id"
 
-QUERY_GET_USER = "SELECT id, nombre, apellido, email, telefono, auth_level, created_at FROM `users`" + " WHERE id = :id"
+QUERY_GET_USER = "SELECT id, nombre, apellido, email, telefono, auth_level, created_at FROM `users` WHERE id = :id"
 
-QUERY_LOG_IN = "SELECT id, nombre, apellido, email, telefono, auth_level, created_at FROM `users`" + " WHERE email = :email and password = :password"
+QUERY_LOG_IN = "SELECT id, nombre, apellido, email, telefono, auth_level, created_at FROM `users` WHERE email = :email AND password = :password"
 
 QUERY_CHECK_USER_BY_EMAIL = "SELECT id FROM `users` WHERE email = :email"
 
@@ -16,17 +16,21 @@ QUERY_CHECK_USER_BY_PHONE = "SELECT id FROM `users` WHERE telefono = :telefono"
 
 QUERY_GET_ALL_USERS = "SELECT id, nombre, apellido, email, telefono, auth_level, created_at FROM `users`"
 
-QUERY_ADD_USER = "INSERT INTO `users` (`id`, `nombre`, `apellido`, `email`, `telefono`, `password`, `auth_level`) VALUES (NULL, :nombre, :apellido, :email, :telefono, :password)"
+QUERY_ADD_USER = "INSERT INTO `users` (id, nombre, apellido, email, telefono, password, auth_level) VALUES (NULL, :nombre, :apellido, :email, :telefono, :password)"
 
-QUERY_UPDATE_USER = " UPDATE `users` SET `nombre` = :nombre, `apellido` = :apellido, `telefono` = :telefono, `password` = :password WHERE `id` = :id"
+QUERY_UPDATE_USER = " UPDATE `users` SET nombre = :nombre, apellido = :apellido, telefono = :telefono, password = :password WHERE id = :id"
 
-QUERY_GET_ALL_ROOMS = "SELECT id_room , id_hotel, number_room,title ,description ,image ,max_guests ,price, creates_at FROM `rooms`"
+QUERY_GET_ALL_ROOMS = "SELECT id_room, id_hotel, number_room, title, description, image, status, max_guests, price, creates_at FROM `rooms`"
 
-QUERY_GET_ROOM = "SELECT id_room , id_hotel, number_room,title ,description ,image ,max_guests ,price, creates_at FROM `rooms`" + "WHERE id = :id"
+QUERY_GET_ROOM = "SELECT id_room, id_hotel, number_room, title, description, image, status, max_guests, price, creates_at FROM `rooms` WHERE id_room = :id_room"
 
 QUERY_DELETE_ROOM = "DELETE from `rooms` WHERE id_room = :id_room"
 
-QUERY_UPDATE_ROOM = " UPDATE `rooms` SET `number_room` = :number_room, `title` = :title, `description` = :description, `image` = :image, `max_guest` = :max_guest, `price` = :price WHERE `id_room` = :id_room"
+QUERY_UPDATE_ROOM = "UPDATE `rooms` SET number_room = :number_room, title = :title, description = :description, image = :image, status = :status, max_guests = :max_guests, price = :price WHERE `id_room` = :id_room"
+
+QUERY_CHECK_ROOM_DUPLICATED = "SELECT id_room FROM `rooms` WHERE id_hotel = :id_hotel AND title = :title AND description = :description AND image = :image AND max_guests = :max_guests AND price = :price"
+
+QUERY_ADD_ROOM = "INSERT INTO `rooms` (id_room, id_hotel, number_room, title, description, image, status, max_guests, price) VALUES (NULL, :id_hotel, :number_room, :title, :description, :image, :status, :max_guests, :price)"
 
 def send_query(query: str, params: dict = None):
     try:
@@ -90,11 +94,11 @@ def log_in(email: str, password: str) :
             "email": email,
             "password": password 
             }
-    success, result = send_query(QUERY_LOG_IN, params)
+    result, success = send_query(QUERY_LOG_IN, params)
     if not success:
         return {"message": "El email o la contrasenia son incorrectos"}
     
-    return success
+    return result, success
 
 def check_user(email: str, telefono: str):
     params = {"email": email}
@@ -162,8 +166,9 @@ def get_all_rooms():
             "title": row[3],
             "description": row[4],
             "image": row[5],
-            "max_guests": row[6],
-            "price": row[7]
+            "status": row[6],
+            "max_guests": row[7],
+            "price": row[8]
         }
         rooms.append(room)
     return rooms
@@ -181,8 +186,9 @@ def get_room(id_room):
             "title": row[3],
             "description": row[4],
             "image": row[5],
-            "max_guests": row[6],
-            "price": row[7]
+            "status": row[6],
+            "max_guests": row[7],
+            "price": row[8]
         }
     return room
 
@@ -194,7 +200,7 @@ def delete_room(id_room):
     else:
         return {"status": "error", "message": f"No se pudo eliminar la habitacion {id_room}"}
 
-def update_room(id_room, id_hotel: str, number_room: str, title: str, description: str, image: str, max_guests: int, price: int ):
+def update_room(id_room, id_hotel: str, number_room: str, title: str, description: str, image: str, status: str, max_guests: int, price: int ):
     params = {
         "id_room": id_room,
         "id_hotel": id_hotel,
@@ -202,6 +208,7 @@ def update_room(id_room, id_hotel: str, number_room: str, title: str, descriptio
         "title": title,
         "description": description,
         "image": image,
+        "status": status,
         "max_guests": max_guests,
         "price": price
     }
@@ -210,4 +217,44 @@ def update_room(id_room, id_hotel: str, number_room: str, title: str, descriptio
         return {"message": "Habitacion modificada exitosamente"}
     else:
         return {"message": "La habitacion no existe"}
+
+def check_room(id_hotel: int, number_room: int, title: str, description: str, image: str, max_guests: int, price: float ):
+    params = {
+            "id_hotel": id_hotel,
+            "number_room": number_room,
+            "title": title,
+            "description": description,
+            "image": image,
+            "max_guests": max_guests,
+            "price": price
+            }
+    result, success = send_query(QUERY_CHECK_ROOM_DUPLICATED, params)
+    if result:
+        return {"message": "La habitacion ya existe"}, True
+    
+    return None, False
+    
+def create_room(id_hotel: int, number_room: int, title: str, description: str, image: str, status: str, max_guests: int, price: float):
+
+    result, success = check_room(id_hotel, number_room, title, description, image, max_guests, price)
+
+    if success:
+        return result
+    else:
+        params = {
+            "id_hotel": id_hotel,
+            "number_room": number_room,
+            "title": title,
+            "description": description,
+            "image": image,
+            "status": status,
+            "max_guests": max_guests,
+            "price": price
+        }
+        result, success = send_query(QUERY_ADD_ROOM, params)
+        if success:
+            return {"message": "Habitación agregada exitosamente"}
+        else:
+            return {"message": "Hubo un error al agregar la habitación"}
+
     

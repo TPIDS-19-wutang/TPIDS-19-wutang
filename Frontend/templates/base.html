@@ -67,16 +67,16 @@
               <div class="offcanvas-body">
                 <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
                   <li class="nav-item">
-                    <a class="nav-link active me-md-4" href="{{url_for('index')}}">Inicio</a>
+                    <a class="nav-link {% if active_page == 'index' %}active {% endif %}me-md-4" href="{{url_for('index')}}">Inicio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
+                    <a class="nav-link {% if active_page == 'about' %}active {% endif %}me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-md-4" href="{{url_for('contact')}}">Contacto</a>
+                    <a class="nav-link {% if active_page == 'contact' %}active {% endif %}me-md-4" href="{{url_for('contact')}}">Contacto</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
+                    <a class="nav-link {% if active_page == 'rooms' %}active {% endif %}me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
                   </li>
                   <li class="nav-item dropdown ">
                     <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"

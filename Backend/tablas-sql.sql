@@ -3,9 +3,10 @@ CREATE TABLE IF NOT EXISTS users (
     nombre VARCHAR(80) NOT NULL,
     apellido VARCHAR(80) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    telefono INT(10) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    auth_level ENUM('admin','user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS hotel (
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS rooms (
     title VARCHAR(80) NOT NULL,
     description VARCHAR(500) NOT NULL,
     image VARCHAR(120),
+    status ENUM('disponible', 'no disponible') DEFAULT 'disponible';
     max_guests INT NOT NULL,
     price FLOAT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

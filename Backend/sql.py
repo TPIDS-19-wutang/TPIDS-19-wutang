@@ -20,6 +20,14 @@ QUERY_ADD_USER = "INSERT INTO `users` (`id`, `nombre`, `apellido`, `email`, `tel
 
 QUERY_UPDATE_USER = " UPDATE `users` SET `nombre` = :nombre, `apellido` = :apellido, `telefono` = :telefono, `password` = :password WHERE `id` = :id"
 
+QUERY_GET_ALL_ROOMS = "SELECT id_room , id_hotel, number_room,title ,description ,image ,max_guests ,price, creates_at FROM `rooms`"
+
+QUERY_GET_ROOM = "SELECT id_room , id_hotel, number_room,title ,description ,image ,max_guests ,price, creates_at FROM `rooms`" + "WHERE id = :id"
+
+QUERY_DELETE_ROOM = "DELETE from `rooms` WHERE id_room = :id_room"
+
+QUERY_UPDATE_ROOM = " UPDATE `rooms` SET `number_room` = :number_room, `title` = :title, `description` = :description, `image` = :image, `max_guest` = :max_guest, `price` = :price WHERE `id_room` = :id_room"
+
 def send_query(query: str, params: dict = None):
     try:
         with engine.connect() as conn:
@@ -136,4 +144,70 @@ def update_user(id, nombre: str, apellido: str, telefono: str, password: str):
         return {"message": "Usuario modificado exitosamente"}
     else:
         return {"message": "El usuario no existe"}
+    
+#--------------------------ROOMS---------------------------------
+
+def get_all_rooms():
+
+    result, success = send_query(QUERY_GET_ALL_ROOMS)
+    if not success:
+        return {"status": "error", "message": "No se pudo obtener las habitaciones"}
+    
+    rooms = []
+    for row in result:
+        room = {
+            "id_room": row[0],
+            "id_hotel": row[1],
+            "number_room": row[2],
+            "title": row[3],
+            "description": row[4],
+            "image": row[5],
+            "max_guests": row[6],
+            "price": row[7]
+        }
+        rooms.append(room)
+    return rooms
+    
+def get_room(id_room):
+    params = {"id_room": id_room}
+    result, success = send_query(QUERY_GET_ROOM, params)
+    if not success:
+        return {"status": "error", "message": "No se pudo obtener la habitacion"}
+    for row in result:
+         room = {
+            "id_room": row[0],
+            "id_hotel": row[1],
+            "number_room": row[2],
+            "title": row[3],
+            "description": row[4],
+            "image": row[5],
+            "max_guests": row[6],
+            "price": row[7]
+        }
+    return room
+
+def delete_room(id_room):
+    params = {"id_room": id_room}
+    result, success = send_query(QUERY_DELETE_ROOM, params)
+    if success:
+        return {"status": "success", "message": f"Habitacion {id_room} eliminada correctamente"}
+    else:
+        return {"status": "error", "message": f"No se pudo eliminar la habitacion {id_room}"}
+
+def update_room(id_room, id_hotel: str, number_room: str, title: str, description: str, image: str, max_guests: int, price: int ):
+    params = {
+        "id_room": id_room,
+        "id_hotel": id_hotel,
+        "number_room": number_room,
+        "title": title,
+        "description": description,
+        "image": image,
+        "max_guests": max_guests,
+        "price": price
+    }
+    result, success = send_query(QUERY_UPDATE_ROOM, params)
+    if success:
+        return {"message": "Habitacion modificada exitosamente"}
+    else:
+        return {"message": "La habitacion no existe"}
     

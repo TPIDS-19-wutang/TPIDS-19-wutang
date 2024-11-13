@@ -4,7 +4,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-.clearfix::after {
+ .clearfix::after {
   display: block;
   clear: both;
   content: "";
@@ -1340,6 +1340,11 @@
 .text-white {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-gold {
+  --bs-text-opacity: 1;
+  color: #b4905d !important;
 }
 
 .text-body {

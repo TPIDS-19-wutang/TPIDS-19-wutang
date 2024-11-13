@@ -38,7 +38,7 @@
     <!-- fin bloque head -->
   </head>
 <body>
-    <header id="nav" class="site-header position-fixed text-white bg-dark">
+    <header id="nav" class="site-header">
         <!-- bloque header -->
 
         {% block header %}
@@ -49,10 +49,10 @@
           <div class="container ">
     
             <a class="navbar-brand" href="{{url_for('index')}}">
-              <img src="{{ url_for('static', filename='images/download.jpeg') }}" alt="image">
+              <img class="logo-img" src="{{ url_for('static', filename='images/download.jpeg') }}" alt="image">
             </a>
     
-            <button class="navbar-toggler text-white" type="button" data-bs-toggle="offcanvas"
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
               <ion-icon name="menu-outline" style="font-size: 30px;"></ion-icon>
             </button>
@@ -99,6 +99,12 @@
 
                   <li class="nav-item">
                     <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <form action="{{url_for('reservas')}}">
+                      <button class="btn-reserva">Reservar</button>
+                    </form>
                   </li>
     
                   <!-- Modal -->
@@ -203,7 +209,7 @@
       <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5  ">
 
         <div class=" col-md-4">
-            <h3><img src="{{ url_for('static', filename='/images/download.jpeg', _external=True) }}" alt="image"></h3>
+            <h3><img class="logo-img" src="{{ url_for('static', filename='/images/download.jpeg', _external=True) }}" alt="image"></h3>
             <p>Tu comodidad, es nuestra prioridad. Descubre el confort en cada una de nuestros habitaciones.</p>
             <a href="https://www.facebook.com/profile.php?id=61568407109023" class="bi-facebook pe-4"></a>
             <a href="https://www.instagram.com/triviumhotel/" class="bi-instagram pe-4"></a>
@@ -214,8 +220,8 @@
         <div class="col-md-2 ">
           <h5>Hoteleria</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="" class="nav-link p-0 ">Habitaciones</a></li>
-            <li class="nav-item mb-2"><a href= class="nav-link p-0 ">Sedes</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habitaciones</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sedes</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Amenities</a></li>
           </ul>
         </div>
@@ -257,7 +263,7 @@
     <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 ">
         <div class="col-md-8 d-flex align-items-center">
-          <p>© 2024 (Trivium), Inc. All rights reserved.</p>
+          <p>© 2024 (Trivium), INC. TODOS LOS DERECHOS RESERVADOS.</p>
 
         </div>
         <div class="col-md-4 d-flex align-items-center">

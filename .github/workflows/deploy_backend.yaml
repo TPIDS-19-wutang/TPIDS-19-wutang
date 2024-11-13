@@ -1,27 +1,22 @@
 name: Build and Push to ECR
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Login to AWS ECR
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
-      # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # Build, tag, and push the Docker image to ECR
       - name: Build and Push Docker Image
         run: |
           # Replace these variables with your AWS ECR repository details
@@ -41,6 +36,3 @@ jobs:
           # Push the Docker image to ECR
           docker push ${IMAGE_URI}
 
-      # Post build information
-      - name: Display Image URI
-        run: echo "Docker image has been pushed to: ${IMAGE_URI}"

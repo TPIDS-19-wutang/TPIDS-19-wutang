@@ -244,10 +244,15 @@
   <section id="about-us">
     <div class="container">
       <div class="row py-lg-5">
+        <style>
+          #lupa, #reloj, #etiqueta, #comillas {
+            filter: hue-rotate(240deg);
+          }
+        </style>
         <h2 class="text-capitalize text-center m-0 py-lg-5">Porque elegirnos</h2>
         <br>
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/search.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/search.png', _external=True) }}" id="lupa" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
           <h5 class="fw-normal mt-5 ">Facil de encontrar</h5>
           <p>Nos encontrarás fácilmente, rodeados de naturaleza y a pocos minutos de las principales rutas de acceso.
@@ -255,7 +260,7 @@
         </div><br>
 
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/price.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/price.png', _external=True) }}" id="etiqueta" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
           <h5 class="fw-normal mt-5">Precios Asequibles</h5>
           <p>Disfruta de una experiencia única en medio de la naturaleza sin comprometer tu presupuesto. 
@@ -263,7 +268,7 @@
         </div><br>
 
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/time.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/time.png', _external=True) }}" id="reloj" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
           <h5 class="fw-normal mt-5 ">Procesamiento Rápido</h5>
           <p>Con nuestro proceso de reserva y check-in ágil, podrás comenzar a disfrutar de tu estancia sin demoras.
@@ -285,7 +290,7 @@
           <div class="swiper-slide">
             <div class="row my-5 py-lg-5">
               <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="rounded mx-auto d-inline" alt="...">
+                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" id="comillas" class="rounded mx-auto d-inline" alt="...">
                 <p class="testimonial-p mt-4">Sin duda, una de las mejores experiencias hoteleras que he tenido! Desde que 
                   llegue al hotel, me senti como en casa. La atencion del personal es excelente y las instalaciones son 
                   de primer nivel. Sin duda, volveria a hospedarme en el Hotel Trivium.</p>

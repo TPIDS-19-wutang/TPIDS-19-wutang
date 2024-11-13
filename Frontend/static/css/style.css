@@ -344,6 +344,9 @@ i:hover {
   background: transparent;
 }
 
+.residence-list {
+  filter: hue-rotate(240deg)
+}
 /* login form  */
 a.password:hover {
   color: var(--link-color);

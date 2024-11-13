@@ -13,6 +13,13 @@ from .schema import (
 from api import home
 
 
+@home.route("/healthz")
+class Health(MethodView):
+    @home.response(200)
+    def get(self):
+        return "OK", 200
+
+
 @home.errorhandler(404)
 def endp_not_found(e):
     return 0

@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Gabriela Yanes <gabriela.yanes@harley-davidson.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+flask = "^3.0.3"
+flask-sqlalchemy = "^3.1.1"
+psycopg2 = "^2.9.10"
+flask-migrate = "^4.0.7"
+flask-bcrypt = "^1.0.1"
+python-dotenv = "^1.0.1"
+flask-smorest = "^0.45.0"
+marshmallow = "^3.23.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

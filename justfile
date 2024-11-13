@@ -17,5 +17,5 @@ install:
   poetry install
 
 run-api:
-  $(cd backend/backend && poetry run flask run -p 5001)
+  $(cd backend && poetry run flask run -p 5001)
 

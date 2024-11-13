@@ -1,0 +1,16 @@
+
+FROM python:3.13.0
+
+RUN pip install poetry
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root
+
+COPY . .
+RUN mkdir -p /app/logs
+
+EXPOSE 5002
+
+CMD ["poetry", "run", "flask", "run", "--host=0.0.0.0", "-p", "5002"]

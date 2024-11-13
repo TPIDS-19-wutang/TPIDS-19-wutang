@@ -1,5 +1,5 @@
-from flask import Blueprint
+from flask_smorest import Blueprint
 
-home = Blueprint("home", __name__)
+home = Blueprint("home", __name__, description="Base controller")
 
 from . import routes

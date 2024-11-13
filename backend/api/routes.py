@@ -1,6 +1,15 @@
 from flask import jsonify, request
 from sqlalchemy.exc import SQLAlchemyError
+from flask.views import MethodView
 from models import db, User, Contact, Hotel, Room
+from .schema import (
+    LoginRequestSchema,
+    Login200ResponseSchema,
+    Login401ResponseSchema,
+    UsersCreateRequestSchema,
+    UsersCreate200ResponseSchema,
+    UsersCreate400ResponseSchema,
+)
 from api import home
 
 
@@ -9,17 +18,42 @@ def endp_not_found(e):
     return 0
 
 
-@home.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-    email = data.get("email")
-    password = data.get("password")
+@home.route("/login")
+class Login(MethodView):
+    @home.arguments(LoginRequestSchema)
+    @home.response(200, Login200ResponseSchema)
+    @home.response(401, Login401ResponseSchema)
+    def post(self, data):
+        email = data.get("email")
+        password = data.get("password")
 
-    user = User.query.filter_by(email=email).first()
-    if user and user.verify_password(password):
-        return jsonify({"message": "Login successful", "user_id": user.id}), 200
-    else:
-        return jsonify({"error": "Invalid email or password"}), 401
+        user = User.query.filter_by(email=email).first()
+        if user and user.verify_password(password):
+            return jsonify({"message": "Login successful", "user_id": user.id}), 200
+        else:
+            return jsonify({"error": "Invalid email or password"}), 401
+
+
+@home.route("/users")
+class Users(MethodView):
+    @home.arguments(UsersCreateRequestSchema)
+    @home.response(200, UsersCreate200ResponseSchema)
+    @home.response(400, UsersCreate400ResponseSchema)
+    def post(self, data):
+        try:
+            new_user = User(
+                name=data["name"],
+                lastname=data["lastname"],
+                email=data["email"],
+                phone=data["phone"],
+                password=data["password"],
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            return jsonify({"message": "User added successfully"}), 201
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return jsonify({"error": str(err)}), 500
 
 
 @home.route("/users", methods=["GET"])
@@ -56,25 +90,6 @@ def get_users():
                 ]
             )
     except SQLAlchemyError as err:
-        return jsonify({"error": str(err)}), 500
-
-
-@home.route("/users", methods=["POST"])
-def add_user():
-    data = request.get_json()
-    try:
-        new_user = User(
-            name=data["name"],
-            lastname=data["lastname"],
-            email=data["email"],
-            phone=data["phone"],
-            password=data["password"],
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({"message": "User added successfully"}), 201
-    except SQLAlchemyError as err:
-        db.session.rollback()
         return jsonify({"error": str(err)}), 500
 
 

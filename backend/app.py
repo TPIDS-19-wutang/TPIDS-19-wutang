@@ -4,17 +4,33 @@ from api import home
 from flask_migrate import Migrate
 from os import environ
 from dotenv import load_dotenv
+from flask_smorest import Api
 
-app = Flask(__name__)
+app = Flask("Wutang")
 
 load_dotenv()
 
-app.logger.info("config-- %s\n", app.config)
+app.config["API_TITLE"] = "My API"
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.2"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = (
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/"
+)
+
+app.config["OPENAPI_REDOC_PATH"] = "/redoc"
+app.config["OPENAPI_REDOC_URL"] = (
+    "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
+)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("POSTGRES_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.logger.info("config-- %s\n", app.config)
 
-app.register_blueprint(home, url_prefix="")
+api = Api(app)
+
+api.register_blueprint(home, url_prefix="")
 
 migrate = Migrate(app, db)
 

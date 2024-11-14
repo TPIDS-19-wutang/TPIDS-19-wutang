@@ -81,7 +81,7 @@
                   <li class="nav-item dropdown ">
                     <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                       aria-expanded="false">Compania</a>
-                    <ul class="dropdown-menu dropdown-menu-dark">
+                    <ul class="dropdown-menu">
                       <li><a href="" class="dropdown-item">Como trabajamos?</a></li>
                       <li><a href="" class="dropdown-item">Sedes</a></li>
                       <li><a href="" class="dropdown-item">seguridad</a></li>
@@ -90,7 +90,7 @@
                   <li class="nav-item dropdown ">
                     <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                       aria-expanded="false">Ayuda</a>
-                    <ul class="dropdown-menu dropdown-menu-dark">
+                    <ul class="dropdown-menu">
                       <li><a href="" class="dropdown-item">Privacidad</a></li>
                       <li><a href="" class="dropdown-item">Condiciones</a></li>
                       <li><a href="" class="dropdown-item">Preguntas frecuentes</a></li>
@@ -130,7 +130,7 @@
                             <div class="tab-content" id="nav-tabContent">
                               <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
                                 aria-labelledby="nav-sign-in-tab">
-                                <form id="form1" class="form-group flex-wrap p-3 ">
+                                <form id="form1" class="form-group flex-wrap p-3 " method="POST" action="/base">
                                   <div class="form-input col-lg-12 my-4">
                                     <label for="exampleInputEmail1"
                                       class="form-label fs-6 text-uppercase fw-bold text-black">Correo
@@ -141,10 +141,10 @@
                                   <div class="form-input col-lg-12 my-4">
                                     <label for="inputPassword1"
                                       class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
-                                    <input type="password" id="inputPassword1" placeholder="Password"
+                                    <input type="password" id="inputPassword1" name="password" placeholder="Password"
                                       class="form-control ps-3" aria-describedby="passwordHelpBlock">
                                     <div id="passwordHelpBlock" class="form-text text-center">
-                                      <a href="#" class=" password">¿Has olvidado tu contraseña?</a>
+                                      <a href="#" class="password">¿Has olvidado tu contraseña?</a>
                                     </div>
                                   </div>
                                   <label class="py-3">
@@ -158,11 +158,11 @@
                               </div>
                               <div class="tab-pane fade" id="nav-register" role="tabpanel"
                                 aria-labelledby="nav-register-tab">
-                                <form id="form2" class="form-group flex-wrap p-3 ">
+                                <form id="form2" class="form-group flex-wrap p-3 " method="POST" action="/base?form=register">
                                   <div class="form-input col-lg-12 my-4">
                                     <label for="exampleInputEmail2"
                                       class="form-label fs-6 text-uppercase fw-bold text-black">Correo
-                                      Electrónico o contraseña</label>
+                                      Electrónico</label>
                                     <input type="text" id="exampleInputEmail2" name="email" placeholder="Email"
                                       class="form-control ps-3">
                                   </div>

@@ -19,8 +19,6 @@
       
       <label class="reserv-form-label" for="email">Correo electrónico:</label>
       <input class="reserv-form-input" type="email" id="email" name="email" required>
-      
-      <button class="reserv-submit-button" type="submit">Enviar</button>
     </form>
   </section><br>
 
@@ -41,7 +39,7 @@
           </select>
         </div>
         <div class="col-lg-3 billboard-select">
-          <select class="form-select mb-2 mb-lg-0" aria-label="Personas">
+          <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfPeople">
             <option selected>Personas</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -50,7 +48,25 @@
           </select>
         </div>
         <div class="col-lg-3 billboard-select">
-          <select class="form-select mb-2 mb-lg-0" aria-label="Habitaciones">
+          <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfAdults">
+            <option selected>Adultos</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">+4</option>
+          </select>
+        </div>
+        <div class="col-lg-3 billboard-select">
+          <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfChildrens">
+            <option selected>Menores</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">+4</option>
+          </select>
+        </div>
+        <div class="col-lg-3 billboard-select">
+          <select class="form-select mb-2 mb-lg-0" aria-label="RoomType">
             <option selected>Tipo de habitación</option>
             <option value="1">Classic</option>
             <option value="2">Doble</option>
@@ -58,24 +74,27 @@
             <option value="4">Deluxe</option>
           </select>
         </div><br>
-        
-        <div class="col-lg-3 billboard-btn">
-          <button class="reserv-submit-button" type="submit">Enviar</button>>
-        </div>
       </div>
     </section>
   </form>
   <section>
     <h3 class="titulos-reserv">Paso 3: Detalles del pago</h3>
     <form class="reserv-form" action="/reserv" method="post">
-      <label class="reserv-form-label" for="nombre">Nombre:</label>
-      <input class="reserv-form-input" type="text" id="nombre" name="nombre" required>
+      <label class="reserv-form-label" for="payerName">Nombre:</label>
+      <input class="reserv-form-input" type="text" id="payerName" name="payerName" required>
       
-      <label class="reserv-form-label" for="apellido">Apellido:</label>
-      <input class="reserv-form-input" type="text" id="apellido" name="apellido" required>
+      <label class="reserv-form-label" for="payerLastname">Apellido:</label>
+      <input class="reserv-form-input" type="text" id="payerLastname" name="payerLastname" required>
       
       <label class="reserv-form-label" for="number-card">Número de la tarjeta:</label>
       <input class="reserv-form-input" type="number-card" id="number-card" name="number-card" required>
+
+      <label class="reserv-form-label" for="ExpirationDate">Fecha de expiración:</label>
+      <input class="reserv-form-input" type="ExpirationDate" id="ExpirationDate" name="ExpirationDate" required>
+
+      <label class="reserv-form-label" for="CVV">CVV:</label>
+      <input class="reserv-form-input" type="CVV" id="CVV" name="CVV" required>
+
       
       <button class="reserv-submit-button" type="submit">Enviar</button>
     </form>

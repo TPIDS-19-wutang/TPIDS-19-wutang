@@ -11,8 +11,28 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/base")
+@app.route("/base", methods=["GET", "POST"])
 def base():
+    if request.method == "POST":
+        form_Type = request.args.get("form")
+
+        if form_Type == "register":
+            form_data = {
+                "email": request.form.get("email"),
+                "password": request.form.get("password"),
+            }
+
+            print("Datos de Registro:", form_data)
+
+        else:
+            form_data = {
+                "email": request.form.get("email"),
+                "password": request.form.get("password"),
+            }
+
+            print("Datos de Inicio de Sesión:", form_data)
+
+
     return render_template("base.html")
 
 
@@ -41,8 +61,32 @@ def rooms():
     return render_template("rooms.html")
 
 
-@app.route("/reservas")
+@app.route("/reservas", methods=["GET", "POST"])
 def reservas():
+    if request.method == "POST":
+        form_data = {
+            "personalDetails": {
+                "name": request.form.get("name"),
+                "lastname": request.form.get("lastname"),
+                "email": request.form.get("email"),
+            },
+            "reservationDetails": {
+                "Location": request.form.get("Location"),
+                "NumberOfPeople": request.form.get("NumberOfPeople"),
+                "NumberOfAdults": request.form.get("NumberOfAdults"),
+                "NumberOfChildrens": request.form.get("NumberOfChildrens"),
+                "RoomType": request.form.get("RoomType"),
+            },
+            "paymentDetails": {
+                "payerName": request.form.get("payerName"),
+                "payerLastname": request.form.get("payerLastname"),
+                "CardNumber": request.form.get("CardNumber"),
+                "ExpirationDate": request.form.get("ExpirationDate"),
+                "CVV": request.form.get("CVV"),
+            }
+        }    
+        http_client.post("/reservas", data=form_data)
+        return redirect("/")
     return render_template("reservas.html")
 
 

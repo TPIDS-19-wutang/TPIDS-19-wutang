@@ -226,6 +226,11 @@ i:hover {
   --bs-dropdown-border-radius: 0px;
   --bs-dropdown-link-active-bg: var(--grey-color);
   min-width: max-content;
+  color: #dee2e6;
+  background-color: #b997688f;
+  border-color: rgba(0, 0, 0, 0.15);
+  --bs-dropdown-link-color: #414141;
+  --bs-dropdown-link-hover-color: #b99768;
 }
 
 .nav-link.active:after {

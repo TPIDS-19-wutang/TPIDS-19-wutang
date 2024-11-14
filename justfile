@@ -1,7 +1,7 @@
 list:
   cat justfile
 
-db-up:
+local-up:
   docker-compose up
 
 # Setup Python venv
@@ -18,4 +18,5 @@ install:
 
 run-api:
   $(cd backend && poetry run flask run -p 5001)
+
 

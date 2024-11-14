@@ -4,12 +4,26 @@
   <br>
   <!-- billboard start  -->
   <section id="hero">
-    <h1>sentite como en casa</h1>
-    <h2>lejos de casa</h2> <br>
-    <form action="{{url_for('reservas')}}">
-      <button class="btn-reserva">Reservar</button>
-    </form>
+    <h3>LA DISTINCIÓN DE UN LUGAR ÚNICO</h3>
+    <h6>TRIVIUM HOTEL & RESORT</h6> <br> <br>
   </section>
+
+  <!-- Descripción start  -->
+  <section id="description">
+    <div class="container">
+      <div class="row py-lg-5">
+        <div class="div-descripcion"> <br>
+          <h4 class="text-capitalize">TRIVIUM HOTEL & RESORT</h4>
+          <h6 class="text-capitalize">HOTEL DE LUJO EN ARGENTINA</h6>
+          <p>En Trivium Hotel & Resort, nos enorgullece ofrecer una experiencia única en cada uno de nuestros hoteles. 
+            Nuestros hoteles están ubicados en los destinos más exclusivos de Argentina, y ofrecen una combinación de 
+            lujo y comodidad que no encontrarás en ningún otro lugar.
+            <br>
+             Ya sea que estés buscando un refugio tranquilo en la naturaleza o una escapada urbana, en Trivium 
+            Hotel & Resort encontrarás el lugar perfecto para relajarte y disfrutar de la belleza de Argentina.</p>
+        </div>
+      </div>
+    </div>
 
   <!-- Residence start  -->
   <section id="residence">
@@ -24,9 +38,9 @@
 
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-mendoza.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-mendoza.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Trivium Mendoza</h5>
                 </a>
                 <p class="card-text">General San Martin 1987, Mendoza</p>
@@ -44,9 +58,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-buenosaires.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-buenosaires.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Trivium Buenos Aires</h5>
                 </a>
                 <p class="card-text">Corrientes 1087, CABA</p>
@@ -64,9 +78,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-misiones.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-misiones.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Trivium Misiones</h5>
                 </a>
                 <p class="card-text">San Miguel de Guemes, Misiones</p>
@@ -84,9 +98,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item1.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item1.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
                 </a>
                 <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
@@ -104,9 +118,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item2.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item2.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
                 </a>
                 <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
@@ -124,9 +138,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item3.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item3.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
                 </a>
                 <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
@@ -144,9 +158,9 @@
           </div>
           <div class="swiper-slide">
             <div class="card">
-              <a href="index.html"><img src="{{ url_for('static', filename='/images/item4.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item4.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
               <div class="card-body p-0">
-                <a href="index.html">
+                <a href="{{ url_for('rooms') }}">
                   <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
                 </a>
                 <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
@@ -183,9 +197,9 @@
   
             <div class="swiper-slide">
               <div class="card">
-                <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-playa.png', _external=True) }}" class="card-img-top" alt="image"></a>
+                <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-playa.png', _external=True) }}" class="card-img-top" alt="image"></a>
                 <div class="card-body p-0">
-                  <a href="index.html">
+                  <a href="{{ url_for('rooms') }}">
                     <h5 class="card-title pt-4">Trivium Costa del Este</h5>
                   </a>
                   <p class="card-text">Avenida Costanera 199, Argentina</p>
@@ -203,9 +217,9 @@
             </div>
             <div class="swiper-slide">
               <div class="card">
-                <a href="index.html"><img src="{{ url_for('static', filename='/images/hotel-bosque.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
+                <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-bosque.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
                 <div class="card-body p-0">
-                  <a href="index.html">
+                  <a href="{{ url_for('rooms') }}">
                     <h5 class="card-title pt-4">Trivium Mar de las Pampas</h5>
                   </a>
                   <p class="card-text">Mar de las Pampas 7165, Argentina</p>
@@ -233,25 +247,25 @@
         <h2 class="text-capitalize text-center m-0 py-lg-5">Porque elegirnos</h2>
         <br>
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/search.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/search.png', _external=True) }}" class="logos" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
-          <h4 class="fw-normal mt-5 ">Facil de encontrar</h4>
+          <h5 class="fw-normal mt-5 ">Facil de encontrar</h5>
           <p>Nos encontrarás fácilmente, rodeados de naturaleza y a pocos minutos de las principales rutas de acceso.
              Un viaje sencillo para comenzar tu escapada perfecta.</p>
         </div><br>
 
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/price.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/price.png', _external=True) }}" class="logos" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
-          <h4 class="fw-normal mt-5">Precios Asequibles</h4>
+          <h5 class="fw-normal mt-5">Precios Asequibles</h5>
           <p>Disfruta de una experiencia única en medio de la naturaleza sin comprometer tu presupuesto. 
             Ofrecemos tarifas accesibles para que tu estancia sea cómoda y memorable.</p>
         </div><br>
 
         <div class="text-center col-lg-4">
-          <img src="{{ url_for('static', filename='/images/time.png', _external=True) }}" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
+          <img src="{{ url_for('static', filename='/images/time.png', _external=True) }}" class="logos" class="bd-placeholder-img rounded-circle" alt="Bootstrap Themes" width="140"
             height="140" loading="lazy">
-          <h4 class="fw-normal mt-5 ">Procesamiento Rápido</h4>
+          <h5 class="fw-normal mt-5 ">Procesamiento Rápido</h5>
           <p>Con nuestro proceso de reserva y check-in ágil, podrás comenzar a disfrutar de tu estancia sin demoras.
             Todo está pensado para tu comodidad desde el primer momento. </p>
         </div>
@@ -271,7 +285,7 @@
           <div class="swiper-slide">
             <div class="row my-5 py-lg-5">
               <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="rounded mx-auto d-inline" alt="...">
+                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
                 <p class="testimonial-p mt-4">Sin duda, una de las mejores experiencias hoteleras que he tenido! Desde que 
                   llegue al hotel, me senti como en casa. La atencion del personal es excelente y las instalaciones son 
                   de primer nivel. Sin duda, volveria a hospedarme en el Hotel Trivium.</p>
@@ -290,7 +304,7 @@
           <div class="swiper-slide">
             <div class="row my-5 py-lg-5">
               <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="rounded mx-auto d-inline" alt="...">
+                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
                 <p class="testimonial-p mt-4">¡Trivium fue una elección soñada! La estancia fue impecable de principio
                    a fin. La decoración es moderna y elegante, y cada rincón está pensado para el confort de los huéspedes. 
                    Honestamente lo super recomiendo</p>
@@ -308,7 +322,7 @@
           <div class="swiper-slide">
             <div class="row my-5 py-lg-5">
               <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="rounded mx-auto d-inline" alt="...">
+                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
                 <p class="testimonial-p mt-4">Este hotel fue una experiencia maravillosa. Las habitaciones son cómodas, limpias
                    y bien decoradas, y el personal siempre está dispuesto a ayudar con una sonrisa. La ubicación es ideal para 
                    explorar la ciudad; ¡sin duda volvería a hospedarme aquí!</p>
@@ -344,3 +358,4 @@
 </body>
 
 </html>
+{% set active_page = 'index' %}

@@ -2,34 +2,36 @@
 
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/rooms.css') }}">
-<div class="conteiner">
-    <h1 class="relleno">asdasdasdasdasdas</h1>
-    <h1>Habitaciones de Nuestro Hotel</h1>
-    <div class="gallery">
-         <div class="gallery-item">
-            <p>Habitacion Classic</p>
-            <img src="{{ url_for('static', filename='/images/habitacion_classic.jpg', _external=True) }}" alt="">
-            <p class="caption">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto.</p>
-        </div>
-        <div class="gallery-item">
-            <p>Habitacion Doble</p>
-            <img src="{{ url_for('static', filename='/images/habitacion_doble.jpg', _external=True) }}" alt="">
-            <p class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde aut, ullam, eveniet odio earum incidunt odit soluta non atque dolores officiis sint quaerat fuga eos. Eos quod in quidem quibusdam.</p>
-        </div>
-        <div class="gallery-item">
-            <p>Habitacion Premium</p>
-            <img src="{{ url_for('static', filename='/images/habitacion_premium.jpg', _external=True) }}" alt="">
-            <p class="caption">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis distinctio consequuntur porro ipsa inventore eligendi facere id, provident laboriosam quisquam veniam vel qui aperiam rem magni ea at! Explicabo, voluptates.</p>
-        </div>
-        <div class="gallery-item">
-            <p>Habitacion Deluxe</p>
-            <img src="{{ url_for('static', filename='/images/habitacion_deluxe.jpg', _external=True) }}" alt="">
-            <p class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et itaque odit, unde iusto veritatis animi quasi, eaque voluptate in qui expedita culpa nobis minima dolor, ullam autem temporibus blanditiis natus?</p>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+<section id="rooms-gallery">
+    <div class="conteiner">
+        <h2>Habitaciones de Nuestro Hotel</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <p>Habitacion Classic</p>
+                <img src="{{ url_for('static', filename='/images/habitacion_classic.jpg', _external=True) }}" alt="">
+                <p class="caption">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto.</p>
+            </div>
+            <div class="gallery-item">
+                <p>Habitacion Doble</p>
+                <img src="{{ url_for('static', filename='/images/habitacion_doble.jpg', _external=True) }}" alt="">
+                <p class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde aut, ullam, eveniet odio earum incidunt odit soluta non atque dolores officiis sint quaerat fuga eos. Eos quod in quidem quibusdam.</p>
+            </div>
+            <div class="gallery-item">
+                <p>Habitacion Premium</p>
+                <img src="{{ url_for('static', filename='/images/habitacion_premium.jpg', _external=True) }}" alt="">
+                <p class="caption">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis distinctio consequuntur porro ipsa inventore eligendi facere id, provident laboriosam quisquam veniam vel qui aperiam rem magni ea at! Explicabo, voluptates.</p>
+            </div>
+            <div class="gallery-item">
+                <p>Habitacion Deluxe</p>
+                <img src="{{ url_for('static', filename='/images/habitacion_deluxe.jpg', _external=True) }}" alt="">
+                <p class="caption">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et itaque odit, unde iusto veritatis animi quasi, eaque voluptate in qui expedita culpa nobis minima dolor, ullam autem temporibus blanditiis natus?</p>
+            </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
+{% set active_page = 'rooms' %}
 
 
 

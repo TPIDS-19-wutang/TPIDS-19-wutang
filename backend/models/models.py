@@ -26,6 +26,16 @@ class User(db.Model):
     def verify_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "email": self.email,
+            "phone": self.phone,
+            "created_at": self.created_at,
+        }
+
 
 class Hotel(db.Model):
     __tablename__ = "hotels"
@@ -63,6 +73,18 @@ class Contact(db.Model):
     message = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(20), server_default="Pending")
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "email": self.email,
+            "topic": self.topic,
+            "message": self.message,
+            "status": self.status,
+            "created_at": self.created_at,
+        }
 
 
 class Room(db.Model):

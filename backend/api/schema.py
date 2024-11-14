@@ -1,21 +1,12 @@
 import marshmallow as ma
 
 
-class LoginRequestSchema(ma.Schema):
+class LoginSchema(ma.Schema):
     email = ma.fields.Email()
     password = ma.fields.String()
 
 
-class Login200ResponseSchema(ma.Schema):
-    message = ma.fields.String()
-    user_id = ma.fields.Int()
-
-
-class Login401ResponseSchema(ma.Schema):
-    error = ma.fields.String()
-
-
-class UsersCreateRequestSchema(ma.Schema):
+class UserCreateRequestSchema(ma.Schema):
     name = ma.fields.String()
     lastname = ma.fields.String()
     email = ma.fields.Email()
@@ -23,10 +14,23 @@ class UsersCreateRequestSchema(ma.Schema):
     password = ma.fields.String()
 
 
-class UsersCreate200ResponseSchema(ma.Schema):
+class UserSchema(UserCreateRequestSchema):
+    id = ma.fields.Number()
+    created_at = ma.fields.String()
+
+
+class ContactCreateRequestSchema(ma.Schema):
+    name = ma.fields.String()
+    lastname = ma.fields.String()
+    email = ma.fields.Email()
+    topic = ma.fields.String()
     message = ma.fields.String()
-    user_id = ma.fields.Int()
 
 
-class UsersCreate400ResponseSchema(ma.Schema):
+class ContactSchema(ContactCreateRequestSchema):
+    id = ma.fields.Number()
+    created_at = ma.fields.String()
+
+
+class ErrorResponseSchema(ma.Schema):
     error = ma.fields.String()

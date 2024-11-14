@@ -10,7 +10,7 @@ app = Flask("Wutang")
 
 load_dotenv()
 
-app.config["API_TITLE"] = "My API"
+app.config["API_TITLE"] = "Wutang API"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.0.2"
 app.config["OPENAPI_URL_PREFIX"] = "/"

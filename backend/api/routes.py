@@ -3,20 +3,25 @@ from sqlalchemy.exc import SQLAlchemyError
 from flask.views import MethodView
 from models import db, User, Contact, Hotel, Room
 from .schema import (
-    LoginRequestSchema,
-    Login200ResponseSchema,
-    Login401ResponseSchema,
-    UsersCreateRequestSchema,
-    UsersCreate200ResponseSchema,
-    UsersCreate400ResponseSchema,
+    LoginSchema,
+    ErrorResponseSchema,
+    UserCreateRequestSchema,
+    ContactCreateRequestSchema,
+    ContactSchema,
+    UserSchema,
 )
 from api import home
+
+
+def handle_sqlalchemy_error(err):
+    return jsonify({"error": str(err)}), 500
 
 
 @home.route("/healthz")
 class Health(MethodView):
     @home.response(200)
     def get(self):
+        """Varificación de salud para comprobar la disponibilidad del servicio"""
         return "OK", 200
 
 
@@ -27,27 +32,46 @@ def endp_not_found(e):
 
 @home.route("/login")
 class Login(MethodView):
-    @home.arguments(LoginRequestSchema)
-    @home.response(200, Login200ResponseSchema)
-    @home.response(401, Login401ResponseSchema)
+    @home.arguments(LoginSchema)
+    @home.response(200, UserSchema)
+    @home.response(401, ErrorResponseSchema)
     def post(self, data):
-        email = data.get("email")
-        password = data.get("password")
+        """Iniciar de sesión de usuarios. Acepta email y contraseña y devuelve detalles del usuario si es válido"""
+        try:
+            email = data.get("email")
+            password = data.get("password")
+            user = User.query.filter_by(email=email).first()
 
-        user = User.query.filter_by(email=email).first()
-        if user and user.verify_password(password):
-            return jsonify({"message": "Login successful", "user_id": user.id}), 200
-        else:
-            return jsonify({"error": "Invalid email or password"}), 401
+            if user and user.verify_password(password):
+                return jsonify(user.to_dict()), 200
+            else:
+                return jsonify({"error": "Invalid email or password"}), 401
+        except SQLAlchemyError as err:
+            return handle_sqlalchemy_error(err)
 
 
 @home.route("/users")
 class Users(MethodView):
-    @home.arguments(UsersCreateRequestSchema)
-    @home.response(200, UsersCreate200ResponseSchema)
-    @home.response(400, UsersCreate400ResponseSchema)
-    def post(self, data):
+    @home.response(200, UserSchema)
+    @home.response(500, ErrorResponseSchema)
+    def get(self):
+        """Obtener una lista de todos los usuarios"""
         try:
+            users = User.query.all()
+            return jsonify([user.to_dict() for user in users]), 200
+        except SQLAlchemyError as err:
+            return handle_sqlalchemy_error(err)
+
+    @home.arguments(UserCreateRequestSchema)
+    @home.response(200, UserSchema)
+    @home.response(500, ErrorResponseSchema)
+    def post(self, data):
+        """Crear un nuevo usuario"""
+        try:
+            existing_user = User.query.filter_by(email=data["email"]).first()
+            if existing_user:
+                return jsonify({"error": "A user with this email already exists"}), 409
+
             new_user = User(
                 name=data["name"],
                 lastname=data["lastname"],
@@ -57,166 +81,160 @@ class Users(MethodView):
             )
             db.session.add(new_user)
             db.session.commit()
-            return jsonify({"message": "User added successfully"}), 201
+            return jsonify(new_user.to_dict()), 201
         except SQLAlchemyError as err:
             db.session.rollback()
-            return jsonify({"error": str(err)}), 500
+            return handle_sqlalchemy_error(err)
 
 
-@home.route("/users", methods=["GET"])
-def get_users():
-    id = request.args.get("id")
-    try:
-        if id:
+@home.route("/users/<id>")
+class UsersById(MethodView):
+    @home.response(200, UserSchema)
+    @home.response(500, ErrorResponseSchema)
+    def get(self, id):
+        """Obtener detalles de un usuario específico por ID"""
+        try:
             user = User.query.get(id)
             if not user:
                 return jsonify({"error": "User not found"}), 404
-            return jsonify(
-                {
-                    "id": user.id,
-                    "name": user.name,
-                    "lastname": user.lastname,
-                    "email": user.email,
-                    "phone": user.phone,
-                    "created_at": user.created_at,
-                }
+            return jsonify(user.to_dict()), 200
+        except SQLAlchemyError as err:
+            return handle_sqlalchemy_error(err)
+
+    @home.arguments(UserCreateRequestSchema)
+    @home.response(200, UserSchema)
+    @home.response(500, ErrorResponseSchema)
+    def put(self, data, id):
+        """Actualizar un usuario existente por ID"""
+        try:
+            user = User.query.get(id)
+            if not user:
+                return jsonify({"error": "User not found"}), 404
+
+            existing_user = User.query.filter_by(email=data["email"]).first()
+            if existing_user:
+                return jsonify({"error": "A user with this email already exists"}), 409
+
+            for key, value in data.items():
+                if key == "password" and value:
+                    user.password = value
+                else:
+                    setattr(user, key, value)
+            db.session.commit()
+            return jsonify(user.to_dict()), 200
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return handle_sqlalchemy_error(err)
+
+    @home.response(200, UserSchema)
+    @home.response(500, ErrorResponseSchema)
+    def delete(self, id):
+        """Eliminar un usuario por ID"""
+        try:
+            user = User.query.get(id)
+            if not user:
+                return jsonify({"error": "User not found"}), 404
+
+            db.session.delete(user)
+            db.session.commit()
+            return jsonify(user.to_dict()), 200
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return handle_sqlalchemy_error(err)
+
+
+@home.route("/contacts")
+class Contacts(MethodView):
+    @home.response(200, ContactSchema)
+    @home.response(500, ErrorResponseSchema)
+    def get(self):
+        """Obtener una lista de todos los usuarios que hay que contactar"""
+        try:
+            contacts = Contact.query.all()
+            return jsonify([contact.to_dict() for contact in contacts]), 200
+        except SQLAlchemyError as err:
+            return handle_sqlalchemy_error(err)
+
+    @home.arguments(ContactCreateRequestSchema)
+    @home.response(200, ContactSchema)
+    @home.response(500, ErrorResponseSchema)
+    def post(self, data):
+        """Crear un nuevo contacto"""
+        try:
+            existing_contact = Contact.query.filter_by(email=data["email"]).first()
+            if existing_contact:
+                return jsonify(
+                    {"error": "A contact with this email already exists"}
+                ), 409
+
+            new_contact = Contact(
+                name=data["name"],
+                lastname=data["lastname"],
+                email=data["email"],
+                topic=data["topic"],
+                message=data["message"],
             )
-        else:
-            users = User.query.all()
-            return jsonify(
-                [
-                    {
-                        "id": user.id,
-                        "name": user.name,
-                        "lastname": user.lastname,
-                        "email": user.email,
-                        "phone": user.phone,
-                        "created_at": user.created_at,
-                    }
-                    for user in users
-                ]
-            )
-    except SQLAlchemyError as err:
-        return jsonify({"error": str(err)}), 500
+            db.session.add(new_contact)
+            db.session.commit()
+            return jsonify(new_contact.to_dict()), 201
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return handle_sqlalchemy_error(err)
 
 
-@home.route("/users", methods=["PUT"])
-def update_user():
-    data = request.get_json()
-    try:
-        user = User.query.get(data["id"])
-        if not user:
-            return jsonify({"error": "User not found"}), 404
+@home.route("/contacts/<id>")
+class ContactsById(MethodView):
+    @home.response(200, ContactSchema)
+    @home.response(500, ErrorResponseSchema)
+    def get(self, id):
+        """Obtener detalles de un contacto específico por ID"""
+        try:
+            contact = Contact.query.get(id)
+            if not contact:
+                return jsonify({"error": "Contact not found"}), 404
+            return jsonify(contact.to_dict()), 200
+        except SQLAlchemyError as err:
+            return handle_sqlalchemy_error(err)
 
-        user.name = data.get("name", user.name)
-        user.lastname = data.get("lastname", user.lastname)
-        user.email = data.get("email", user.email)
-        user.phone = data.get("phone", user.phone)
+    @home.arguments(ContactCreateRequestSchema)
+    @home.response(200, ContactSchema)
+    @home.response(500, ErrorResponseSchema)
+    def put(self, data, id):
+        """Actualizar un contacto existente por ID"""
+        try:
+            contact = Contact.query.get(id)
+            if not contact:
+                return jsonify({"error": "Contact not found"}), 404
 
-        if "password" in data and data["password"]:
-            user.password = data["password"]
+            existing_contact = Contact.query.filter_by(email=data["email"]).first()
+            if existing_contact:
+                return jsonify(
+                    {"error": "A Contact with this email already exists"}
+                ), 409
 
-        db.session.commit()
-        return jsonify({"message": "User updated successfully"}), 200
-    except SQLAlchemyError as err:
-        db.session.rollback()
-        return jsonify({"error": str(err)}), 500
+            for key, value in data.items():
+                setattr(contact, key, value)
+            db.session.commit()
+            return jsonify(contact.to_dict()), 200
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return handle_sqlalchemy_error(err)
 
+    @home.response(200, ContactSchema)
+    @home.response(500, ErrorResponseSchema)
+    def delete(self, id):
+        """Eliminar un contacto por ID"""
+        try:
+            contact = Contact.query.get(id)
+            if not contact:
+                return jsonify({"error": "Contact not found"}), 404
 
-@home.route("/users", methods=["DELETE"])
-def delete_user():
-    id = request.args.get("id")
-    try:
-        user = User.query.get(id)
-        if not user:
-            return jsonify({"error": "User not found"}), 404
-
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({"message": "User deleted successfully"}), 200
-    except SQLAlchemyError as err:
-        db.session.rollback()
-        return jsonify({"error": str(err)}), 500
-
-
-@home.route("/contacts", methods=["GET"])
-def get_contacts():
-    try:
-        contacts = Contact.query.all()
-        contact_list = [
-            {
-                "id": contact.id_contact,
-                "name": contact.name,
-                "lastname": contact.lastname,
-                "email": contact.email,
-                "topic": contact.topic,
-                "message": contact.message,
-                "status": contact.status,
-                "created_at": contact.created_at,
-            }
-            for contact in contacts
-        ]
-
-        return jsonify(contact_list), 200
-    except SQLAlchemyError as err:
-        return jsonify({"error": str(err)}), 500
-
-
-@home.route("/contacts", methods=["POST"])
-def add_contact():
-    data = request.get_json()
-    try:
-        new_contact = Contact(
-            name=data["name"],
-            lastname=data["lastname"],
-            email=data["email"],
-            topic=data["topic"],
-            message=data["message"],
-        )
-        db.session.add(new_contact)
-        db.session.commit()
-        return jsonify({"message": "Contact added successfully"}), 201
-    except SQLAlchemyError as err:
-        db.session.rollback()
-        return jsonify({"error": str(err)}), 500
-
-
-@home.route("/contacts", methods=["PUT"])
-def update_contact():
-    data = request.get_json()
-    try:
-        contact = Contact.query.get(data["id"])
-        if not contact:
-            return jsonify({"error": "Contact not found"}), 404
-
-        contact.name = data.get("name", contact.name)
-        contact.lastname = data.get("lastname", contact.lastname)
-        contact.email = data.get("email", contact.email)
-        contact.topic = data.get("topic", contact.topic)
-        contact.message = data.get("message", contact.message)
-        contact.status = data.get("status", contact.status)
-
-        db.session.commit()
-        return jsonify({"message": "Contact updated successfully"}), 200
-    except SQLAlchemyError as err:
-        db.session.rollback()
-        return jsonify({"error": str(err)}), 500
-
-
-@home.route("/contacts", methods=["DELETE"])
-def delete_contact():
-    id = request.args.get("id")
-    try:
-        contact = Contact.query.get(id)
-        if not contact:
-            return jsonify({"error": "Contact not found"}), 404
-
-        db.session.delete(contact)
-        db.session.commit()
-        return jsonify({"message": "Contact deleted successfully"}), 200
-    except SQLAlchemyError as err:
-        db.session.rollback()
-        return jsonify({"error": str(err)}), 500
+            db.session.delete(contact)
+            db.session.commit()
+            return jsonify(contact.to_dict()), 200
+        except SQLAlchemyError as err:
+            db.session.rollback()
+            return handle_sqlalchemy_error(err)
 
 
 @home.route("/hotels", methods=["GET"])

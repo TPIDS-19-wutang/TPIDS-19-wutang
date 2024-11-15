@@ -80,92 +80,10 @@
                   </li>
 
                   <li class="nav-item">
-                    <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
-                  </li>
-
-                  <li class="nav-item">
                     <form action="{{url_for('reservas')}}">
                       <button class="btn-reserva">Reservar</button>
                     </form>
                   </li>
-    
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="tabs-listing mt-4">
-                            <nav>
-                              <div class="nav nav-tabs d-flex justify-content-center border-0" id="nav-tab" role="tablist">
-                                <button class="btn btn-outline-primary text-uppercase me-3 active" id="nav-sign-in-tab"
-                                  data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button" role="tab"
-                                  aria-controls="nav-sign-in" aria-selected="true">Iniciar sesión</button>
-                                <button class="btn btn-outline-primary text-uppercase" id="nav-register-tab"
-                                  data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab"
-                                  aria-controls="nav-register" aria-selected="false">Registrarse</button>
-                              </div>
-                            </nav>
-                            <div class="tab-content" id="nav-tabContent">
-                              <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
-                                aria-labelledby="nav-sign-in-tab">
-                                <form id="form1" class="form-group flex-wrap p-3 " method="POST" action="/base">
-                                  <div class="form-input col-lg-12 my-4">
-                                    <label for="exampleInputEmail1"
-                                      class="form-label fs-6 text-uppercase fw-bold text-black">Correo
-                                      Electrónico</label>
-                                    <input type="text" id="exampleInputEmail1" name="email" placeholder="Email"
-                                      class="form-control ps-3">
-                                  </div>
-                                  <div class="form-input col-lg-12 my-4">
-                                    <label for="inputPassword1"
-                                      class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
-                                    <input type="password" id="inputPassword1" name="password" placeholder="Password"
-                                      class="form-control ps-3" aria-describedby="passwordHelpBlock">
-                                    <div id="passwordHelpBlock" class="form-text text-center">
-                                      <a href="#" class="password">¿Has olvidado tu contraseña?</a>
-                                    </div>
-                                  </div>
-                                  <label class="py-3">
-                                    <input type="checkbox" required="" class="d-inline">
-                                    <span class="label-body text-black">Recuérdame</span>
-                                  </label>
-                                  <div class="d-grid my-3">
-                                    <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Iniciar sesión</button>
-                                  </div>
-                                </form>
-                              </div>
-                              <div class="tab-pane fade" id="nav-register" role="tabpanel"
-                                aria-labelledby="nav-register-tab">
-                                <form id="form2" class="form-group flex-wrap p-3 " method="POST" action="/base?form=register">
-                                  <div class="form-input col-lg-12 my-4">
-                                    <label for="exampleInputEmail2"
-                                      class="form-label fs-6 text-uppercase fw-bold text-black">Correo
-                                      Electrónico</label>
-                                    <input type="text" id="exampleInputEmail2" name="email" placeholder="Email"
-                                      class="form-control ps-3">
-                                  </div>
-                                  <div class="form-input col-lg-12 my-4">
-                                    <label for="inputPassword2"
-                                      class="form-label  fs-6 text-uppercase fw-bold text-black">Contraseña</label>
-                                    <input type="password" id="inputPassword2" placeholder="Password"
-                                      class="form-control ps-3">
-                                  </div>
-                                  <div class="d-grid my-3">
-                                    <button class="btn btn-primary btn-lg btn-dark text-uppercase btn-rounded-none fs-6">Registrarse</button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-    
                 </ul>
               </div>
             </div>
@@ -239,17 +157,17 @@
 
         </div>
         <div class="col-md-4 d-flex align-items-center">
-          <p>Pagina web hecha por: <a href="https://github.com/thiagopedoni" class="link-primary"
-              target="_blank">Thiago Pedoni</a> <br>
-              <a href="https://github.com/blazromero" class="link-primary"
-              target="_blank">Blaz Romero</a> <br>
-              <a href="https://github.com/YANESGHD" class="link-primary"
-              target="_blank">Gabriela Yanes</a> <br>
-              <a href="https://github.com/Marinocabreraa" class="link-primary"
-              target="_blank">Marino Cabrera</a> <br>
-              <a href="https://github.com/Intiblanfiu" class="link-primary"
-              target="_blank">Inti Blanco</a> <br>
-
+          <p>Pagina web hecha por: <a href="https://github.com/blazromero" class="link-primary"
+          target="_blank">Blaz Romero</a> <br>
+          <a href="https://github.com/YANESGHD" class="link-primary"
+          target="_blank">Gabriela Yanes</a> <br>
+          <a href="https://github.com/thiagopedoni" class="link-primary"
+          target="_blank">Thiago Pedoni</a> <br>
+          <a href="https://github.com/Marinocabreraa" class="link-primary"
+          target="_blank">Marino Cabrera</a> <br>
+          <a href="https://github.com/Intiblanfiu" class="link-primary"
+          target="_blank">Inti Blanco</a> <br>
+          
         </div>
 
       </footer>

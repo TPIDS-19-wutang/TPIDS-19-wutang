@@ -17,6 +17,12 @@
       <label class="reserv-form-label" for="apellido">Apellido:</label>
       <input class="reserv-form-input" type="text" id="apellido" name="apellido" required>
       
+      <label class="reserv-form-label" for="dni">Número de DNI:</label>
+      <input class="reserv-form-input" type="text" id="dni" name="dni" required>
+      
+      <label class="reserv-form-label" for="phone">Número de Teléfono:</label>
+      <input class="reserv-form-input" type="text" id="phone" name="phone" required>
+      
       <label class="reserv-form-label" for="email">Correo electrónico:</label>
       <input class="reserv-form-input" type="email" id="email" name="email" required>
     </form>
@@ -29,7 +35,7 @@
       <div class="container ">
         <div class="col-lg-3 billboard-select">
           <select class="form-select mb-2 mb-lg-0" aria-label="Location">
-            <option selected>Lugar</option>
+            <option value="" disabled selected>Lugar</option>
             <option value="1">Misiones</option>
             <option value="2">Cordoba</option>
             <option value="3">Salta</option>
@@ -39,26 +45,8 @@
           </select>
         </div>
         <div class="col-lg-3 billboard-select">
-          <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfPeople">
-            <option selected>Personas</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">+4</option>
-          </select>
-        </div>
-        <div class="col-lg-3 billboard-select">
           <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfAdults">
-            <option selected>Adultos</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">+4</option>
-          </select>
-        </div>
-        <div class="col-lg-3 billboard-select">
-          <select class="form-select mb-2 mb-lg-0" aria-label="NumberOfChildrens">
-            <option selected>Menores</option>
+            <option value="" disabled selected>Cantidad de personas por habitación</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -67,38 +55,26 @@
         </div>
         <div class="col-lg-3 billboard-select">
           <select class="form-select mb-2 mb-lg-0" aria-label="RoomType">
-            <option selected>Tipo de habitación</option>
+            <option value="" disabled selected>Tipo de habitación</option>
             <option value="1">Classic</option>
             <option value="2">Doble</option>
             <option value="3">Premium</option>
             <option value="4">Deluxe</option>
           </select>
         </div><br>
+        <div class="col-lg-3 billboard-select">
+          <label for="checkin" class="reserv-form-label">Fecha de entrada:</label>
+          <br>
+          <input type="date" class="reserv-form-input" id="checkin" name="checkin" required>
+          <br>
+          <label for="checkout" class="reserv-form-label">Fecha de salida:</label>
+          <br>
+          <input type="date" class="reserv-form-input" id="checkout" name="checkout" required>
+        </div>
       </div>
     </section>
+    <button class="reserv-submit-button" type="submit">Enviar</button>
   </form>
-  <section>
-    <h3 class="titulos-reserv">Paso 3: Detalles del pago</h3>
-    <form class="reserv-form" action="/reserv" method="post">
-      <label class="reserv-form-label" for="payerName">Nombre:</label>
-      <input class="reserv-form-input" type="text" id="payerName" name="payerName" required>
-      
-      <label class="reserv-form-label" for="payerLastname">Apellido:</label>
-      <input class="reserv-form-input" type="text" id="payerLastname" name="payerLastname" required>
-      
-      <label class="reserv-form-label" for="number-card">Número de la tarjeta:</label>
-      <input class="reserv-form-input" type="number-card" id="number-card" name="number-card" required>
-
-      <label class="reserv-form-label" for="ExpirationDate">Fecha de expiración:</label>
-      <input class="reserv-form-input" type="ExpirationDate" id="ExpirationDate" name="ExpirationDate" required>
-
-      <label class="reserv-form-label" for="CVV">CVV:</label>
-      <input class="reserv-form-input" type="CVV" id="CVV" name="CVV" required>
-
-      
-      <button class="reserv-submit-button" type="submit">Enviar</button>
-    </form>
-  </section>
 </section>
 {% endblock %}
 {% set active_page = 'reservas' %}

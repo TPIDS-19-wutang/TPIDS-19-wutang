@@ -13,26 +13,6 @@ def index():
 
 @app.route("/base", methods=["GET", "POST"])
 def base():
-    if request.method == "POST":
-        form_Type = request.args.get("form")
-
-        if form_Type == "register":
-            form_data = {
-                "email": request.form.get("email"),
-                "password": request.form.get("password"),
-            }
-
-            print("Datos de Registro:", form_data)
-
-        else:
-            form_data = {
-                "email": request.form.get("email"),
-                "password": request.form.get("password"),
-            }
-
-            print("Datos de Inicio de Sesión:", form_data)
-
-
     return render_template("base.html")
 
 
@@ -45,11 +25,11 @@ def about():
 def contact():
     if request.method == "POST":
         form_data = {
-            "name": request.form.get("name"),
-            "lastname": request.form.get("lastname"),
-            "email": request.form.get("email"),
-            "topic": request.form.get("topic"),
-            "message": request.form.get("message"),
+            "name": request.form["name"],
+            "lastname": request.form["lastname"],
+            "email": request.form["email"],
+            "topic": request.form["topic"],
+            "message": request.form["message"],
         }
         requests.post(f'{url}/contacts', data=form_data)
         return redirect("/")
@@ -63,27 +43,23 @@ def rooms():
 
 @app.route("/reservas", methods=["GET", "POST"])
 def reservas():
+    
     if request.method == "POST":
         form_data = {
             "personalDetails": {
-                "name": request.form.get("name"),
-                "lastname": request.form.get("lastname"),
-                "email": request.form.get("email"),
+                "name": request.form["name"],
+                "lastname": request.form["lastname"],
+                "email": request.form["email"],
+                "phone": request.form["phone"],
+                "dni": request.form["dni"],
             },
             "reservationDetails": {
-                "Location": request.form.get("Location"),
-                "NumberOfPeople": request.form.get("NumberOfPeople"),
-                "NumberOfAdults": request.form.get("NumberOfAdults"),
-                "NumberOfChildrens": request.form.get("NumberOfChildrens"),
-                "RoomType": request.form.get("RoomType"),
+                "Location": request.form["Location"],
+                "NumberOfPeople": request.form["NumberOfPeople"],
+                "RoomType": request.form["RoomType"],
+                "Checkin": request.form["Checkin"],
+                "Checkout": request.form["Checkout"],
             },
-            "paymentDetails": {
-                "payerName": request.form.get("payerName"),
-                "payerLastname": request.form.get("payerLastname"),
-                "CardNumber": request.form.get("CardNumber"),
-                "ExpirationDate": request.form.get("ExpirationDate"),
-                "CVV": request.form.get("CVV"),
-            }
         }    
         requests.post(f'{url}/reservas', data=form_data)
         return redirect("/")
@@ -91,4 +67,4 @@ def reservas():
 
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+    app.run("127.0.0.1", port="8080", debug=True)

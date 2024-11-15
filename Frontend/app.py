@@ -1,7 +1,7 @@
 from flask import Flask, redirect, request, render_template
-from http_client import HTTPClient
+import requests
 
-http_client = HTTPClient("http://wutang-lb-1220613326.us-east-2.elb.amazonaws.com")
+url = "http://wutang-lb-1220613326.us-east-2.elb.amazonaws.com"
 
 app = Flask(__name__)
 
@@ -51,7 +51,7 @@ def contact():
             "topic": request.form.get("topic"),
             "message": request.form.get("message"),
         }
-        http_client.post("/contacts", data=form_data)
+        requests.post(f'{url}/contacts', data=form_data)
         return redirect("/")
     return render_template("contact.html")
 
@@ -85,7 +85,7 @@ def reservas():
                 "CVV": request.form.get("CVV"),
             }
         }    
-        http_client.post("/reservas", data=form_data)
+        requests.post(f'{url}/reservas', data=form_data)
         return redirect("/")
     return render_template("reservas.html")
 

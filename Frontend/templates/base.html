@@ -78,24 +78,6 @@
                   <li class="nav-item">
                     <a class="nav-link {% if active_page == 'rooms' %}active {% endif %}me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
                   </li>
-                  <li class="nav-item dropdown ">
-                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                      aria-expanded="false">Compania</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="" class="dropdown-item">Como trabajamos?</a></li>
-                      <li><a href="" class="dropdown-item">Sedes</a></li>
-                      <li><a href="" class="dropdown-item">seguridad</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown ">
-                    <a class="nav-link me-md-4 text-center dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                      aria-expanded="false">Ayuda</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="" class="dropdown-item">Privacidad</a></li>
-                      <li><a href="" class="dropdown-item">Condiciones</a></li>
-                      <li><a href="" class="dropdown-item">Preguntas frecuentes</a></li>
-                    </ul>
-                  </li>
 
                   <li class="nav-item">
                     <a class="nav-link mx-md-4" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicio de sesión</a>
@@ -220,7 +202,7 @@
         <div class="col-md-2 ">
           <h5>Hoteleria</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Habitaciones</a></li>
+            <li class="nav-item mb-2"><a href="{{url_for('rooms')}}" class="nav-link p-0 ">Habitaciones</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sedes</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Amenities</a></li>
           </ul>
@@ -229,18 +211,9 @@
         <div class="col-md-2 ">
           <h5>Compania</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Como    trabajamos?</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Sede central </a></li>
+            <li class="nav-item mb-2"><a href="{{url_for('about')}}" class="nav-link p-0 ">Sobre nosotros</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Actividades </a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">seguridad </a></li>
-          </ul>
-        </div>
-
-        <div class="col-md-2 ">
-          <h5>Movs</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Movimientos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Apoyanos</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Precios</a></li>
           </ul>
         </div>
 
@@ -249,7 +222,6 @@
           <ul class="nav flex-column">
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Privacidad </a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Condiciones</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Blog</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 ">Preguntas frecuentes</a></li>
           </ul>
         </div>

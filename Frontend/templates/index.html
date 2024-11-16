@@ -3,7 +3,7 @@
 {% block content %}
   <br>
   <!-- billboard start  -->
-  <section id="hero">
+  <section class="hero" id="hero_index">
     <h3>LA DISTINCIÓN DE UN LUGAR ÚNICO</h3>
     <h6>TRIVIUM HOTEL & RESORT</h6> <br> <br>
   </section>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-
+  </section>
   <!-- Residence start  -->
   <section id="residence">
     <div class="container  my-5 py-5">
@@ -46,13 +46,12 @@
                 <p class="card-text">General San Martin 1987, Mendoza</p>
 
                 <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
+                    <ul class="d-flex">
+                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 3 Estrellas</li>
+                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 100 Hab</li>
+                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 4 Pisos</li>
+                    </ul>
                 </div>
-
               </div>
             </div>
           </div>
@@ -66,13 +65,12 @@
                 <p class="card-text">Corrientes 1087, CABA</p>
 
                 <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
+                    <ul class="d-flex">
+                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 4 Estrellas</li>
+                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 175 Hab</li>
+                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 7 Pisos</li>
+                    </ul>
                 </div>
-
               </div>
             </div>
           </div>
@@ -86,97 +84,15 @@
                 <p class="card-text">San Miguel de Guemes, Misiones</p>
 
                 <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}"alt="image"> 1203 Sqft.</li>
-                  </ul>
+                    <ul class="d-flex">
+                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 4 Estrellas</li>
+                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 150 Hab</li>
+                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 6 Pisos</li>
+                    </ul>
                 </div>
-
               </div>
             </div>
           </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item1.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
-                </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
-
-                <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item2.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
-                </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
-
-                <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item3.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
-                </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
-
-                <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/item4.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Aliva Priva Jalvin</h5>
-                </a>
-                <p class="card-text">1087 Pin Oak Drive, Clinton, USA</p>
-
-                <div class="card-text">
-                  <ul class="d-flex">
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                    <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -205,13 +121,12 @@
                   <p class="card-text">Avenida Costanera 199, Argentina</p>
   
                   <div class="card-text">
-                    <ul class="d-flex">
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 4 bed</li>
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
-                    </ul>
+                      <ul class="d-flex">
+                          <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 5 Estrellas</li>
+                          <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 250 Hab</li>
+                          <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 10 Pisos</li>
+                      </ul>
                   </div>
-  
                 </div>
               </div>
             </div>
@@ -226,12 +141,11 @@
   
                   <div class="card-text">
                     <ul class="d-flex">
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bed.png', _external=True) }}" alt="image"> 2 bed</li>
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/bath.png', _external=True) }}" alt="image"> 2 bath</li>
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/square.png', _external=True) }}" alt="image"> 1203 Sqft.</li>
+                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 3 Estrellas</li>
+                      <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 100 Hab</li>
+                      <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 4 Pisos</li>
                     </ul>
                   </div>
-  
                 </div>
               </div>
             </div>
@@ -289,7 +203,7 @@
                 <p class="testimonial-p mt-4">Sin duda, una de las mejores experiencias hoteleras que he tenido! Desde que 
                   llegue al hotel, me senti como en casa. La atencion del personal es excelente y las instalaciones son 
                   de primer nivel. Sin duda, volveria a hospedarme en el Hotel Trivium.</p>
-                </p>
+
 
                 <div class="row">
                   <div class="col-md-8">

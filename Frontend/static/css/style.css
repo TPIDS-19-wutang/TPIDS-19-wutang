@@ -184,12 +184,12 @@ i:hover {
 }
 
 #nav.site-header {
-  background-color: rgba(0, 0, 0, 0.0001);
-  position: fixed;
-  width: 100%;
-  z-index: 100%;
-  top: 0;
-  transition: background-color 0.3s ease;
+    background-color: var(--white-color);
+    position: fixed;
+    width: 100%;
+    z-index: 100%;
+    top: 0;
+    transition: background-color 0.3s ease;
 }
 
 #navbar-example2.navbar {
@@ -229,26 +229,29 @@ i:hover {
 
 
 /*---- hero form ---- */
-#hero {
+.hero {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   flex-direction: column;
-  height: 90vh;
-  background-image: linear-gradient(
-    0deg,
-    rgba(0,0,0,0.5),
-    rgba(0,0,0,0.5)
-  )
-  ,url(/static/images/pileta1.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
 }
 
-#hero h6{
+#hero_index {
+    background-image: linear-gradient( 0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) ),url(/static/images/pileta1.png);
+    height: 90vh;
+}
+
+#hero_about {
+    background-image: linear-gradient( 0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) ),url(/static/images/about-us.jpg);
+    height: 50vh;
+}
+
+.hero h6{
   text-transform: uppercase;
   color: var(--white-color);
   text-shadow: 0 -1px 0 rgba(128, 128, 128, 0.5);
@@ -257,7 +260,7 @@ i:hover {
   font-weight: 400;
 }
 
-#hero h3 {
+.hero h3 {
   font-family: 'Playfair Display', serif;
     text-transform: uppercase;
     color: #FFF;
@@ -338,9 +341,14 @@ i:hover {
   background: transparent;
 }
 
-.residence-list {
-  filter: hue-rotate(240deg)
+#cant_rooms {
+    filter: invert(43%) sepia(95%) saturate(900%) hue-rotate(11deg) brightness(100%);
 }
+
+#cant_pisos {
+    filter: invert(43%) sepia(95%) saturate(700%) hue-rotate(11deg) brightness(100%);
+}
+
 
 .logos {
   filter: hue-rotate(240deg)
@@ -512,6 +520,7 @@ button.btn.btn-primary.btn-lg.billboard-search {
 section#residence {
   background-image: url(images/residence.png);
   position: relative;
+  scroll-margin-top: 100px;
 }
 
 .swiper-button-next.residence-arrow,
@@ -619,7 +628,71 @@ about page style start
 --------------------------------------------------------------*/
 
 img.abt-img {
-  width: inherit;
+    width: inherit;
+    
+}
+
+#about-us {
+    scroll-margin-top: 100px;
+}
+
+#about_us_story {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin-right: 15px;
+    scroll-margin-top: 150px;
+}
+
+#img_about_us_story {
+    width: 50%;
+    text-align: right;
+    height: auto;
+    margin-top: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+#about_us_story_text {
+    margin-top: -30px;
+    text-align:left;
+}
+
+.about_us_text {
+    flex: 1;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 100px;
+    text-align:center;
+}
+
+
+.about_us_h2 {
+    border-bottom-style: solid;
+    border-bottom-color: black;
+}
+
+#img_container_about_us_security {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    gap: 10px;
+}
+
+#img_about_us_security {
+    width: 1000px;
+    height: 600px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+#instalaciones {
+    scroll-margin-top: 150px;
+}
+
+#seguridad {
+    scroll-margin-top: 150px;
 }
 
 
@@ -1099,4 +1172,52 @@ iconify-icon.property-icon {
 }
 .relleno {
   color: #121B25;
+}
+
+
+
+/*--------------------------------------------------------------
+Carrousel About_us
+--------------------------------------------------------------*/
+.carousel {
+    position: relative;
+    width: 40%;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Contenedor de las imágenes */
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Imágenes del carrusel */
+.carousel-slide {
+    min-width: 100%; /* Cada imagen ocupa el 100% del contenedor */
+    height: auto;
+}
+
+/* Botones de navegación */
+#button-carrousel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
 }

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="faq">
+    {% for contenido in secciones %}
+    <button class="acordion">{{contenido}}</button>
+    <div class="panel">
+        <p>{{secciones[contenido]}}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="{{ url_for('static', filename='js/FAQ.js') }}"></script>
+{% endblock %}
+{% set active_page = 'FAQ' %}

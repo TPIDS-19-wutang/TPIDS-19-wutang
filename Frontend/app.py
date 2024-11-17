@@ -20,6 +20,15 @@ def base():
 def about():
     return render_template("about.html")
 
+@app.route("/FAQ")
+def FAQ():
+    secciones = {
+    "Section 1": "Contenido de la seccion 1",
+    "Section 2": "Contenido de la seccion 2",
+    "Section 3": "Contenido de la seccion 3",
+}
+    return render_template("FAQ.html", secciones=secciones)
+
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -38,7 +47,28 @@ def contact():
 
 @app.route("/habitaciones")
 def rooms():
-    return render_template("rooms.html")
+    cuartos ={"1":{
+              "descripcion":"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto",
+              "imagen":"/images/habitacion_classic.jpg",
+              "tipo":"Classic"},
+              
+              "2":{
+              "descripcion":"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto",
+              "imagen":"/images/habitacion_doble.jpg",
+              "tipo":"Doble"},
+              
+              "3":{
+              "descripcion":"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto",
+              "imagen":"/images/habitacion_premium.jpg",
+              "tipo":"Premium"},
+              
+              "4":{
+              "descripcion":"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero sed incidunt a vel expedita beatae, assumenda ad ex dolor ea dignissimos ipsa esse voluptas praesentium laudantium dolorem inventore quae architecto",
+              "imagen":"/images/habitacion_deluxe.jpg",
+              "tipo":"Deluxe"}
+                   
+              }
+    return render_template("rooms.html", cuartos=cuartos)
 
 
 @app.route("/reservas", methods=["GET", "POST"])

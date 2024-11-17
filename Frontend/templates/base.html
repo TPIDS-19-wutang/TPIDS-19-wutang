@@ -65,26 +65,29 @@
                   aria-label="Close"></button>
               </div>
               <div class="offcanvas-body">
-                <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
-                  <li class="nav-item">
-                    <a class="nav-link {% if active_page == 'index' %}active {% endif %}me-md-4" href="{{url_for('index')}}">Inicio</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link {% if active_page == 'about' %}active {% endif %}me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link {% if active_page == 'contact' %}active {% endif %}me-md-4" href="{{url_for('contact')}}">Contacto</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link {% if active_page == 'rooms' %}active {% endif %}me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
-                  </li>
+                  <ul class="navbar-nav align-items-center justify-content-end align-items-center flex-grow-1 ">
+                      <li class="nav-item">
+                          <a class="nav-link {% if active_page == 'index' %}active {% endif %}me-md-4" href="{{url_for('index')}}">Inicio</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if active_page == 'about' %}active {% endif %}me-md-4" href="{{url_for('about')}}">Sobre nosotros</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if active_page == 'contact' %}active {% endif %}me-md-4" href="{{url_for('contact')}}">Contacto</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if active_page == 'rooms' %}active {% endif %}me-md-4" href="{{url_for('rooms')}}">Habitaciones</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if active_page == 'FAQ' %}active {% endif %}me-md-4" href="{{url_for('FAQ')}}">Preguntas Frecuentes</a>
+                      </li>
 
-                  <li class="nav-item">
-                    <form action="{{url_for('reservas')}}">
-                      <button class="btn-reserva">Reservar</button>
-                    </form>
-                  </li>
-                </ul>
+                      <li class="nav-item">
+                          <form action="{{url_for('reservas')}}">
+                              <button class="btn-reserva">Reservar</button>
+                          </form>
+                      </li>
+                  </ul>
               </div>
             </div>
     

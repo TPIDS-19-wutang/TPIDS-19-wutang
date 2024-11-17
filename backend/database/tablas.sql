@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS rooms (
     title VARCHAR(80) NOT NULL,
     description VARCHAR(500) NOT NULL,
     image VARCHAR(120),
+    status ENUM('available', 'not available') NOT NULL DEFAULT 'available',
     max_guests INT NOT NULL,
     price FLOAT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

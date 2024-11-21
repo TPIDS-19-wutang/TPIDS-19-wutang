@@ -23,7 +23,7 @@ SELECT id_user FROM users WHERE email = :email
 
 QUERY_CHECK_USER_BY_PHONE = """
 SELECT id_user FROM users WHERE phone = :phone
-""""
+"""
 
 QUERY_CHECK_USER_BY_DNI = """
 SELECT id_user FROM users WHERE dni = :dni
@@ -35,8 +35,8 @@ FROM users
 """
 
 QUERY_ADD_USER = """
-INSERT INTO users (id_user, name, lastname, email, phone, dni) 
-VALUES (NULL, :name, :lastname, :email, :phone, :dni)
+INSERT INTO users (name, lastname, email, phone, dni) 
+VALUES (:name, :lastname, :email, :phone, :dni)
 """
 
 QUERY_UPDATE_USER = """
@@ -48,64 +48,57 @@ WHERE id_user = :id_user
 # -----------------------------------------------------QUERYS ROOMS-----------------------------------------------------
 
 QUERY_GET_ALL_ROOMS = """
-SELECT id_room, id_hotel, number_room, title, description, image, status, max_guests, price, creates_at 
-FROM rooms
+SELECT id_room, id_hotel, type_room, title, description, image, price, creates_at 
+FROM type_rooms
 """
 
 QUERY_GET_ROOM = """
-SELECT id_room, id_hotel, number_room, title, description, image, status, max_guests, price, creates_at 
-FROM rooms 
+SELECT id_room, id_hotel, type_room, title, description, image, price, creates_at
+FROM type_rooms 
 WHERE id_room = :id_room
 """
 
-QUERY_DELETE_ROOM = "DELETE FROM rooms WHERE id_room = :id_room"
+QUERY_DELETE_ROOM = "DELETE FROM type_rooms WHERE id_room = :id_room"
 
 QUERY_UPDATE_ROOM = """
-UPDATE rooms 
-SET number_room = :number_room, title = :title, description = :description, image = :image, 
-    status = :status, max_guests = :max_guests, price = :price 
+UPDATE type_rooms 
+SET type_room = :type_room, title = :title, description = :description, image = :image, price = :price 
 WHERE id_room = :id_room
 """
 
 QUERY_CHECK_ROOM_DUPLICATED = """
 SELECT id_room 
-FROM rooms 
-WHERE id_hotel = :id_hotel AND title = :title AND description = :description AND image = :image 
-    AND max_guests = :max_guests AND price = :price
+FROM type_rooms 
+WHERE id_hotel = :id_hotel AND title = :title AND description = :description AND image = :image AND price = :price
 """
 
 QUERY_ADD_ROOM = """
-INSERT INTO rooms (id_room, id_hotel, number_room, title, description, image, status, max_guests, price) 
-VALUES (NULL, :id_hotel, :number_room, :title, :description, :image, :status, :max_guests, :price)
+INSERT INTO type_room (id_room, id_hotel, type_room, title, description, image, price) 
+VALUES (NULL, :id_room, :id_hotel, :type_room, :title, :description, :image, :price)
 """
-
-QUERY_UPDATE_ROOM_STATUS = """
-        UPDATE rooms
-        SET status = :new_status
-        WHERE id_room = :id_room
-    """
 
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
 
 QUERY_GET_ALL_RESERVATIONS = """
-SELECT id_user, id_room, id_hotel, number_room, check_in, check_out, created_at 
+SELECT id_reservation, id_user, id_room, id_hotel, number_people, type_room, check_in, check_out, created_at 
 FROM reservations
 """
 
 QUERY_GET_RESERVATION = """
-SELECT id_user, id_room, id_hotel, number_room, check_in, check_out, created_at 
+SELECT id_reservation, id_user, id_room, id_hotel, number_people, type_room, check_in, check_out, created_at  
 FROM reservations 
 WHERE id_user = :id_user
 """
+
 QUERY_DELETE_RESERVATION = "DELETE FROM reservations WHERE id_user = :id_user"
 
 QUERY_CREATE_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_room, check_in, check_out) 
-VALUES (:id_user, :id_hotel, :number_room, :check_in, :check_out)
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, check_out)
 """
 QUERY_ADD_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_room, check_in, check_out)
-VALUES (:id_user, :id_room, :id_hotel, :number_room, :check_in, :check_out);
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, check_out)
 """
 QUERY_GET_RESERVATIONS_BY_HOTEL = """
 SELECT * FROM reservations WHERE id_hotel = :id_hotel;
@@ -123,16 +116,16 @@ QUERY_DELETE_OLD_RESERVATIONS = """
 DELETE FROM reservations WHERE check_out < CURRENT_TIMESTAMP;
 """
 QUERY_ADD_HOTEL ="""
-INSERT INTO hotel (title, description, image, cant_rooms)
-VALUES (:title, :description, :image, :cant_rooms);
+INSERT INTO hotels (location, description, image, cant_rooms)
+VALUES (:location, :description, :image, :cant_rooms);
 """
 
 QUERY_DELETE_HOTEL = """
- DELETE FROM hotel WHERE id_hotel = :id_hotel;
+ DELETE FROM hotels WHERE id_hotel = :id_hotel;
 """
 QUERY_UPDATE_HOTEL = """
-UPDATE hotel
-SET title = :title, description = :description, image = :image, cant_rooms = :cant_rooms
+UPDATE hotels
+SET location = :location, description = :description, image = :image, cant_rooms = :cant_rooms
 WHERE id_hotel = :id_hotel
 """
 
@@ -171,8 +164,8 @@ def get_user(id_user):
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "phone": row[4], 
             "dni": row[5],
+            "phone": row[4], 
             "created_at": row[6]
         }
     return {"status": "success", "data": user}
@@ -195,8 +188,8 @@ def get_all_users():
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "phone": row[4],
             "dni": row[5],
+            "phone": row[4],
             "created_at": row[6]
         }
         users.append(user)
@@ -258,8 +251,8 @@ def add_user(name: str, lastname: str, email: str, phone: str, password: str, dn
     :param name: El nombre del usuario.
     :param lastname: El apellido del usuario.
     :param email: El email del usuario.
-    :param phone: El teléfono del usuario.
     :param dni: El DNI del usuario.
+    :param phone: El teléfono del usuario.
     :return: Un diccionario con el estado de la operación.
     """
     result, success = check_user(email, phone, dni)
@@ -271,8 +264,8 @@ def add_user(name: str, lastname: str, email: str, phone: str, password: str, dn
             "name": name,
             "lastname": lastname,
             "email": email,
-            "phone": phone,
-            "dni": dni
+            "dni": dni,
+            "phone": phone
         }
         result, success = send_query(QUERY_ADD_USER, params)
         if success:
@@ -297,8 +290,8 @@ def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
         "id_user": id_user,
         "name": name,
         "lastname": lastname,
-        "phone": phone,
-        "dni": dni
+        "dni": dni,
+        "phone": phone
     }
     result, success = send_query(QUERY_UPDATE_USER, params)
     if success:
@@ -324,12 +317,10 @@ def get_all_rooms():
         room = {
             "id_room": row[0],
             "id_hotel": row[1],
-            "number_room": row[2],
+            "type_room": row[2],
             "title": row[3],
             "description": row[4],
             "image": row[5],
-            "status": row[6],
-            "max_guests": row[7],
             "price": row[8]
         }
         rooms.append(room)
@@ -353,12 +344,10 @@ def get_room(id_room):
         room = {
             "id_room": row[0],
             "id_hotel": row[1],
-            "number_room": row[2],
+            "type_room": row[2],
             "title": row[3],
             "description": row[4],
             "image": row[5],
-            "status": row[6],
-            "max_guests": row[7],
             "price": row[8]
         }
     
@@ -379,30 +368,26 @@ def delete_room(id_room):
         return {"status": "error", "message": f"No se pudo eliminar la habitación {id_room}"}
 
 
-def update_room(id_room, id_hotel: str, number_room: str, title: str, description: str, image: str, status: str, max_guests: int, price: int):
+def update_room(id_room, id_hotel: str, type_room: str, title: str, description: str, image: str, price: int):
     """
     Actualiza los detalles de una habitación existente.
 
     :param id_room: El ID de la habitación que se va a actualizar.
     :param id_hotel: El ID del hotel al que pertenece la habitación.
-    :param number_room: El número de la habitación.
+    :param type_room: El número de la habitación.
     :param title: El título de la habitación.
     :param description: La descripción de la habitación.
     :param image: La imagen de la habitación.
-    :param status: El estado de la habitación.
-    :param max_guests: La capacidad máxima de la habitación.
     :param price: El precio de la habitación.
     :return: Un diccionario con el estado de la operación.
     """
     params = {
         "id_room": id_room,
         "id_hotel": id_hotel,
-        "number_room": number_room,
+        "type_room": type_room,
         "title": title,
         "description": description,
         "image": image,
-        "status": status,
-        "max_guests": max_guests,
         "price": price
     }
     result, success = send_query(QUERY_UPDATE_ROOM, params)
@@ -412,26 +397,24 @@ def update_room(id_room, id_hotel: str, number_room: str, title: str, descriptio
         return {"status": "error", "message": "La habitación no existe"}
 
 
-def check_room(id_hotel: int, number_room: int, title: str, description: str, image: str, max_guests: int, price: float):
+def check_room(id_hotel: int, type_room: int, title: str, description: str, image: str, max_guests: int, price: float):
     """
     Verifica si una habitación ya existe en la base de datos por los parámetros dados.
 
     :param id_hotel: El ID del hotel donde se encuentra la habitación.
-    :param number_room: El número de la habitación.
+    :param type_room: El número de la habitación.
     :param title: El título de la habitación.
     :param description: La descripción de la habitación.
     :param image: La imagen de la habitación.
-    :param max_guests: La capacidad máxima de la habitación.
     :param price: El precio de la habitación.
     :return: Un mensaje de error si ya existe una habitación con esos datos, o None si no existe.
     """
     params = {
         "id_hotel": id_hotel,
-        "number_room": number_room,
+        "type_room": type_room,
         "title": title,
         "description": description,
         "image": image,
-        "max_guests": max_guests,
         "price": price
     }
     result, success = send_query(QUERY_CHECK_ROOM_DUPLICATED, params)
@@ -441,32 +424,28 @@ def check_room(id_hotel: int, number_room: int, title: str, description: str, im
     return None, False
 
     
-def create_room(id_hotel: int, number_room: int, title: str, description: str, image: str, status: str, max_guests: int, price: float):
+def create_room(id_hotel: int, type_room: int, title: str, description: str, image: str, status: str, max_guests: int, price: float):
     """
     Crea una nueva habitación en la base de datos, verificando que no se repita.
 
     :param id_hotel: El ID del hotel donde se agregará la habitación.
-    :param number_room: El número de la habitación.
+    :param type_room: El número de la habitación.
     :param title: El título de la habitación.
     :param description: La descripción de la habitación.
     :param image: La imagen de la habitación.
-    :param status: El estado de la habitación.
-    :param max_guests: La capacidad máxima de la habitación.
     :param price: El precio de la habitación.
     :return: Un diccionario con el estado de la operación.
     """
-    result, success = check_room(id_hotel, number_room, title, description, image, max_guests, price)
+    result, success = check_room(id_hotel, type_room, title, description, image, max_guests, price)
     if success:
         return result
     else:
         params = {
             "id_hotel": id_hotel,
-            "number_room": number_room,
+            "type_room": type_room,
             "title": title,
             "description": description,
             "image": image,
-            "status": status,
-            "max_guests": max_guests,
             "price": price
         }
         result, success = send_query(QUERY_ADD_ROOM, params)
@@ -484,34 +463,18 @@ def get_rooms_by_hotel(id_hotel):
     :return: Diccionario con el estado de la consulta y los datos o un mensaje de error.
     """
     params = {"id_hotel": id_hotel}
-    result, success = send_query("SELECT id_room, number_room FROM reservations WHERE id_hotel = :id_hotel", params)
+    result, success = send_query("SELECT id_room, type_room FROM reservations WHERE id_hotel = :id_hotel", params)
     if not success or not result:
         return {"status": "error", "message": f"No se encontraron habitaciones para el hotel con ID {id_hotel}"}
     rooms = []
     for row in result:
         room = {
             "id_room": row[0],
-            "number_room": row[1],
+            "type_room": row[1],
         }
         rooms.append(room)
 
     return {"status": "success", "data": rooms}
-
-
-def update_room_status(id_room, new_status):
-    """
-    Actualiza el estado de una habitación.
-
-    :param id_room: ID de la habitación a actualizar.
-    :param new_status: Nuevo estado de la habitación (por ejemplo, "disponible", "ocupada", "en mantenimiento").
-    :return: Diccionario con el estado de la operación.
-    """
-    params = {"id_room": id_room, "new_status": new_status}
-    result, success = send_query(QUERY_UPDATE_ROOM_STATUS, params)
-    if success:
-        return {"status": "success", "message": f"Estado de la habitación {id_room} actualizado a {new_status}"}
-    else:
-        return {"status": "error", "message": f"No se pudo actualizar el estado de la habitación {id_room}"}
     
 
 #------------------------------------------------------RESERVATIONS------------------------------------------------------------
@@ -533,7 +496,7 @@ def get_all_reservation():
             "id_user": row[0],
             "id_room": row[1],
             "id_hotel": row[2],
-            "number_room": row[3],
+            "type_room": row[3],
             "check_in": row[4],
             "check_out": row[5]
         }
@@ -560,7 +523,7 @@ def get_reservation(id_user):
             "id_user": row[0],
             "id_room": row[1],
             "id_hotel": row[2],
-            "number_room": row[3],
+            "type_room": row[3],
             "check_in": row[4],
             "check_out": row[5]
         }
@@ -586,14 +549,14 @@ def delete_reservation(id_user):
         return {"status": "error", "message": f"No se pudo eliminar la reserva del usuario con ID {id_user}"}
 
 
-def add_reservation(id_user, id_room, id_hotel, number_room, check_in, check_out):
+def add_reservation(id_user, id_room, id_hotel, type_room, check_in, check_out):
     """
     Agrega una nueva reserva a la base de datos.
 
     :param id_user: ID del usuario que realiza la reserva.
     :param id_room: ID de la habitación reservada.
     :param id_hotel: ID del hotel donde se hace la reserva.
-    :param number_room: Número de la habitación reservada.
+    :param type_room: Número de la habitación reservada.
     :param check_in: Fecha y hora de check-in.
     :param check_out: Fecha y hora de check-out.
     :return: Diccionario con el estado de la operación.
@@ -602,7 +565,7 @@ def add_reservation(id_user, id_room, id_hotel, number_room, check_in, check_out
         "id_user": id_user,
         "id_room": id_room,
         "id_hotel": id_hotel,
-        "number_room": number_room,
+        "type_room": type_room,
         "check_in": check_in,
         "check_out": check_out,
     }
@@ -632,7 +595,7 @@ def get_reservations_by_hotel(id_hotel):
             "id_user": row[0],
             "id_room": row[1],
             "id_hotel": row[2],
-            "number_room": row[3],
+            "type_room": row[3],
             "check_in": row[4],
             "check_out": row[5],
         }
@@ -659,7 +622,7 @@ def get_reservation_by_user(id_user):
             "id_user": row[0],
             "id_room": row[1],
             "id_hotel": row[2],
-            "number_room": row[3],
+            "type_room": row[3],
             "check_in": row[4],
             "check_out": row[5],
         }
@@ -685,7 +648,7 @@ def get_active_reservations():
             "id_user": row[0],
             "id_room": row[1],
             "id_hotel": row[2],
-            "number_room": row[3],
+            "type_room": row[3],
             "check_in": row[4],
             "check_out": row[5],
         }

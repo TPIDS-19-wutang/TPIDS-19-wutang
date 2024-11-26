@@ -809,8 +809,102 @@ blog page style start
     color: var(--body-text-color);
 }
 
+/*--------------------------------------------------------------
+Check Reservation page style start
+--------------------------------------------------------------*/
 
+.check-reservation-heading {
+    margin-top: 240px;
+    text-align: center;
+    color: black;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
 
+.check-reservation-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 30px;
+}
+
+.check-reservation-details {
+   max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 6px solid #0073e6;
+    position: relative;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.check-reservation-details h3 {
+    font-size: 1.5em;
+    color: #0073e6;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.check-reservation-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.check-reservation-details ul li {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.check-reservation-details ul li:last-child {
+    border-bottom: none;
+}
+
+.check-reservation-details ul li strong {
+    color: #0073e6;
+}
+
+.check-reservation-details form {
+    margin-top: 20px;
+}
+
+.check-reservation-details form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.check-reservation-details form .reserv-submit-button {
+    background-color: #0073e6;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.check-reservation-details form .reserv-submit-button:hover {
+    background-color: #005bb5;
+}
+
+.cancel {
+    background-color: #d9534f;
+}
+
+.cancel:hover {
+    background-color: #c9302c;
+}
+
+.error-message {
+    max-width: 400px;
+    margin: 10px auto;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
 
 /*--------------------------------------------------------------
 Contact page style start

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="check-reservation-heading">Consultar y Gestionar Reservas</h2>
+<p class="check-reservation-description">Por favor, ingresá el código de reserva y tu apellido para buscar tu reserva</p>
+
+{% if error_message %}
+<p class="error-message">{{ error_message }}</p>
+{% endif %}
+
+<form class="reserv-form" action="/consultar-reserva" method="post">
+    <label class="reserv-form-label" for="reservation_code">Código de Reserva:</label>
+    <input class="reserv-form-input" type="text" id="reservation_code" name="reservation_code" required>
+
+    <label class="reserv-form-label" for="lastname">Apellido:</label>
+    <input class="reserv-form-input" type="text" id="lastname" name="lastname" required>
+
+    <button class="reserv-submit-button" type="submit">Consultar</button>
+</form>
+
+{% if reservation %}
+<section class="check-reservation-details">
+    <h3>Detalles de tu Reserva</h3>
+    <ul>
+        <li><strong>Código:</strong> {{ reservation.code }}</li>
+        <li><strong>Apellido:</strong> {{ reservation.lastname }}</li>
+        <li><strong>Check-in:</strong> {{ reservation.checkin_date }}</li>
+        <li><strong>Check-out:</strong> {{ reservation.checkout_date }}</li>
+        <li><strong>Estado:</strong> {{ reservation.status }}</li>
+    </ul>
+
+    <form action="/reservation/update" method="post">
+        <input type="hidden" name="reservation_code" value="{{ reservation.code }}">
+        <button class="reserv-submit-button" type="submit">Modificar</button>
+    </form>
+
+    <form action="/reservation/cancel" method="post">
+        <input type="hidden" name="reservation_code" value="{{ reservation.code }}">
+        <button class="reserv-submit-button cancel" type="submit">Cancelar</button>
+    </form>
+</section>
+{% endif %}
+{% endblock %}

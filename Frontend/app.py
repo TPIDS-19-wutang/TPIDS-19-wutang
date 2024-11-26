@@ -192,6 +192,27 @@ def reservas():
         return redirect("/")
     return render_template("reservas.html")
 
+@app.route("/consultar-reserva", methods=["GET", "POST"])
+def consultar_reserva():
+    hardcoded_reservation = {
+        "code": "ABC123",
+        "lastname": "Gonzalez",
+        "checkin_date": "2024-12-01",
+        "checkout_date": "2024-12-07",
+        "status": "Confirmado"
+    }
+
+    if request.method == "POST":
+        reservation_code = request.form.get("reservation_code")
+        lastname = request.form.get("lastname")
+        
+        if reservation_code == hardcoded_reservation["code"] and lastname.lower() == hardcoded_reservation["lastname"].lower():
+            return render_template("consultar_reserva.html", reservation=hardcoded_reservation)
+        else:
+            error_message = "No se encontró ninguna reserva con el código y apellido ingresados."
+            return render_template("consultar_reserva.html", reservation=None, error_message=error_message)
+    return render_template("consultar_reserva.html", reservation=None)
+
 
 if __name__ == "__main__":
     app.run("127.0.0.1", port="5000", debug=True)

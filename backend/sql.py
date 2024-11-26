@@ -1,14 +1,49 @@
+from ast import Try
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from flask import jsonify
+import mysql.connector
+from mysql.connector import Error
 
-API_URL = "http://wutang-lb-1220613326.us-east-2.elb.amazonaws.com"
-engine = create_engine(API_URL)
+
+
+
+DB_USER = "root"
+DB_PASSWORD = "root"
+DB_HOST= "localhost"
+DB_PORT = "3306"
+DB_NAME = "triviumdb"
+
+db_url = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+try:
+    engine = create_engine(db_url)
+    with engine.connect() as conn:
+        print("Conexión exitosa con SQLAlchemy.")
+except Exception as e:
+    print(f"Error al conectar con SQLAlchemy: {e}")
+
+# Verificación de conexión usando mysql.connector
+try:
+    connection = mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME
+    )
+    if connection.is_connected():
+        print("Conexión exitosa con mysql.connector.")
+        connection.close()  # Cerrar conexión después de verificar
+except Error as e:
+    print(f"Error al conectar con mysql.connector: {e}")
 
 # ------------------------------------------------------QUERYS USERS----------------------------------------------------
 
 QUERY_DELETE_USER = """
 DELETE FROM users WHERE id_user = :id_user
+"""
+
+QUERY_GET_FAQ = """
+SELECT * FROM faq
 """
 
 QUERY_GET_USER = """
@@ -44,12 +79,18 @@ UPDATE users
 SET name = :name, lastname = :lastname, phone = :phone, dni = :dni 
 WHERE id_user = :id_user
 """
+QUERY_CHANGE_DISPONIBILITY = """
+
+"""
 
 # -----------------------------------------------------QUERYS ROOMS-----------------------------------------------------
 
-QUERY_GET_ALL_ROOMS = """
-SELECT id_room, id_hotel, type_room, title, description, image, price, creates_at 
-FROM type_rooms
+QUERY_GET_ALL_TYPE_ROOMS = """
+SELECT * FROM type_rooms
+"""
+
+QUERY_GET_TESTIMONIAL = """
+SELECT * FROM testimonial
 """
 
 QUERY_GET_ROOM = """
@@ -75,6 +116,16 @@ WHERE id_hotel = :id_hotel AND title = :title AND description = :description AND
 QUERY_ADD_ROOM = """
 INSERT INTO type_room (id_room, id_hotel, type_room, title, description, image, price) 
 VALUES (NULL, :id_room, :id_hotel, :type_room, :title, :description, :image, :price)
+"""
+
+QUERY_GET_ROOMS_BY_HOTEL = """
+SELECT id_room, type_room FROM reservations 
+WHERE id_hotel = :id_hotel"""
+
+QUERY_UPDATE_ROOM_STATUS = """
+UPDATE rooms_disponibility
+SET status = :status
+WHERE id_room = :id_room
 """
 
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
@@ -127,6 +178,11 @@ QUERY_UPDATE_HOTEL = """
 UPDATE hotels
 SET location = :location, description = :description, image = :image, cant_rooms = :cant_rooms
 WHERE id_hotel = :id_hotel
+"""
+
+
+QUERY_GET_ALL_HOTELS = """
+SELECT * FROM hotels
 """
 
 def send_query(query: str, params: dict = None):
@@ -195,6 +251,7 @@ def get_all_users():
         users.append(user)
     
     return {"status": "success", "data": users}
+
 
 
 def delete_user(id_user):
@@ -302,30 +359,99 @@ def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
     
 #--------------------------ROOMS---------------------------------
 
-def get_all_rooms():
+
+def get_all_faq():
+    """
+    Obtiene todos los faqs en la base de datos y los devuelve como un JSON serializable.
+    :return: Un diccionario con el estado de la operación y los datos de los FAQs, o un mensaje de error si no se pueden obtener.
+    """
+    try:
+        # Ejecutar la consulta
+        result, success = send_query(QUERY_GET_FAQ)
+        
+        if success:
+            # Usamos .fetchall() para obtener todas las filas
+            rows = result.fetchall()
+
+            # Convertir las filas en una lista de diccionarios usando las claves de las columnas
+            faq_list = [dict(zip(result.keys(), row)) for row in rows]
+
+            # Retornar los datos como un JSON
+            return {'status': 'success', 'data': faq_list}
+        else:
+            # Si la consulta no fue exitosa, retornar un mensaje de error
+            return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
+    
+    except SQLAlchemyError as e:
+        # Manejar errores relacionados con SQLAlchemy y retornar el error como JSON
+        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
+    
+
+def get_all_testimonial():
+    """
+    Obtiene todos los faqs en la base de datos y los devuelve como un JSON serializable.
+    :return: Un diccionario con el estado de la operación y los datos de los FAQs, o un mensaje de error si no se pueden obtener.
+    """
+    try:
+        # Ejecutar la consulta
+        result, success = send_query(QUERY_GET_TESTIMONIAL)
+        
+        if success:
+            # Usamos .fetchall() para obtener todas las filas
+            rows = result.fetchall()
+
+            # Convertir las filas en una lista de diccionarios usando las claves de las columnas
+            testimonial_list = [dict(zip(result.keys(), row)) for row in rows]
+
+            # Retornar los datos como un JSON
+            return {'status': 'success', 'data': testimonial_list}
+        else:
+            # Si la consulta no fue exitosa, retornar un mensaje de error
+            return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
+    
+    except SQLAlchemyError as e:
+        # Manejar errores relacionados con SQLAlchemy y retornar el error como JSON
+        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
+
+
+
+def get_all_type_rooms():
     """
     Obtiene todas las habitaciones disponibles en el sistema.
 
     :return: Un diccionario con el estado de la operación y la lista de habitaciones, o un mensaje de error si no se pueden obtener.
     """
-    result, success = send_query(QUERY_GET_ALL_ROOMS)
-    if not success or result is None:
-        return {"status": "error", "message": "No se pudo obtener las habitaciones"}
+    try:
+        result, success = send_query(QUERY_GET_ALL_TYPE_ROOMS)
+        if success:
+            rows = result.fetchall()
+        
+            type_rooms_list = [dict(zip(result.keys(), row)) for row in rows]
+            return {"status": "success", "data": type_rooms_list}
+        else:
+             return {'status': 'error', 'message': "No se pudo obtener los datos de type_rooms"}
+    except SQLAlchemyError as e:
+        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
     
-    rooms = []
-    for row in result:
-        room = {
-            "id_room": row[0],
-            "id_hotel": row[1],
-            "type_room": row[2],
-            "title": row[3],
-            "description": row[4],
-            "image": row[5],
-            "price": row[8]
-        }
-        rooms.append(room)
-    
-    return {"status": "success", "data": rooms}
+def get_all_hotels():
+    """
+    Obtiene todas las habitaciones disponibles en el sistema.
+
+    :return: Un diccionario con el estado de la operación y la lista de habitaciones, o un mensaje de error si no se pueden obtener.
+    """
+    try:
+        result, success = send_query(QUERY_GET_ALL_HOTELS)
+        if success:
+            rows = result.fetchall()
+        
+            hotels_list = [dict(zip(result.keys(), row)) for row in rows]
+            return {"status": "success", "data": hotels_list}
+        else:
+             return {'status': 'error', 'message': "No se pudo obtener los datos de hotels"}
+    except SQLAlchemyError as e:
+        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
+        
+        
 
     
 def get_room(id_room):
@@ -463,7 +589,7 @@ def get_rooms_by_hotel(id_hotel):
     :return: Diccionario con el estado de la consulta y los datos o un mensaje de error.
     """
     params = {"id_hotel": id_hotel}
-    result, success = send_query("SELECT id_room, type_room FROM reservations WHERE id_hotel = :id_hotel", params)
+    result, success = send_query(QUERY_GET_ROOMS_BY_HOTEL, params)
     if not success or not result:
         return {"status": "error", "message": f"No se encontraron habitaciones para el hotel con ID {id_hotel}"}
     rooms = []
@@ -475,6 +601,34 @@ def get_rooms_by_hotel(id_hotel):
         rooms.append(room)
 
     return {"status": "success", "data": rooms}
+
+def update_room_status(id_room, status):
+    """
+    Actualiza el estado de una habitación en la base de datos.
+
+    :param id_room: ID de la habitación cuya disponibilidad se desea actualizar.
+    :param status: Nuevo estado para la habitación. Ejemplo: 'disponible', 'ocupada', 'reservada'.
+    :return: Diccionario con el estado de la operación.
+    """
+    
+    valid_status = ['disponible', 'ocupada', 'reservada']
+    if status not in valid_status:
+        return {"status": "error", "message": "Estado no válido. Los estados permitidos son: 'disponible', 'ocupada', 'reservada'."}
+
+    
+    params = {
+        "id_room": id_room,
+        "status": status
+    }
+
+    result, success = send_query(QUERY_UPDATE_ROOM_STATUS, params)
+
+    if success:
+        return {"status": "success", "message": f"Estado de la habitación con ID {id_room} actualizado correctamente a '{status}'."}
+    else:
+        return {"status": "error", "message": f"No se pudo actualizar el estado de la habitación con ID {id_room}."}
+
+
     
 
 #------------------------------------------------------RESERVATIONS------------------------------------------------------------
@@ -725,4 +879,3 @@ def update_hotel(id_hotel, title, description, image, cant_rooms):
         return {"status": "success", "message": f"Hotel con ID {id_hotel} actualizado correctamente"}
     else:
         return {"status": "error", "message": f"No se pudo actualizar el hotel con ID {id_hotel}"}
-

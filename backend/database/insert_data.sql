@@ -22,14 +22,14 @@ VALUES
 
 
 -- Insertar datos de ejemplo en la tabla hotel 
-INSERT INTO hotel (id_hotel, location, description, image, cant_rooms)
+INSERT INTO hotel (id_hotel, location, description, image, cant_rooms, floors, stars)
 VALUES
-(1, 'Misiones', 'Hotel ubicado en la provincia de Misiones, Argentina.', 'images/hotel-misiones.jpg', 208),
-(2, 'Córdoba', 'Hotel ubicado en la provincia de Córdoba, Argentina.', 'images/hotel-cordoba.jpg', 208),
-(3, 'Salta', 'Hotel ubicado en la provincia de Salta, Argentina.', 'images/hotel-salta.jpg', 208),
-(4, 'Santa Cruz', 'Hotel ubicado en la provincia de Santa Cruz, Argentina.', 'images/hotel-santacruz.jpg', 208),
+(1, 'Misiones', 'Hotel ubicado en la provincia de Misiones, Argentina.', 'images/hotel-misiones.jpg', 208, 4, 5),
+(2, 'Córdoba', 'Hotel ubicado en la provincia de Córdoba, Argentina.', 'images/hotel-cordoba.jpg', 208, 4, 4),
+(3, 'Salta', 'Hotel ubicado en la provincia de Salta, Argentina.', 'images/hotel-salta.jpg', 208, 4, 4),
+(4, 'Santa Cruz', 'Hotel ubicado en la provincia de Santa Cruz, Argentina.', 'images/hotel-santacruz.jpg', 208, 4, 5),
 (5, 'Mendoza', 'Hotel ubicado en la provincia de Mendoza, Argentina.', 'images/hotel-mendoza.jpg', 208),
-(6, 'Buenos Aires', 'Hotel ubicado en la provincia de Buenos Aires, Argentina.', 'images/hotel-buenosaires.jpg', 208);
+(6, 'Buenos Aires', 'Hotel ubicado en la provincia de Buenos Aires, Argentina.', 'images/hotel-buenosaires.jpg', 208, 4, 3);
 
 -- Insertar datos de ejemplo en la tabla rooms_disponibility
 

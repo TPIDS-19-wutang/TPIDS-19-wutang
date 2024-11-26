@@ -9,9 +9,9 @@
         <div class="gallery">
             {% for content in cuartos %}
             <div class="gallery-item">
-                <p>{{cuartos[content]["tipo"]}}</p>
-                <img src="{{url_for('static', filename=cuartos[content]["imagen"], _external=True)}}" alt="">
-                <p class="caption">{{cuartos[content]["descripcion"]}}</p>
+                <p>{{cuartos[content]["type_room"]}}</p>
+                <img src="{{url_for('static', filename=cuartos[content]["image"], _external=True)}}" alt="">
+                <p class="caption">{{cuartos[content]["description"]}}</p>
             </div>
             {% endfor %}
         </div>

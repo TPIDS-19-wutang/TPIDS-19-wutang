@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form class="contact-form" action="/login" method="post">
+
+    <label class="contact-form-label" for="name">Nombre:</label>
+    <input class="contact-form-input" type="text" id="name" name="name" required>
+
+    <label class="contact-form-label" for="lastname">Apellido:</label>
+    <input class="contact-form-input" type="text" id="lastname" name="lastname" required>
+
+    <label class="contact-form-label" for="dni">DNI:</label>
+    <input class="contact-form-input" type="text" id="dni" name="dni" required>
+
+    <label class="contact-form-label" for="phone">Telefono:</label>
+    <input class="contact-form-input" type="text" id="phone" name="phone" required>
+
+    <label class="contact-form-label" for="email">Email:</label>
+    <input class="contact-form-input" type="text" id="email" name="email" required>
+
+    <label class="contact-form-label" for="password">Contrasenia:</label>
+    <input class="contact-form-input" type="password" id="password" name="password" required>
+
+    <div>
+        <input type="checkbox" id="checkbox-login" name="checkbox-login">
+        <label for="checkbox-login">Muestrame la contrasenia</label>
+    </div>
+
+    <button class="contact-submit-button" type="submit">Registrarse</button>
+    <div class="nav nav-tabs d-flex justify-content-center border-0 div-login" id="nav-tab" role="tablist">
+        <p class="btn-links-login">
+            <a href="{{url_for('login')}}">
+                Login
+            </a>
+        </p>
+        <p class="btn-links-login">
+            <a href="{{url_for('recover')}}">
+                Olvidaste tu contrasenia?
+            </a>
+        </p>
+</form>
+{% endblock %}

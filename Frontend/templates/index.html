@@ -34,66 +34,34 @@
       <div class="swiper-button-prev residence-swiper-prev residence-arrow"></div>
 
       <div class="swiper residence-swiper">
-        <div class="swiper-wrapper">
+          <div class="swiper-wrapper">
 
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-mendoza.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Trivium Mendoza</h5>
-                </a>
-                <p class="card-text">General San Martin 1987, Mendoza</p>
+              {% for hotel in hoteles %}
+                  {% if hotel <= limite_id %}
 
-                <div class="card-text">
-                    <ul class="d-flex">
-                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 3 Estrellas</li>
-                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 100 Hab</li>
-                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 4 Pisos</li>
-                    </ul>
-                </div>
-              </div>
-            </div>
+                  <div class="swiper-slide">
+                      <div class="card">
+                          <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename=hoteles[hotel]["image"], _external=True) }}" class="card-img-top" alt="image"></a>
+                          <div class="card-body p-0">
+                              <a href="{{ url_for('rooms') }}">
+                                  <h5 class="card-title pt-4">Trivium {{hoteles[hotel]["location"]}}</h5>
+                              </a>
+                              <p class="card-text">{{hoteles[hotel]["description"]}}</p>
+
+                              <div class="card-text">
+                                  <ul class="d-flex">
+                                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image">{{hoteles[hotel]["stars"]}} Estrellas</li>
+                                      <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> {{hoteles[hotel]["cant_rooms"]}} Hab</li>
+                                      <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> {{hoteles[hotel]["floors"]}} Pisos</li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  {% endif %}
+              {% endfor %}
           </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-buenosaires.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Trivium Buenos Aires</h5>
-                </a>
-                <p class="card-text">Corrientes 1087, CABA</p>
-
-                <div class="card-text">
-                    <ul class="d-flex">
-                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 4 Estrellas</li>
-                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 175 Hab</li>
-                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 7 Pisos</li>
-                    </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-misiones.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-              <div class="card-body p-0">
-                <a href="{{ url_for('rooms') }}">
-                  <h5 class="card-title pt-4">Trivium Misiones</h5>
-                </a>
-                <p class="card-text">San Miguel de Guemes, Misiones</p>
-
-                <div class="card-text">
-                    <ul class="d-flex">
-                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 4 Estrellas</li>
-                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 150 Hab</li>
-                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 6 Pisos</li>
-                    </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -109,47 +77,34 @@
         <div class="swiper-button-prev residence-swiper-prev residence-arrow"></div>
   
         <div class="swiper residence-swiper">
-          <div class="swiper-wrapper">
-  
-            <div class="swiper-slide">
-              <div class="card">
-                <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-playa.png', _external=True) }}" class="card-img-top" alt="image"></a>
-                <div class="card-body p-0">
-                  <a href="{{ url_for('rooms') }}">
-                    <h5 class="card-title pt-4">Trivium Costa del Este</h5>
-                  </a>
-                  <p class="card-text">Avenida Costanera 199, Argentina</p>
-  
-                  <div class="card-text">
-                      <ul class="d-flex">
-                          <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 5 Estrellas</li>
-                          <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 250 Hab</li>
-                          <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 10 Pisos</li>
-                      </ul>
-                  </div>
-                </div>
-              </div>
+            <div class="swiper-wrapper">
+
+                {% for hotel in hoteles %}
+                    {% if hotel > limite_id %}
+
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename=hoteles[hotel]["image"], _external=True) }}" class="card-img-top" alt="image"></a>
+                            <div class="card-body p-0">
+                                <a href="{{ url_for('rooms') }}">
+                                    <h5 class="card-title pt-4">Trivium {{hoteles[hotel]["location"]}}</h5>
+                                </a>
+                                <p class="card-text">{{hoteles[hotel]["description"]}}</p>
+
+                                <div class="card-text">
+                                    <ul class="d-flex">
+                                        <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image">{{hoteles[hotel]["stars"]}} Estrellas</li>
+                                        <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> {{hoteles[hotel]["cant_rooms"]}} Hab</li>
+                                        <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> {{hoteles[hotel]["floors"]}} Pisos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
             </div>
-            <div class="swiper-slide">
-              <div class="card">
-                <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename='/images/hotel-bosque.jpg', _external=True) }}" class="card-img-top" alt="image"></a>
-                <div class="card-body p-0">
-                  <a href="{{ url_for('rooms') }}">
-                    <h5 class="card-title pt-4">Trivium Mar de las Pampas</h5>
-                  </a>
-                  <p class="card-text">Mar de las Pampas 7165, Argentina</p>
-  
-                  <div class="card-text">
-                    <ul class="d-flex">
-                      <li class="residence-list"> <img src="{{ url_for('static', filename='/images/Estrella.png', _external=True) }}" alt="image"> 3 Estrellas</li>
-                      <li class="residence-list"> <img id="cant_rooms" src="{{ url_for('static', filename='/images/llave_hotel.png', _external=True) }}" alt="image"> 100 Hab</li>
-                      <li class="residence-list"> <img id="cant_pisos" src="{{ url_for('static', filename='/images/hotel_pisos.png', _external=True) }}" alt="image"> 4 Pisos</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -190,68 +145,31 @@
   <!-- Testimonial start  -->
   <section id="testimonial">
     <div class="container my-5">
-
-
-
       <div class="swiper testimonial-swiper">
-        <div class="swiper-wrapper">
+          <div class="swiper-wrapper">
 
-          <div class="swiper-slide">
-            <div class="row my-5 py-lg-5">
-              <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
-                <p class="testimonial-p mt-4">Sin duda, una de las mejores experiencias hoteleras que he tenido! Desde que 
-                  llegue al hotel, me senti como en casa. La atencion del personal es excelente y las instalaciones son 
-                  de primer nivel. Sin duda, volveria a hospedarme en el Hotel Trivium.</p>
+              {% for testimonio in testimonios %}
+              <div class="swiper-slide">
+                  <div class="row my-5 py-lg-5">
+                      <div class="col-md-8 mx-auto">
+                          <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
+                          <p class="testimonial-p mt-4">
+                            {{testimonio["testimonio"]}}
+                          </p>
 
 
-                <div class="row">
-                  <div class="col-md-8">
-                    <p class="pt-5 mb-1">Agustina Salerno</p>
-                    <p class="">Bs-As, Argentina</p>
+                          <div class="row">
+                              <div class="col-md-8">
+                                  <p class="pt-5 mb-1">{{testimonio["name"]}}</p>
+                                  <p class="">{{testimonio["location"]}}</p>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
+              {% endfor %}
+
           </div>
-
-          <div class="swiper-slide">
-            <div class="row my-5 py-lg-5">
-              <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
-                <p class="testimonial-p mt-4">¡Trivium fue una elección soñada! La estancia fue impecable de principio
-                   a fin. La decoración es moderna y elegante, y cada rincón está pensado para el confort de los huéspedes. 
-                   Honestamente lo super recomiendo</p>
-
-                <div class="row">
-                  <div class="col-md-8">
-                    <p class="pt-5 mb-1">Maria Lopez</p>
-                    <p class="">Mendoza, Argentina</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <div class="row my-5 py-lg-5">
-              <div class="col-md-8 mx-auto">
-                <img src="{{ url_for('static', filename='/images/quote.png', _external=True) }}" class="logos" class="rounded mx-auto d-inline" alt="...">
-                <p class="testimonial-p mt-4">Este hotel fue una experiencia maravillosa. Las habitaciones son cómodas, limpias
-                   y bien decoradas, y el personal siempre está dispuesto a ayudar con una sonrisa. La ubicación es ideal para 
-                   explorar la ciudad; ¡sin duda volvería a hospedarme aquí!</p>
-
-                <div class="row">
-                  <div class="col-md-8">
-                    <p class="pt-5 mb-1">Elena Costas</p>
-                    <p class="">Salta, Argentina</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class=" testimonial-swiper-button col-md-3 position-absolute">
           <div class="swiper-button-prev testimonial-arrow"></div>
           <div class="arrow-divider"> | </div>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="contact-form" action="/login" method="post">
+    <label class="contact-form-label" for="email">Email:</label>
+    <input class="contact-form-input" type="text" id="email" name="email" required>
+
+    <button class="contact-submit-button" type="submit">Sign In</button>
+    <div class="nav nav-tabs d-flex justify-content-center border-0 div-login" id="nav-tab" role="tablist">
+        <p class="btn-links-login">
+            <a href="{{url_for('login')}}">
+                Login
+            </a>
+        </p>
+        <p class="btn-links-login">
+            <a href="{{url_for('register')}}">
+                Registrarte
+            </a>
+        </p>
+    </div>
+</form>
+{% endblock %}

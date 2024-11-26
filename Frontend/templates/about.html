@@ -3,78 +3,95 @@
 
 <section class="hero" id="hero_about">
     <h3>Sobre Nosotros</h3>
-</section>
-<div id="about_us_story">
-    <div class="about_us_text" id="about_us_story_text">
-        <h2 class="about_us_h2"> Nuestra Historia </h2>
-        <p>
-            Todo comenzo como una iniciativa de los hermanos Petra, que decidieron construir un lugar donde la
-            gente pudiera hospedarse,disfrutar y en general crear bellos recuerdos que permanezcan en sus mentes
-            durante un largo tiempo.
-        </p>
-        <p>
-            Los fundadores de Trivium Hotel & Resort fueron Martin y Luis Petra, dos hermanos oriundos de Cordoba cuyo
-            padre los abandono. Su madre, una contadora muy comprometida a su trabajo, los crio por si misma y
-            les enseño el valor del trabajo y de ganarse la vida ellos mismos. Los niños comenzaron a trabajar
-            en envios a domicilio a la temprana edad de 12 años. para los 17 años ya decidieron cual seria su
-            proyecto mas grnade y comenzaron a trabar en distintas companis y pagar sus propios estudios de
-            manera tal que a sus 32 años los fue posible inaugurar su primer hotel.
-        </p>
-    </div>
-    <img src={{url_for('static', filename='images/about-us-brothers.jpg')}} id="img_about_us_story" alt="image" />
-</div>
-<div id="instalaciones">
-    <div class="about_us_text" >
-        <h2 class="about_us_h2"> Instalaciones </h2>
-        <p>
-            En Trivium Hotel & Resort contamos con una gran cantidad de actividades de las que los huespedes
-            pueden optar por realizar.
-        </p>
-        <p>
-            Tambien contamos en cada uno de nuestros Hoteles con una Piscina, Bar, Gimnasios, y hasta una discoteca. la misma se encuentra disponible a todos los huespedes y a cualquier
-            hora.
-        </p>
-     </div>
-
-        <div class="carousel">
-            <!-- Botón Izquierda -->
-            <button class="prev" id="button-carrousel">&#10094;</button>
-
-            <!-- Contenedor de imágenes -->
-            <div class="carousel-track">
-                <img src="{{url_for('static', filename='images/pileta_about_us.jpg')}}" alt="Imagen 1" class="carousel-slide">
-                <img src="{{url_for('static', filename='images/Gimnasio.jpg')}}" alt="Imagen 2" class="carousel-slide">
-                <img src="{{url_for('static', filename='images/Discoteca.jpg')}}" alt="Imagen 3" class="carousel-slide">
-                <img src="{{url_for('static', filename='images/Bar.jpg')}}" alt="Imagen 4" class="carousel-slide">
+</section> <br> 
+<section id="description">
+    <div class="container">
+        <div class="row py-lg-5">
+            <div class="div-descripcion"> <br>
+                <h4 class="text-capitalize">NUESTRA HISTORIA</h4>
+                <p>
+                    Todo comenzo como una iniciativa de los hermanos Petra, que decidieron construir un lugar donde la
+                    gente pudiera hospedarse,disfrutar y en general crear bellos recuerdos que permanezcan en sus mentes
+                    durante un largo tiempo.
+                </p>
+                <p>
+                    <br>
+                    Los fundadores de Trivium Hotel & Resort fueron Martin y Luis Petra, dos hermanos oriundos de Cordoba cuyo
+                    padre los abandono. Su madre, una contadora muy comprometida a su trabajo, los crio por si misma y
+                    les enseño el valor del trabajo y de ganarse la vida ellos mismos. Los niños comenzaron a trabajar
+                    en envios a domicilio a la temprana edad de 12 años. para los 17 años ya decidieron cual seria su
+                    proyecto mas grnade y comenzaron a trabar en distintas companis y pagar sus propios estudios de
+                    manera tal que a sus 32 años los fue posible inaugurar su primer hotel.
+                </p>
             </div>
+        </div>    
+        <br>
+        <img src="{{ url_for('static', filename='images/about-us-brothers.jpg') }}" id="img_about_us_story" alt="image" />
+    </div>    
+</section>
+    
+<section id="description">
+    <div class="container">
+        <div class="row py-lg-5">
+            <div class="div-descripcion"> <br>
+                <h4 class="text-capitalize">INSTALACIONES</h4>
+                <p>En Trivium Hotel & Resort contamos con una gran cantidad de actividades de las que los huespedes
+                  pueden optar por realizar
+                </p>
+                <p>
+                    Tambien contamos en cada uno de nuestros Hoteles con una Piscina, Bar, Gimnasios, y hasta una discoteca. la misma se encuentra disponible a todos los huespedes y a cualquier
+                    hora.
+                </p>
+            </div>
+        </div>        
+    </div>
+</section>    
 
-            <!-- Botón Derecha -->
-            <button class="next" id="button-carrousel">&#10095;</button>
+    <div class="carousel">
+        <!-- Botón Izquierda -->
+        <button class="prev" id="button-carrousel">&#10094;</button>
+        <!-- Contenedor de imágenes -->
+        <div class="carousel-track">
+            <img src="{{url_for('static', filename='images/pileta_about_us.jpg')}}" alt="Imagen 1" class="carousel-slide">
+            <img src="{{url_for('static', filename='images/Gimnasio.jpg')}}" alt="Imagen 2" class="carousel-slide">
+            <img src="{{url_for('static', filename='images/Discoteca.jpg')}}" alt="Imagen 3" class="carousel-slide">
+            <img src="{{url_for('static', filename='images/Bar.jpg')}}" alt="Imagen 4" class="carousel-slide">
         </div>
+        
+        <!-- Botón Derecha -->
+        <button class="next" id="button-carrousel">&#10095;</button>
     </div>
 <br>
-<div id="seguridad">
-    <div class="about_us_text">
-        <h2 class="about_us_h2"> Seguridad </h2>
-        <p>
-            En Trivium Hotel & Resort nos preocupamos mucho por la seguridad de nuestros huespedes,
-            para prevenir cualquier accidente disponemos de mas de 20 guardias de seguridad
-            repartidos estrategicamente por todo el hotel. Los mismos estaran para atender
-            las inquietudes de los huespedes, dar instrucciones en caso de alguna emergencia
-            y en general para resguardar la seguridad de todos los individuos. el personal de
-            seguridad estara disponible en todo momento para resolver cualquier tipo de situacion.
-        </p>
-        <p>
-            Ademas contamos con un sofisticado sistema de vigilancia que esta
-            diseñado para respetar la privacidad de los huespedes, a la vez que otorga la mayor
-            seguridad posible.
-        </p>
+<section id="description">
+    <div class="container">
+        <div class="row py-lg-5">
+            <div class="div-descripcion"> <br>
+                <h4 class="text-capitalize"> SEGURIDAD </h4>
+                <p>
+                    En Trivium Hotel & Resort nos preocupamos mucho por la seguridad de nuestros huespedes,
+                    para prevenir cualquier accidente disponemos de mas de 20 guardias de seguridad
+                    repartidos estrategicamente por todo el hotel. Los mismos estaran para atender
+                    las inquietudes de los huespedes, dar instrucciones en caso de alguna emergencia
+                    y en general para resguardar la seguridad de todos los individuos. el personal de
+                    seguridad estara disponible en todo momento para resolver cualquier tipo de situacion.
+                </p>
+                <p>
+                    <br>
+                    Ademas contamos con un sofisticado sistema de vigilancia que esta
+                    diseñado para respetar la privacidad de los huespedes, a la vez que otorga la mayor
+                    seguridad posible.
+                </p>
+            </div>
+        </div>        
     </div>
-    <div id="img_container_about_us_security">
-        <img src="{{url_for('static', filename='images/camera_about_us.jpg')}}" alt="Imagen 1" id="img_about_us_security">
-        <img src="{{url_for('static', filename='images/security_man_about_us.jpg')}}" alt="Imagen 2" id="img_about_us_security">
-    </div>
+</section>    
+
+<div id="img_container_about_us_security">
+    <img src="{{url_for('static', filename='images/camera_about_us.jpg')}}" alt="Imagen 1" id="img_about_us_security">
+    <img src="{{url_for('static', filename='images/security_man_about_us.jpg')}}" alt="Imagen 2" id="img_about_us_security">
 </div>
-    <script src="{{ url_for('static', filename='js/carrousel.js') }}"></script>
-    {% endblock %}
-    {% set active_page = 'about' %}
+
+<script src="{{ url_for('static', filename='js/carrousel.js') }}"></script>
+
+{% endblock %}
+{% set active_page = 'about' %}

@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <br>
-  <!-- billboard start  -->
   <section class="hero" id="hero_index">
     <h3>LA DISTINCIÓN DE UN LUGAR ÚNICO</h3>
     <h6>TRIVIUM HOTEL & RESORT</h6> <br> <br>
@@ -16,7 +14,7 @@
           <h4 class="text-capitalize">TRIVIUM HOTEL & RESORT</h4>
           <h6 class="text-capitalize">HOTEL DE LUJO EN ARGENTINA</h6>
           <p>En Trivium Hotel & Resort, nos enorgullece ofrecer una experiencia única en cada uno de nuestros hoteles. 
-            Nuestros hoteles están ubicados en los destinos más exclusivos de Argentina, y ofrecen una combinación de 
+            Nuestros hospedajes están ubicados en los destinos más exclusivos de Argentina, y ofrecen una combinación de 
             lujo y comodidad que no encontrarás en ningún otro lugar.
             <br>
              Ya sea que estés buscando un refugio tranquilo en la naturaleza o una escapada urbana, en Trivium 
@@ -41,7 +39,7 @@
 
                   <div class="swiper-slide">
                       <div class="card">
-                          <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename=hoteles[hotel]["image"], _external=True) }}" class="card-img-top" alt="image"></a>
+                          <a href="{{ url_for('rooms') }}"><img src="{{ url_for('static', filename=hoteles[hotel]['image'], _external=True) }}" class="card-img-top" alt="image"></a>
                           <div class="card-body p-0">
                               <a href="{{ url_for('rooms') }}">
                                   <h5 class="card-title pt-4">Trivium {{hoteles[hotel]["location"]}}</h5>
@@ -187,7 +185,6 @@
   </section>
   
 {% endblock %}
-</body>
 
 </html>
 {% set active_page = 'index' %}

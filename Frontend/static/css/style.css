@@ -30,6 +30,7 @@ body {
     line-height: 1.6em;
     color: var(--body-text-color);
     background-color: var(--white-color);
+    margin: -100px !important;
 }
 
 h1,
@@ -181,18 +182,28 @@ i {
 }
 
 #nav.site-header {
-    background-color: var(--white-color);
+    background-color: transparent;
     position: fixed;
     width: 100%;
     z-index: 100%;
     top: 0;
     transition: background-color 0.3s ease;
+    left: 0;
+}
+
+#nav.site-header.scrolled {
+    background-color: var(--white-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navbar-example2.navbar {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: transparent;
     border-bottom: none;
     transition: background-color 0.3s ease;
+    width:120%;
+    margin-left: -7.5% !important;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-link.active,
@@ -255,7 +266,7 @@ i {
 
 #hero_index {
     background-image: linear-gradient( 0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) ),url(/static/images/pileta1.png);
-    height: 90vh;
+    height: 100vh;
 }
 
 #hero_about {

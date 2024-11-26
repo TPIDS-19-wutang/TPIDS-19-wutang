@@ -106,11 +106,20 @@ CREATE TABLE `reservations` (
   `id_room` int(11) DEFAULT NULL,
   `id_hotel` int(11) DEFAULT NULL,
   `number_people` int(11) DEFAULT NULL,
-  `type_room` int(11) DEFAULT NULL,
   `check_in` timestamp NULL DEFAULT NULL,
   `check_out` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO reservations (
+    id_reservation, id_user, id_room, id_hotel, number_people, 
+    check_in, check_out, created_at
+) 
+VALUES 
+    (1, 5, 1, 2, 1, '2024-12-01 14:00:00', '2024-12-05 10:00:00', CURRENT_TIMESTAMP()),
+    (2, 6, 1, 1, 2, '2024-12-02 16:00:00', '2024-12-06 11:00:00', CURRENT_TIMESTAMP()),
+    (3, 7, 2, 3, 1, '2024-12-03 15:00:00', '2024-12-07 12:00:00', CURRENT_TIMESTAMP()),
+    (4, 8, 2, 4, 3, '2024-12-04 13:00:00', '2024-12-08 14:00:00', CURRENT_TIMESTAMP());
 
 -- --------------------------------------------------------
 

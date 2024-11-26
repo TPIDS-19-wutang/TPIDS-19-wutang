@@ -124,15 +124,17 @@ QUERY_GET_ROOMS_BY_HOTEL = """
 SELECT id_room, type_room FROM reservations 
 WHERE id_hotel = :id_hotel"""
 
-QUERY_ROOMS_DISPONIBILITY = """
-SELECT rooms.id_room
-FROM reservations
-JOIN rooms ON reservations.id_room = rooms.id_room
+QUERY_ROOMS_DISPONIBILITY = """SELECT rooms.id_room
+FROM rooms
 WHERE rooms.type_room = :type_room
 AND rooms.id_hotel = :id_hotel
-AND reservations.check_in <= :check_in
-AND (reservations.check_out >= :check_in OR reservations.check_out IS NULL)
-LIMIT 1
+AND rooms.id_room NOT IN (
+    SELECT reservations.id_room
+    FROM reservations
+    WHERE reservations.check_in < :check_in
+    AND (reservations.check_out >= :check_in OR reservations.check_out IS NULL)
+)
+LIMIT 1;
 """
 
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
@@ -207,9 +209,14 @@ def send_query(query: str, params: dict = None):
     try:
         with engine.connect() as conn:
             result = conn.execute(text(query), params or {})
-            return result, True
+            if result.rowcount > 0:
+                return result, True
+            else:
+                return None, False  # No se encontraron filas
     except SQLAlchemyError as err:
         return None, False
+
+
 
 def get_user(id_user):
     """
@@ -621,29 +628,25 @@ def get_rooms_by_hotel(id_hotel):
 
     return {"status": "success", "data": rooms}
 
-def check_room_availability(type_room, id_hotel, check_in):
-    """
-    Verifica si hay habitaciones disponibles en el hotel para el tipo de habitación y fecha especificados.
-    Devuelve una habitacion en caso de encontrar una disponible.
-    :param type_room: Tipo de habitación a verificar (por ejemplo, 'single', 'double').
-    :param id_hotel: ID del hotel donde se busca la habitación.
-    :param check_in: Fecha de check-in para la reserva.
-    :return: Diccionario con el estado de la operación.
-    """
-   
+def check_room_availability(type_room, id_hotel, check_in_date):
     params = {
-        "type_room": type_room,
-        "id_hotel": id_hotel,
-        "check_in": check_in
+        'type_room': type_room,
+        'id_hotel': id_hotel,
+        'check_in': check_in_date
     }
-
     result, success = send_query(QUERY_ROOMS_DISPONIBILITY, params)
 
-    if success and result:
-        return {"status": "success", "message": f"Habitación disponible encontrada: ID {result['id_room']}"}
+    if success:
+        if result:  
+            room = result.fetchone()  
+            if room:  
+                return {"status": "success", "message": f"Habitación disponible encontrada: ID {room[0]}"}
+            else:
+                return {"status": "error", "message": "No se encontraron habitaciones disponibles con los criterios dados."}
+        else:
+            return {"status": "error", "message": "La consulta no devolvió resultados."}
     else:
-        return {"status": "error", "message": "No se encontraron habitaciones disponibles con los criterios dados."}
-    
+        return {"status": "error", "message": "Error al ejecutar la consulta."}
 
 #------------------------------------------------------RESERVATIONS------------------------------------------------------------
         

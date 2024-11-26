@@ -79,8 +79,10 @@ UPDATE users
 SET name = :name, lastname = :lastname, phone = :phone, dni = :dni 
 WHERE id_user = :id_user
 """
-QUERY_CHANGE_DISPONIBILITY = """
-
+QUERY_LOG_IN = """
+SELECT id_user, name, lastname, email, phone, dni, created_at
+FROM users
+WHERE email = :email AND password = :password
 """
 
 # -----------------------------------------------------QUERYS ROOMS-----------------------------------------------------
@@ -122,10 +124,15 @@ QUERY_GET_ROOMS_BY_HOTEL = """
 SELECT id_room, type_room FROM reservations 
 WHERE id_hotel = :id_hotel"""
 
-QUERY_UPDATE_ROOM_STATUS = """
-UPDATE rooms_disponibility
-SET status = :status
-WHERE id_room = :id_room
+QUERY_ROOMS_DISPONIBILITY = """
+SELECT rooms.id_room
+FROM reservations
+JOIN rooms ON reservations.id_room = rooms.id_room
+WHERE rooms.type_room = :type_room
+AND rooms.id_hotel = :id_hotel
+AND reservations.check_in <= :check_in
+AND (reservations.check_out >= :check_in OR reservations.check_out IS NULL)
+LIMIT 1
 """
 
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
@@ -141,7 +148,9 @@ FROM reservations
 WHERE id_user = :id_user
 """
 
-QUERY_DELETE_RESERVATION = "DELETE FROM reservations WHERE id_user = :id_user"
+QUERY_DELETE_RESERVATION = """
+DELETE FROM reservations WHERE id_user = :id_user
+"""
 
 QUERY_CREATE_RESERVATION = """
 INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
@@ -356,7 +365,17 @@ def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
     else:
         return {"status": "error", "message": "El usuario no existe"}
 
-    
+def log_in(email: str, password: str):
+    params = {
+        "email": email,
+        "password": password
+    }
+    result, success = send_query(QUERY_LOG_IN, params)
+    if success:
+        return {"status": "success", "data": result}
+    else:
+        return {"status": "error", "message": "Email o contraseña incorrectos"}  
+     
 #--------------------------ROOMS---------------------------------
 
 
@@ -602,33 +621,28 @@ def get_rooms_by_hotel(id_hotel):
 
     return {"status": "success", "data": rooms}
 
-def update_room_status(id_room, status):
+def check_room_availability(type_room, id_hotel, check_in):
     """
-    Actualiza el estado de una habitación en la base de datos.
-
-    :param id_room: ID de la habitación cuya disponibilidad se desea actualizar.
-    :param status: Nuevo estado para la habitación. Ejemplo: 'disponible', 'ocupada', 'reservada'.
+    Verifica si hay habitaciones disponibles en el hotel para el tipo de habitación y fecha especificados.
+    Devuelve una habitacion en caso de encontrar una disponible.
+    :param type_room: Tipo de habitación a verificar (por ejemplo, 'single', 'double').
+    :param id_hotel: ID del hotel donde se busca la habitación.
+    :param check_in: Fecha de check-in para la reserva.
     :return: Diccionario con el estado de la operación.
     """
-    
-    valid_status = ['disponible', 'ocupada', 'reservada']
-    if status not in valid_status:
-        return {"status": "error", "message": "Estado no válido. Los estados permitidos son: 'disponible', 'ocupada', 'reservada'."}
-
-    
+   
     params = {
-        "id_room": id_room,
-        "status": status
+        "type_room": type_room,
+        "id_hotel": id_hotel,
+        "check_in": check_in
     }
 
-    result, success = send_query(QUERY_UPDATE_ROOM_STATUS, params)
+    result, success = send_query(QUERY_ROOMS_DISPONIBILITY, params)
 
-    if success:
-        return {"status": "success", "message": f"Estado de la habitación con ID {id_room} actualizado correctamente a '{status}'."}
+    if success and result:
+        return {"status": "success", "message": f"Habitación disponible encontrada: ID {result['id_room']}"}
     else:
-        return {"status": "error", "message": f"No se pudo actualizar el estado de la habitación con ID {id_room}."}
-
-
+        return {"status": "error", "message": "No se encontraron habitaciones disponibles con los criterios dados."}
     
 
 #------------------------------------------------------RESERVATIONS------------------------------------------------------------

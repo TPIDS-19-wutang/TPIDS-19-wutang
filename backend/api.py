@@ -160,6 +160,34 @@ def update_room_endpoint(id_room):
     )
     return jsonify(result)
 
+@app.route('/rooms/availability', methods=['GET'])
+def endp_room_availability():
+    """
+    Endpoint para verificar la disponibilidad de una habitación.
+    :return: JSON con el estado de la operación (éxito o error).
+    """
+   
+    type_room = request.args.get('type_room')
+    id_hotel = request.args.get('id_hotel')    
+    check_in = request.args.get('check_in')  
+
+    if not type_room or not id_hotel or not check_in:
+        return jsonify({"status": "error", "message": "Faltan parámetros en la solicitud."}), 400
+
+    check_in_date = None
+    try:
+        check_in_date = datetime.strptime(check_in, '%Y-%m-%d')
+    except ValueError:
+        return jsonify({"status": "error", "message": "El parámetro 'check_in' tiene un formato incorrecto. Debe ser YYYY-MM-DD."}), 400
+
+    response = check_room_availability(type_room, id_hotel, check_in_date)
+
+    if response['status'] == 'success':
+        return jsonify(response), 200
+    else:
+        return jsonify(response), 404
+
+
 
 #----------------------------------------------------------RESERVAS----------------------------------------------------------------
 

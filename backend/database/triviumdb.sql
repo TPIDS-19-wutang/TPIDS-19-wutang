@@ -88,13 +88,12 @@ CREATE TABLE `hotels` (
 --
 
 INSERT INTO `hotels` (`id_hotel`, `location`, `description`, `image`, `cant_rooms`, `floors`, `stars`, `created_at`) VALUES
-(1, 'Misiones', 'Hotel ubicado en la provincia de Misiones, Argentina.', '/images/hotel-misiones.jpg', 208, 4, 5, '2024-11-25 22:13:45'),
-(2, 'Córdoba', 'Hotel ubicado en la provincia de Córdoba, Argentina.', '/images/hotel-cordoba.jpg', 208, 4, 4, '2024-11-25 22:13:45'),
-(3, 'Salta', 'Hotel ubicado en la provincia de Salta, Argentina.', '/images/hotel-salta.jpg', 208, 4, 4, '2024-11-25 22:13:45'),
-(4, 'Santa Cruz', 'Hotel ubicado en la provincia de Santa Cruz, Argentina.', '/images/hotel-santacruz.jpg', 208, 4, 5, '2024-11-25 22:13:45'),
-(5, 'Mendoza', 'Hotel ubicado en la provincia de Mendoza, Argentina.', '/images/hotel-mendoza.jpg', 208, 4, 3, '2024-11-25 22:13:45'),
-(6, 'Buenos Aires', 'Hotel ubicado en la provincia de Buenos Aires, Argentina.', '/images/hotel-buenosaires.jpg', 208, 4, 3, '2024-11-25 22:13:45');
-
+(1, 'Misiones', 'Ubicado en la exuberante provincia de Misiones, Argentina, este hotel ofrece una experiencia única rodeada de naturaleza, selva y la majestuosa Cataratas del Iguazú. Un lugar perfecto para quienes buscan una escapada al aire libre sin renunciar al confort.', 'images/hotel-misiones.jpg', 208, 4, 5, '2024-11-25 22:13:45'),
+(2, 'Córdoba', 'Situado en el corazón de la provincia de Córdoba, Argentina, este hotel destaca por su calidez, historia y su cercanía a las sierras. Ideal para explorar el encanto colonial y la belleza natural de la región, con un servicio que te hará sentir como en casa.', 'images/hotel-cordoba.jpg', 208, 4, 4, '2024-11-25 22:13:45'),
+(3, 'Salta', 'Salta', 'Este hotel en Salta te sumerge en la cultura norteña de Argentina. Con su arquitectura colonial y vistas espectaculares de los cerros, es el lugar perfecto para descubrir la historia, el folklore y la gastronomía de una de las provincias más fascinantes del país.', 'images/hotel-salta.jpg', 208, 4, 4, '2024-11-25 22:13:45'),
+(4, 'Santa Cruz', 'Ubicado en la provincia de Santa Cruz, Argentina, este hotel ofrece un refugio en un entorno único, ideal para los amantes del sur patagónico. La cercanía con el glaciar Perito Moreno y el Parque Nacional Los Glaciares lo convierte en el destino ideal para los aventureros.', 'images/hotel-santacruz.jpg', 208, 4, 5, '2024-11-25 22:13:45'),
+(5, 'Mendoza', 'En la cuna del vino argentino, Mendoza te ofrece este hotel de ensueño rodeado de viñedos y montañas. Disfruta de un ambiente relajado, con un toque de elegancia, mientras degustas los mejores vinos en una de las regiones vitivinícolas más prestigiosas del mundo.', 'images/hotel-mendoza.jpg', 208, 4, 3, '2024-11-25 22:13:45'),
+(6, 'Buenos Aires', 'Ubicado en la vibrante ciudad de Buenos Aires, este hotel te sumerge en el dinamismo de la capital argentina. Con una ubicación privilegiada, cerca de los principales teatros, museos y restaurantes, es el lugar ideal para explorar el arte, la cultura y la gastronomía porteña.', 'images/hotel-buenosaires.jpg', 208, 4, 3, '2024-11-25 22:13:45');
 -- --------------------------------------------------------
 
 --
@@ -362,11 +361,10 @@ CREATE TABLE `type_rooms` (
 --
 
 INSERT INTO `type_rooms` (`id_room`, `id_hotel`, `type_room`, `description`, `image`, `price`, `created_at`) VALUES
-(100, 1, 'Classic', 'Habitación clásica con cama individual y baño privado.', 'images/habitacion_classic.jpg', 500, '2024-11-25 22:22:42'),
-(113, 1, 'Doble', 'Habitación doble con dos camas individuales y baño privado.', 'images/habitacion_doble.jpg', 750, '2024-11-25 22:22:42'),
-(126, 1, 'Premium', 'Habitación premium con cama doble, baño privado y balcón.', 'images/habitacion_premium.jpg', 1000, '2024-11-25 22:22:42'),
-(139, 1, 'Deluxe', 'Habitación deluxe con dos camas dobles, baño privado, balcón y jacuzzi.', 'images/habitacion_deluxe.jpg', 1250, '2024-11-25 22:22:42');
-
+(NULL, 1, 'Classic', 'Una habitación sencilla, perfecta para aquellos que buscan comodidad a un precio accesible. Cuenta con una cama individual, ideal para una persona, y un baño privado para mayor privacidad y confort. Esta habitación es ideal para estancias cortas o viajeros solitarios.', 'images/habitacion_classic.jpg', 500, '2024-11-25 22:22:42'),
+(NULL, 1, 'Doble', 'Habitación espaciosa con dos camas individuales, lo que la convierte en la opción ideal para dos personas. El baño privado asegura un mayor confort y privacidad. Es perfecta para amigos, familiares o compañeros de trabajo que necesiten un espacio compartido, pero con las comodidades de un baño privado', 'images/habitacion_doble.jpg', 750, '2024-11-25 22:22:42'),
+(NULL, 1, 'Premium', 'Una habitación de mayor categoría que ofrece una cama doble, baño privado y un balcón que permite disfrutar del aire fresco. Esta habitación está diseñada para quienes buscan una estancia más lujosa y relajante, con un ambiente más amplio y un toque extra de confort y elegancia.', 'images/habitacion_premium.jpg', 1000, '2024-11-25 22:22:42'),
+(NULL, 1, 'Deluxe', 'La opción más lujosa y espaciosa del hotel, con dos camas dobles, un baño privado de lujo, un balcón y un jacuzzi. Esta habitación está pensada para quienes desean disfrutar de un ambiente exclusivo y cómodo, perfecta para una estancia prolongada o para ocasiones especiales, ofreciendo una experiencia única de relax y confort.', 'images/habitacion_deluxe.jpg', 1250, '2024-11-25 22:22:42');
 -- --------------------------------------------------------
 
 --

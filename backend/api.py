@@ -83,7 +83,7 @@ def get_all_type_rooms_end():
 @app.route('/hoteles_end', methods=['GET'])
 def get_all_hotels_end():
     """
-    Endpoint para obtener todas los hoteles.
+    Endpoint para obtener todos los hoteles.
     """
     result = get_all_hotels()
     return jsonify(result)
@@ -99,7 +99,7 @@ def get_all_testimonial_end():
 
 
 
-@app.route('/rooms/<int:id_hotel>', methods=['GET'])
+@app.route('/rooms/<int:id_hotel>', methods=['GET']
 def get_rooms(id_hotel):
     """
     Endpoint para obtener todas las habitaciones.
@@ -121,18 +121,6 @@ def create_room_endp():
         image=data['image'],
         price=data['price']
     )
-    return jsonify(result)
-
-@app.route('/room/<int:id_room>', methods=['PUT'])
-def update_room_status_endp(id_room):
-    """
-    Endpoint para actualizar el status de una habitacion ('disponible', 'ocupada' o 'reservada')
-    """
-    data = request.get_json()
-    status = data.get('status')
-    if not status:
-        return jsonify({"status": "error", "message": "El estado es requerido."}), 400
-    result = update_room_status(id_room, status)
     return jsonify(result)
 
 @app.route('/rooms/<int:id_room>', methods=['DELETE'])

@@ -212,7 +212,7 @@ def send_query(query: str, params: dict = None):
             if result.rowcount > 0:
                 return result, True
             else:
-                return None, False  # No se encontraron filas
+                return None, False 
     except SQLAlchemyError as err:
         return None, False
 
@@ -391,26 +391,14 @@ def get_all_faq():
     Obtiene todos los faqs en la base de datos y los devuelve como un JSON serializable.
     :return: Un diccionario con el estado de la operación y los datos de los FAQs, o un mensaje de error si no se pueden obtener.
     """
-    try:
-        # Ejecutar la consulta
-        result, success = send_query(QUERY_GET_FAQ)
-        
-        if success:
-            # Usamos .fetchall() para obtener todas las filas
-            rows = result.fetchall()
-
-            # Convertir las filas en una lista de diccionarios usando las claves de las columnas
-            faq_list = [dict(zip(result.keys(), row)) for row in rows]
-
-            # Retornar los datos como un JSON
-            return {'status': 'success', 'data': faq_list}
-        else:
-            # Si la consulta no fue exitosa, retornar un mensaje de error
-            return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
+    result, success = send_query(QUERY_GET_FAQ)   
+    if success:
+        rows = result.fetchall()
+        faq_list = [dict(zip(result.keys(), row)) for row in rows]
+        return {'status': 'success', 'data': faq_list}
+    else:
+        return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
     
-    except SQLAlchemyError as e:
-        # Manejar errores relacionados con SQLAlchemy y retornar el error como JSON
-        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
     
 
 def get_all_testimonial():
@@ -418,26 +406,15 @@ def get_all_testimonial():
     Obtiene todos los faqs en la base de datos y los devuelve como un JSON serializable.
     :return: Un diccionario con el estado de la operación y los datos de los FAQs, o un mensaje de error si no se pueden obtener.
     """
-    try:
-        # Ejecutar la consulta
-        result, success = send_query(QUERY_GET_TESTIMONIAL)
+    result, success = send_query(QUERY_GET_TESTIMONIAL)
         
-        if success:
-            # Usamos .fetchall() para obtener todas las filas
-            rows = result.fetchall()
-
-            # Convertir las filas en una lista de diccionarios usando las claves de las columnas
-            testimonial_list = [dict(zip(result.keys(), row)) for row in rows]
-
-            # Retornar los datos como un JSON
-            return {'status': 'success', 'data': testimonial_list}
-        else:
-            # Si la consulta no fue exitosa, retornar un mensaje de error
-            return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
+    if success:
+        rows = result.fetchall()
+        testimonial_list = [dict(zip(result.keys(), row)) for row in rows]
+        return {'status': 'success', 'data': testimonial_list}
+    else:
+        return {'status': 'error', 'message': 'Error al ejecutar la consulta'}
     
-    except SQLAlchemyError as e:
-        # Manejar errores relacionados con SQLAlchemy y retornar el error como JSON
-        return {'status': 'error', 'message': str(e.__dict__.get('orig'))}
 
 
 

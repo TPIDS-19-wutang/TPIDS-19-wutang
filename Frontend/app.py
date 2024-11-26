@@ -14,7 +14,7 @@ def index():
         response_hoteles = requests.get(f'{url}/hoteles_end')
         response_testimonios = requests.get(f'{url}/testimonial_end')
     
-        # Verificar el código de estado de la respuesta
+        # Verificar el codigo de estado de la respuesta
         if response_hoteles.status_code == 200 and  response_testimonios.status_code == 200:
             # Decodificar el JSON de la respuesta
             data_hoteles = response_hoteles.json()
@@ -104,7 +104,7 @@ def FAQ():
         # Hacer la solicitud GET
         response = requests.get(f'{url}/faq_end')
     
-        # Verificar el código de estado de la respuesta
+        # Verificar el cï¿½digo de estado de la respuesta
         if response.status_code == 200:
             # Decodificar el JSON de la respuesta
             data = response.json()
@@ -145,7 +145,7 @@ def rooms():
         # Hacer la solicitud GET
         response = requests.get(f'{url}/type_rooms')
     
-        # Verificar el código de estado de la respuesta
+        # Verificar el cï¿½digo de estado de la respuesta
         if response.status_code == 200:
             # Decodificar el JSON de la respuesta
             data = response.json()

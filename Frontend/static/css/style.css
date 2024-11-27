@@ -30,7 +30,7 @@ body {
     line-height: 1.6em;
     color: var(--body-text-color);
     background-color: var(--white-color);
-    margin: -100px !important;
+    margin-top: -100px !important;
 }
 
 h1,
@@ -200,7 +200,7 @@ i {
     background-color: transparent;
     border-bottom: none;
     transition: background-color 0.3s ease;
-    width:120%;
+    width:100%;
     margin-left: -7.5% !important;
     display: flex;
     justify-content: center;
@@ -279,7 +279,7 @@ i {
 @media (max-width: 768px) {
     #hero_about {
         background-attachment: scroll;
-        min-height: 60vh;
+        min-height: 100vh;
     }
 }
 
@@ -334,6 +334,7 @@ i {
         font-weight: 400;
         font-family: 'Playfair Display', serif;
         margin: 0 0 16px;
+        word-break: break-word;
     }
 
     #description h6 {
@@ -371,6 +372,7 @@ i {
 .logo-img {
     height: 100px;
     background: transparent;
+    margin-left: 10%;
 }
 
 #cant_rooms {
@@ -923,17 +925,17 @@ Contact page style start
 
 .contact-heading {
     text-align: center;
-    color: rgb(245, 245, 245);
     margin-bottom: 10px;
     font-size: 2rem;
-    padding: 3%;
+    margin-top: 15vh;
 }
 
 .contact-description {
     text-align: center;
     font-size: 1.1rem;
-    color: rgb(245, 245, 245);
+    color: var(--body-text-color);
     margin-bottom: 30px;
+    padding: 7%;
 }
 
 .contact-form {

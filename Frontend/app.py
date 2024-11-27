@@ -1,10 +1,11 @@
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, request, render_template, session, url_for
 import requests
 
 
 url = "http://127.0.0.1:5001"
 
 app = Flask(__name__)
+app.secret_key = 'Trivium23246568!'
 
 
 @app.route("/")
@@ -70,8 +71,13 @@ def login():
             "email": request.form["email"],
             "password": request.form["password"],
         }
-        requests.post(f'{url}/login', data=form_data)
-        return redirect("/")
+        response = requests.post(f'{url}/login_user', data=form_data)
+        
+        if response.status_code == 200 and response.json().get("status") == "success":
+            session['username'] = request.form["email"]
+            session.permanent = False
+            return redirect("/")
+        
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -80,9 +86,14 @@ def register():
         form_data = {
             "email": request.form["email"],
             "password": request.form["password"],
+            "name": request.form["name"],
+            "lastname": request.form["lastname"],
+            "dni": request.form["dni"],
+            "phone": request.form["phone"]
         }
-        requests.post(f'{url}/register', data=form_data)
-        return redirect("/login")
+        response = requests.post(f'{url}/register_user', data=form_data)
+        if response.status_code == 200 and response.json().get("status") == "success":
+            return redirect("/")
     return render_template("register.html")
 
 @app.route("/recover", methods=["GET", "POST"])
@@ -172,27 +183,29 @@ def rooms():
 
 @app.route("/reservas", methods=["GET", "POST"])
 def reservas():
-    
-    if request.method == "POST":
-        form_data = {
-            "personalDetails": {
-                "name": request.form["name"],
-                "lastname": request.form["lastname"],
-                "email": request.form["email"],
-                "phone": request.form["phone"],
-                "dni": request.form["dni"],
-            },
-            "reservationDetails": {
-                "Location": request.form["Location"],
-                "NumberOfPeople": request.form["NumberOfPeople"],
-                "RoomType": request.form["RoomType"],
-                "Checkin": request.form["Checkin"],
-                "Checkout": request.form["Checkout"],
-            },
-        }    
-        requests.post(f'{url}/reservas', data=form_data)
-        return redirect("/")
-    return render_template("reservas.html")
+    if 'username' in session:
+        if request.method == "POST":
+            form_data = {
+                "personalDetails": {
+                    "name": request.form["name"],
+                    "lastname": request.form["lastname"],
+                    "email": request.form["email"],
+                    "phone": request.form["phone"],
+                    "dni": request.form["dni"],
+                },
+                "reservationDetails": {
+                    "Location": request.form["Location"],
+                    "NumberOfPeople": request.form["NumberOfPeople"],
+                    "RoomType": request.form["RoomType"],
+                    "Checkin": request.form["Checkin"],
+                    "Checkout": request.form["Checkout"],
+                },
+            }    
+            requests.post(f'{url}/reservas', data=form_data)
+            return redirect("/")
+        return render_template("reservas.html")
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/consultar-reserva", methods=["GET", "POST"])
 def consultar_reserva():

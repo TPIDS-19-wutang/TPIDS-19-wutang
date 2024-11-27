@@ -198,16 +198,57 @@ def reservas():
 def consultar_reserva():
     if request.method == "POST":
         reservation_code = request.form.get("reservation_code")
-    
-        datos = requests.get(f'{url}/reservation/{reservation_code}')
-        datos_json = datos.json()
+        dni = request.form.get("dni")
+
         
-        if datos_json["status"] == "success":
-            reservation = datos_json["data"]
-            return render_template("consultar_reserva.html", reservation=reservation, error_message=None)
-        else:
-            error_message = "No se encontró ninguna reserva con el código proporcionado."
-            return render_template("consultar_reserva.html", reservation=None, error_message=error_message)
+        try:
+            # Hacer la solicitud GET con el codigo
+            datos = requests.get(f'{url}/reservation/{reservation_code}')
+            datos_json = datos.json()
+
+            # Verificar si la respuesta de la reserva fue exitosa
+            if datos_json.get("status") == "success":
+                # Obtener el ID del usuario asociado a la reserva
+                id_user = datos_json["data"].get("id_user")
+                if id_user:
+                    datos_user = requests.get(f'{url}/user/{id_user}')
+                    datos_user_json = datos_user.json()
+
+                    
+                    if "data" in datos_user_json:
+                        dni_user = str(datos_user_json["data"].get("dni", ""))  # Convertir a string
+                        
+                        # Comparar DNI del usuario con el proporcionado
+                        if dni_user == dni:
+                            reservation = datos_json["data"]
+                            id_hotel = reservation.get("id_hotel")
+
+                            if id_hotel:
+                                # Obtener los datos del hotel asociado a la reserva
+                                location = requests.get(f'{url}/hotel/{id_hotel}')
+                                location_json = location.json()
+
+                                
+                                location = location_json["data"]
+                                return render_template("consultar_reserva.html", 
+                                                           reservation=reservation, 
+                                                           hotel=location, 
+                                                           datos_user=datos_user_json["data"], 
+                                                           error_message=None)
+                            else:
+                                error_message = "No se encontró el ID del hotel asociado a la reserva."
+                        else:
+                            error_message = "Los DNI no coinciden."
+                    else:
+                        error_message = "No se encontraron datos del usuario."
+                else:
+                    error_message = "No se encontró el ID del usuario en la reserva."
+            else:
+                error_message = "No se encontró ninguna reserva con el código proporcionado."
+        except Exception as e:
+            error_message = f"Error al procesar la reserva: ingrese formato valido"
+
+        return render_template("consultar_reserva.html", reservation=None, error_message=error_message)
     
     return render_template("consultar_reserva.html", reservation=None, error_message=None)
 

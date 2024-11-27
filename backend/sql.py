@@ -882,15 +882,24 @@ def update_hotel(id_hotel, title, description, image, cant_rooms):
 
 def get_hotel_by_id(id_hotel):
     """
-    Obtiene los detalles de un usuario mediante su ID.
+    Obtiene la ubicación (location) de un hotel mediante su ID.
 
-    :param id_user: El ID del usuario cuyo detalle se desea obtener.
-    :return: Un diccionario con el estado de la operación y los detalles del usuario si se encuentra, o un mensaje de error si no.
+    :param id_hotel: El ID del hotel cuyo detalle se desea obtener.
+    :return: Un diccionario con el estado de la operación y los detalles del hotel si se encuentra, o un mensaje de error si no.
     """
-    params = {"id_hotel": id_hotel}
-    result, success = send_query(QUERY_GET_HOTEL_BY_ID, params)
-    print(result)
-    if not success or result is None:
-        return {"status": "error", "message": "No se pudo obtener el hotel"}
-    
-    return {"status": "success", "data": result}
+    try:
+        params = {"id_hotel": id_hotel}
+        result, success = send_query(QUERY_GET_HOTEL_BY_ID, params)
+        
+        if not success or result is None:
+            return {"status": "error", "message": f"Hotel con ID {id_hotel} no encontrado"}
+        
+        row = result.mappings().fetchone()
+        
+        if row is None:
+            return {"status": "error", "message": f"Hotel con ID {id_hotel} no encontrado"}
+
+        return {"status": "success", "data": {"location": row["location"]}}
+
+    except Exception as e:
+        return {"status": "error", "message": f"Error interno: {str(e)}"}

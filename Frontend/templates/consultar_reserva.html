@@ -12,8 +12,8 @@
     <label class="reserv-form-label" for="reservation_code">Código de Reserva:</label>
     <input class="reserv-form-input" type="text" id="reservation_code" name="reservation_code" required>
 
-    <label class="reserv-form-label" for="lastname">Apellido:</label>
-    <input class="reserv-form-input" type="text" id="lastname" name="lastname">
+    <label class="reserv-form-label" for="dni">DNI:</label>
+    <input class="reserv-form-input" type="text" id="dni" name="dni" required>
 
     <button class="reserv-submit-button" type="submit">Consultar</button>
 </form>
@@ -23,8 +23,12 @@
     <h3>Detalles de tu Reserva</h3>
     <ul>
         <li><strong>Código:</strong> {{ reservation.id_reservation }}</li>
+        <li><strong>Nombre:</strong> {{ datos_user.name }}</li>
+        <li><strong>Apellido:</strong> {{ datos_user.lastname}}</li>
+        <li><strong>DNI:</strong> {{ datos_user.dni }}</li>
+        <li><strong>Email:</strong> {{ datos_user.email}}</li>
         <li><strong>ROOM ID:</strong> {{ reservation.id_room}}</li>
-        <li><strong>Hotel Trivium:</strong> {{ reservation.id_hotel }}</li>
+        <li><strong>Hotel Trivium:</strong> {{ hotel.location }}</li>
         <li><strong>Check-in:</strong> {{ reservation.check_in }}</li>
         <li><strong>Check-out:</strong> {{ reservation.check_out }}</li>
     </ul>

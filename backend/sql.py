@@ -22,19 +22,6 @@ try:
 except Exception as e:
     print(f"Error al conectar con SQLAlchemy: {e}")
 
-# Verificación de conexión usando mysql.connector
-try:
-    connection = mysql.connector.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
-    if connection.is_connected():
-        print("Conexión exitosa con mysql.connector.")
-        connection.close()  # Cerrar conexión después de verificar
-except Error as e:
-    print(f"Error al conectar con mysql.connector: {e}")
 
 # ------------------------------------------------------QUERYS USERS----------------------------------------------------
 
@@ -70,8 +57,8 @@ FROM users
 """
 
 QUERY_ADD_USER = """
-INSERT INTO users (name, lastname, email, phone, dni) 
-VALUES (:name, :lastname, :email, :phone, :dni)
+INSERT INTO users (name, lastname, email, password, dni, phone) 
+VALUES (:name, :lastname, :email, :password, :dni, :phone)
 """
 
 QUERY_UPDATE_USER = """
@@ -80,9 +67,8 @@ SET name = :name, lastname = :lastname, phone = :phone, dni = :dni
 WHERE id_user = :id_user
 """
 QUERY_LOG_IN = """
-SELECT id_user, name, lastname, email, phone, dni, created_at
-FROM users
-WHERE email = :email AND password = :password
+SELECT * FROM users
+WHERE email = :email
 """
 
 # -----------------------------------------------------QUERYS ROOMS-----------------------------------------------------
@@ -292,12 +278,11 @@ def delete_user(id_user):
 
 
 
-def check_user(email: str, phone: str, dni: int):
+def check_user(email: str, dni: int):
     """
-    Verifica si un usuario ya está registrado por email, teléfono o DNI.
+    Verifica si un usuario ya está registrado por email o DNI.
 
     :param email: El email del usuario.
-    :param phone: El teléfono del usuario.
     :param dni: El DNI del usuario.
     :return: Un mensaje de error si ya existe un usuario con estos datos, o None si no.
     """
@@ -305,12 +290,6 @@ def check_user(email: str, phone: str, dni: int):
     result_email, success_email = send_query(QUERY_CHECK_USER_BY_EMAIL, params)
     if result_email:
         return {"status": "error", "message": "El email ya está registrado"}, True
-
-    params = {"phone": phone}
-    result_phone, success_phone = send_query(QUERY_CHECK_USER_BY_PHONE, params)
-    
-    if result_phone:
-        return {"status": "error", "message": "El teléfono ya está registrado"}, True
     
     params = {"dni": dni}
     result_dni, success_dni = send_query(QUERY_CHECK_USER_BY_DNI, params)
@@ -322,35 +301,35 @@ def check_user(email: str, phone: str, dni: int):
 
 
 
-def add_user(name: str, lastname: str, email: str, phone: str, password: str, dni: int):
-    """
-    Agrega un nuevo usuario a la base de datos, verificando que no se repitan los datos de email, teléfono o DNI.
+def register(email: str, password: str, name: str, lastname: str, dni: int, phone: int):
 
-    :param name: El nombre del usuario.
-    :param lastname: El apellido del usuario.
-    :param email: El email del usuario.
-    :param dni: El DNI del usuario.
-    :param phone: El teléfono del usuario.
-    :return: Un diccionario con el estado de la operación.
-    """
-    result, success = check_user(email, phone, dni)
+    params = {
+        "name": name,
+        "lastname": lastname,
+        "email": email,
+        "password": password,
+        "dni": dni,
+        "phone": phone
+    }
+    
+    try:
+     
+        error_response, user_exists = check_user(email, dni)
+        if user_exists:
+            return error_response  # Retorna el mensaje de error si el usuario ya existe
 
-    if success:
-        return result
-    else:
-        params = {
-            "name": name,
-            "lastname": lastname,
-            "email": email,
-            "dni": dni,
-            "phone": phone
-        }
+        # Ejecutar la consulta de inserción
         result, success = send_query(QUERY_ADD_USER, params)
-        if success:
-            return {"status": "success", "message": "Usuario agregado exitosamente"}
-        else:
-            return {"status": "error", "message": "Hubo un error al agregar el usuario"}
 
+        if success:
+            return {"status": "success", "message": "El usuario se creó correctamente"}
+        else:
+            return {"status": "error", "message": "No se ha podido crear el usuario"}
+        
+    except SQLAlchemyError as e:
+        print(f"Error en la función de registro: {e}")
+        return {"status": "error", "message": "Error en la operación de registro"}
+    
 
 def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
     """
@@ -376,18 +355,30 @@ def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
         return {"status": "success", "message": "Usuario modificado exitosamente"}
     else:
         return {"status": "error", "message": "El usuario no existe"}
+    
+
+
 
 def log_in(email: str, password: str):
-    params = {
-        "email": email,
-        "password": password
-    }
+    params = {"email": email}
     result, success = send_query(QUERY_LOG_IN, params)
-    if success:
-        return {"status": "success", "data": result}
+
+    if success and result:
+        rows = result.fetchall()
+        
+        result_list = [dict(zip(result.keys(), row)) for row in rows]
+        
+        info_user = result_list[0]
+        stored_password = info_user.get("password")
+        
+        if stored_password == password: 
+            return {"status": "success", "message": "Inicio de sesión exitoso", "data": info_user}
+        else:
+            return {"status": "error", "message": "Contraseña incorrecta"}
     else:
-        return {"status": "error", "message": "Email o contraseña incorrectos"}  
-     
+        return {"status": "error", "message": "Usuario no encontrado"}
+    
+    
 #--------------------------ROOMS---------------------------------
 
 

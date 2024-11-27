@@ -18,6 +18,35 @@ def user_details_endp(id_user):
     response = get_user(id_user)
     return jsonify(response)
 
+@app.route('/login_user', methods=['POST'])
+def user_login_endp():
+    """
+    Endpoint para obtener los detalles de un usuario especifico.
+    Recupera la informacion del usuario con el id proporcionado.
+    """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    
+    response = log_in(email, password)
+    return jsonify(response)
+
+@app.route('/register_user', methods=['POST'])
+def user_register_endp():
+    """
+    Endpoint para obtener los detalles de un usuario especifico.
+    Recupera la informacion del usuario con el id proporcionado.
+    """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    name = request.form.get('name')
+    lastname = request.form.get('lastname')
+    dni = request.form.get('dni')
+    phone = request.form.get('phone')
+    
+    response = register(email, password, name, lastname, dni, phone)
+    return jsonify(response)
+
+
 @app.route('/users', methods=['GET'])
 def users_list_endp():
     """
@@ -36,22 +65,6 @@ def remove_user_endp(id_user):
     response = delete_user(id_user)
     return jsonify(response)
 
-@app.route('/user', methods=['POST'])
-def add_new_user_endp():
-    """
-    Endpoint para agregar un nuevo usuario al sistema.
-    Crea un nuevo usuario con los datos proporcionados en el cuerpo de la solicitud.
-    """
-    data = request.get_json()
-    name = data.get('name')
-    lastname = data.get('lastname')
-    email = data.get('email')
-    phone = data.get('phone')
-    password = data.get('password')  
-    dni = data.get('dni')
-
-    response = add_user(name, lastname, email, phone, password, dni)
-    return jsonify(response)
 
 @app.route('/user/<int:id_user>', methods=['PUT'])
 def update_user_details(id_user):
@@ -67,7 +80,6 @@ def update_user_details(id_user):
 
     response = update_user(id_user, name, lastname, phone, dni)
     return jsonify(response)
-
 
 #--------------------------------------------------HABITACIONES-----------------------------------------------------------------
 

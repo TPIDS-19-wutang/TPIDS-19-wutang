@@ -391,6 +391,9 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `users` (`name`, `lastname`, `email`, `password`, `dni`, `phone`) VALUES
+('user','name','username@gmail.com','root','44555666','1133334444');
+
 CREATE TABLE `testimonial` (
   `testimonio` varchar(800) NOT NULL,
   `name` varchar(40) NOT NULL,

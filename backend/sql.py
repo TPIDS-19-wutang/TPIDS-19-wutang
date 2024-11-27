@@ -140,14 +140,14 @@ LIMIT 1;
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
 
 QUERY_GET_ALL_RESERVATIONS = """
-SELECT id_reservation, id_user, id_room, id_hotel, number_people, type_room, check_in, check_out, created_at 
+SELECT id_reservation, id_user, id_room, id_hotel, number_people, check_in, check_out, created_at 
 FROM reservations
 """
 
 QUERY_GET_RESERVATION = """
-SELECT id_reservation, id_user, id_room, id_hotel, number_people, type_room, check_in, check_out, created_at  
+SELECT id_reservation, id_user, id_room, id_hotel, number_people, check_in, check_out, created_at  
 FROM reservations 
-WHERE id_user = :id_user
+WHERE id_reservation= :id_reservation
 """
 
 QUERY_DELETE_RESERVATION = """
@@ -155,12 +155,12 @@ DELETE FROM reservations WHERE id_user = :id_user
 """
 
 QUERY_CREATE_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
-VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, check_out)
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people,check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
 QUERY_ADD_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
-VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, check_out)
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people, check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
 QUERY_GET_RESERVATIONS_BY_HOTEL = """
 SELECT * FROM reservations WHERE id_hotel = :id_hotel;
@@ -191,9 +191,14 @@ SET location = :location, description = :description, image = :image, cant_rooms
 WHERE id_hotel = :id_hotel
 """
 
-
 QUERY_GET_ALL_HOTELS = """
 SELECT * FROM hotels
+"""
+
+QUERY_GET_HOTEL_BY_ID = """
+SELECT location 
+FROM hotels 
+WHERE id_hotel = :id_hotel
 """
 
 def send_query(query: str, params: dict = None):
@@ -652,14 +657,14 @@ def get_all_reservation():
 
     return {"status": "success", "data": reservations}
 
-def get_reservation(id_user):
+def get_reservation(id_reservation):
     """
     Devuelve la reserva asociada a un usuario específico.
 
     :param id_user: ID del usuario para buscar la reserva.
     :return: Diccionario con el estado de la consulta y los datos o un mensaje de error.
     """
-    params = {"id_user": id_user}
+    params = {"id_reservation": id_reservation}
     result, success = send_query(QUERY_GET_RESERVATION, params)
 
     if not success or result is None:
@@ -668,12 +673,13 @@ def get_reservation(id_user):
     reservation = None
     for row in result:
         reservation = {
-            "id_user": row[0],
-            "id_room": row[1],
-            "id_hotel": row[2],
-            "type_room": row[3],
-            "check_in": row[4],
-            "check_out": row[5]
+            "id_reservation": row[0],
+            "id_user": row[1],
+            "id_room": row[2],
+            "id_hotel": row[3],
+            "number_people": row[4],
+            "check_in": row[5],
+            "check_out": row[6]
         }
 
     if reservation:
@@ -873,3 +879,18 @@ def update_hotel(id_hotel, title, description, image, cant_rooms):
         return {"status": "success", "message": f"Hotel con ID {id_hotel} actualizado correctamente"}
     else:
         return {"status": "error", "message": f"No se pudo actualizar el hotel con ID {id_hotel}"}
+
+def get_hotel_by_id(id_hotel):
+    """
+    Obtiene los detalles de un usuario mediante su ID.
+
+    :param id_user: El ID del usuario cuyo detalle se desea obtener.
+    :return: Un diccionario con el estado de la operación y los detalles del usuario si se encuentra, o un mensaje de error si no.
+    """
+    params = {"id_hotel": id_hotel}
+    result, success = send_query(QUERY_GET_HOTEL_BY_ID, params)
+    print(result)
+    if not success or result is None:
+        return {"status": "error", "message": "No se pudo obtener el hotel"}
+    
+    return {"status": "success", "data": result}

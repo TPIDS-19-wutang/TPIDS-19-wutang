@@ -142,21 +142,23 @@ def contact():
 @app.route("/habitaciones")
 def rooms():
     try:
-        # Hacer la solicitud GET
+
         response = requests.get(f'{url}/type_rooms')
-    
-        # Verificar el c�digo de estado de la respuesta
+        
         if response.status_code == 200:
-            # Decodificar el JSON de la respuesta
+           
             data = response.json()
+            cuartos = data.get("data", [])
+            print(cuartos)
+
             if data.get("status") == "success":
-               cuartos = {
-                    type_room["id_room"]: {
+                cuartos = {
+                    index: {
                         "type_room": type_room["type_room"],
                         "image": type_room["image"],
                         "description": type_room["description"]
-                    } for type_room in data.get("data", [])
-               }
+                    } for index, type_room in enumerate(data.get("data", []))
+                }
             else:
                 print(f"Error en el backend: {data.get('message', 'Sin mensaje')}")
                 cuartos = {}
@@ -194,24 +196,20 @@ def reservas():
 
 @app.route("/consultar-reserva", methods=["GET", "POST"])
 def consultar_reserva():
-    hardcoded_reservation = {
-        "code": "ABC123",
-        "lastname": "Gonzalez",
-        "checkin_date": "2024-12-01",
-        "checkout_date": "2024-12-07",
-        "status": "Confirmado"
-    }
-
     if request.method == "POST":
         reservation_code = request.form.get("reservation_code")
-        lastname = request.form.get("lastname")
+    
+        datos = requests.get(f'{url}/reservation/{reservation_code}')
+        datos_json = datos.json()
         
-        if reservation_code == hardcoded_reservation["code"] and lastname.lower() == hardcoded_reservation["lastname"].lower():
-            return render_template("consultar_reserva.html", reservation=hardcoded_reservation)
+        if datos_json["status"] == "success":
+            reservation = datos_json["data"]
+            return render_template("consultar_reserva.html", reservation=reservation, error_message=None)
         else:
-            error_message = "No se encontró ninguna reserva con el código y apellido ingresados."
+            error_message = "No se encontró ninguna reserva con el código proporcionado."
             return render_template("consultar_reserva.html", reservation=None, error_message=error_message)
-    return render_template("consultar_reserva.html", reservation=None)
+    
+    return render_template("consultar_reserva.html", reservation=None, error_message=None)
 
 
 if __name__ == "__main__":

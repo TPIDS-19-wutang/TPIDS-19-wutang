@@ -99,7 +99,7 @@ def get_all_testimonial_end():
 
 
 
-@app.route('/rooms/<int:id_hotel>', methods=['GET']
+@app.route('/rooms/<int:id_hotel>', methods=['GET'])
 def get_rooms(id_hotel):
     """
     Endpoint para obtener todas las habitaciones.
@@ -188,13 +188,13 @@ def get_all_reservations_endp():
     result = get_all_reservation()
     return jsonify(result)
 
-@app.route('/reservation/<int:id_user>', methods=['GET'])
-def get_user_reservation_endp(id_user):
+@app.route('/reservation/<int:id_reservation>', methods=['GET'])
+def get_user_reservation_endp(id_reservation):
     """
     Endpoint para obtener las reservaciones de un usuario especifico.
     Recupera todas las reservaciones asociadas al usuario con el id proporcionado.
     """
-    result = get_reservation(id_user)
+    result = get_reservation(id_reservation)
     return jsonify(result)
 
 
@@ -301,6 +301,16 @@ def update_hotel_endp(id_hotel):
         cant_rooms=data['cant_rooms']
     )
     return jsonify(result)
+
+@app.route('/hotel/<int:id_hotel>', methods=['GET'])
+def get_hotel_endp(id_hotel):
+    """
+    Endpoint para obtener los detalles de un hotel específico.
+    """
+    response = get_hotel_by_id(id_hotel)
+    
+    return jsonify(response)
+    
 
 
 if __name__ == '__main__':

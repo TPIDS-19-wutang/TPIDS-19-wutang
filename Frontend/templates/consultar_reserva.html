@@ -13,7 +13,7 @@
     <input class="reserv-form-input" type="text" id="reservation_code" name="reservation_code" required>
 
     <label class="reserv-form-label" for="lastname">Apellido:</label>
-    <input class="reserv-form-input" type="text" id="lastname" name="lastname" required>
+    <input class="reserv-form-input" type="text" id="lastname" name="lastname">
 
     <button class="reserv-submit-button" type="submit">Consultar</button>
 </form>
@@ -22,11 +22,11 @@
 <section class="check-reservation-details">
     <h3>Detalles de tu Reserva</h3>
     <ul>
-        <li><strong>Código:</strong> {{ reservation.code }}</li>
-        <li><strong>Apellido:</strong> {{ reservation.lastname }}</li>
-        <li><strong>Check-in:</strong> {{ reservation.checkin_date }}</li>
-        <li><strong>Check-out:</strong> {{ reservation.checkout_date }}</li>
-        <li><strong>Estado:</strong> {{ reservation.status }}</li>
+        <li><strong>Código:</strong> {{ reservation.id_reservation }}</li>
+        <li><strong>ROOM ID:</strong> {{ reservation.id_room}}</li>
+        <li><strong>Hotel Trivium:</strong> {{ reservation.id_hotel }}</li>
+        <li><strong>Check-in:</strong> {{ reservation.check_in }}</li>
+        <li><strong>Check-out:</strong> {{ reservation.check_out }}</li>
     </ul>
 
     <form action="/reservation/update" method="post">

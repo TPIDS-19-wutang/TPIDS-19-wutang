@@ -160,7 +160,6 @@ def rooms():
            
             data = response.json()
             cuartos = data.get("data", [])
-            print(cuartos)
 
             if data.get("status") == "success":
                 cuartos = {
@@ -186,22 +185,19 @@ def reservas():
     if 'username' in session:
         if request.method == "POST":
             form_data = {
-                "personalDetails": {
                     "name": request.form["name"],
                     "lastname": request.form["lastname"],
                     "email": request.form["email"],
                     "phone": request.form["phone"],
                     "dni": request.form["dni"],
-                },
-                "reservationDetails": {
-                    "Location": request.form["Location"],
-                    "NumberOfPeople": request.form["NumberOfPeople"],
-                    "RoomType": request.form["RoomType"],
-                    "Checkin": request.form["Checkin"],
-                    "Checkout": request.form["Checkout"],
-                },
-            }    
-            requests.post(f'{url}/reservas', data=form_data)
+                    "location": request.form["Location"],
+                    "number_people": request.form["NumberOfPeople"],
+                    "type_room": request.form["RoomType"],
+                    "check_in": request.form["Checkin"],
+                    "check_out": request.form["Checkout"],
+                }
+            requests.post(f'{url}/reservation', data=form_data)
+
             return redirect("/")
         return render_template("reservas.html")
     else:

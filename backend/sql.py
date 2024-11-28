@@ -34,9 +34,9 @@ SELECT * FROM faq
 """
 
 QUERY_GET_USER = """
-SELECT id_user, name, lastname, email, phone, dni, created_at 
+SELECT id_user, name, lastname, email, password, phone, dni, created_at 
 FROM users 
-WHERE id_user = :id_user
+WHERE email = :email AND dni = :dni
 """
 
 QUERY_CHECK_USER_BY_EMAIL = """
@@ -52,7 +52,7 @@ SELECT id_user FROM users WHERE dni = :dni
 """
 
 QUERY_GET_ALL_USERS = """
-SELECT id_user, name, lastname, email, phone, dni, created_at 
+SELECT id_user, name, lastname, email, password, phone, dni, created_at 
 FROM users
 """
 
@@ -186,6 +186,11 @@ SELECT location
 FROM hotels 
 WHERE id_hotel = :id_hotel
 """
+QUERY_GET_HOTEL_BY_LOCATION = """
+SELECT id_hotel
+FROM hotels 
+WHERE location = :location
+"""
 
 def send_query(query: str, params: dict = None):
     """
@@ -209,14 +214,14 @@ def send_query(query: str, params: dict = None):
 
 
 
-def get_user(id_user):
+def get_user(dni: str, email: str):
     """
     Obtiene los detalles de un usuario mediante su ID.
 
     :param id_user: El ID del usuario cuyo detalle se desea obtener.
     :return: Un diccionario con el estado de la operación y los detalles del usuario si se encuentra, o un mensaje de error si no.
     """
-    params = {"id_user": id_user}
+    params = {"dni": dni, "email": email}
     result, success = send_query(QUERY_GET_USER, params)
     if not success or result is None:
         return {"status": "error", "message": "No se pudo obtener el usuario"}
@@ -227,9 +232,9 @@ def get_user(id_user):
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "dni": row[5],
-            "phone": row[4], 
-            "created_at": row[6]
+            "dni": row[6],
+            "phone": row[5], 
+            "created_at": row[7]
         }
     return {"status": "success", "data": user}
 
@@ -245,15 +250,16 @@ def get_all_users():
         return {"status": "error", "message": "No se pudo obtener los usuarios"}
     
     users = []
+  
     for row in result:
         user = {
             "id_user": row[0],
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "dni": row[5],
-            "phone": row[4],
-            "created_at": row[6]
+            "dni": row[6],
+            "phone": row[5],
+            "created_at": row[7]
         }
         users.append(user)
     
@@ -613,7 +619,7 @@ def check_room_availability(type_room, id_hotel, check_in_date):
         if result:  
             room = result.fetchone()  
             if room:  
-                return {"status": "success", "message": f"Habitación disponible encontrada: ID {room[0]}"}
+                return {"status": "success", "message": f"Habitación disponible encontrada: ID {room[0]}", "data": room[0]}
             else:
                 return {"status": "error", "message": "No se encontraron habitaciones disponibles con los criterios dados."}
         else:
@@ -634,18 +640,18 @@ def get_all_reservation():
     if not success or result is None:
         return {"status": "error", "message": "No se pudo obtener las reservas"}
 
-    reservations = []
+    reservations = {}
     for row in result:
-        reservation = {
-            "id_user": row[0],
-            "id_room": row[1],
-            "id_hotel": row[2],
-            "type_room": row[3],
-            "check_in": row[4],
-            "check_out": row[5]
+        id_reservation = row[0]
+        reservations[id_reservation] = {
+            "id_user": row[1],
+            "id_room": row[2],
+            "id_hotel": row[3],
+            "type_room": row[4],
+            "number_people": row[5],
+            "check_in": row[6],
+            "check_out": row[7]
         }
-        reservations.append(reservation)
-
     return {"status": "success", "data": reservations}
 
 def get_reservation(id_reservation):
@@ -891,6 +897,30 @@ def get_hotel_by_id(id_hotel):
             return {"status": "error", "message": f"Hotel con ID {id_hotel} no encontrado"}
 
         return {"status": "success", "data": {"location": row["location"]}}
+
+    except Exception as e:
+        return {"status": "error", "message": f"Error interno: {str(e)}"}
+
+def get_hotel_by_location(location):
+    """
+    Obtiene la ubicación el id de un hotel mediante su ubicacion.
+
+    :param id_hotel: El ID del hotel cuyo detalle se desea obtener.
+    :return: Un diccionario con el estado de la operación y los detalles del hotel si se encuentra, o un mensaje de error si no.
+    """
+    try:
+        params = {"location": location}
+        result, success = send_query(QUERY_GET_HOTEL_BY_LOCATION, params)
+        
+        if not success or result is None:
+            return {"status": "error", "message": f"Hotel  no encontrado"}
+        
+        row = result.mappings().fetchone()
+        
+        if row is None:
+            return {"status": "error", "message": f"Hotel no encontrado"}
+
+        return {"status": "success", "data": {"data": row["id_hotel"]}}
 
     except Exception as e:
         return {"status": "error", "message": f"Error interno: {str(e)}"}

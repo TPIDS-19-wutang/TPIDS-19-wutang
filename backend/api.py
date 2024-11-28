@@ -216,10 +216,17 @@ def add_reservation_endp():
     Endpoint para crear una nueva reservacion.
     Crea una nueva reservacion con los datos proporcionados en el cuerpo de la solicitud.
     """
+
+    #NO COINCIDEN LOS DATOS QUE RECIBE DEL FRONT
     data = request.get_json()
+    #recibe estos datos: {'name': 'carlos', 'lastname': 'vives', 'email': 'blas@gmail.com', 'phone': '1130218392', 'dni': '41451261', 'location': 'Salta', 'number_people': '1', 'type_room': 'Premium', 'check_in': '2024-12-04', 'check_out': '2024-12-07'}
+    #FALTAN OBTENER ID_USER, ID_ROOM E ID_HOTEL
+    #FALTA VERIFICAR DISPONIBILIDAD DE LA HABITACION
+    id_room = check_room_availability(data['type_room'], data['id_hotel'], data['check_in'])
+    
     result = add_reservation(
         id_user=data['id_user'],
-        id_room=data['id_room'],
+        id_room=id_room,
         id_hotel=data['id_hotel'],
         type_room=data['type_room'],
         check_in=data['check_in'],

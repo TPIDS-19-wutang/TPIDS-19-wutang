@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, render_template, session, url_for
 import requests
 
 
-url = "http://127.0.0.1:5001"
+url = "http://backend:5001"
 
 app = Flask(__name__)
 app.secret_key = 'Trivium23246568!'
@@ -263,4 +263,4 @@ def consultar_reserva():
 
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000")

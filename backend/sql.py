@@ -8,9 +8,9 @@ from mysql.connector import Error
 
 
 
-DB_USER = "root"
-DB_PASSWORD = "root"
-DB_HOST= "localhost"
+DB_USER = "triviumuser"
+DB_PASSWORD = "triviumpassword"
+DB_HOST= "mysql-db"
 DB_PORT = "3306"
 DB_NAME = "triviumdb"
 
@@ -52,8 +52,12 @@ SELECT id_user FROM users WHERE dni = :dni
 """
 
 QUERY_GET_ALL_USERS = """
+<<<<<<< Updated upstream
 SELECT id_user, name, lastname, email, password, phone, dni, created_at 
 FROM users
+=======
+SELECT * FROM users
+>>>>>>> Stashed changes
 """
 
 QUERY_ADD_USER = """
@@ -214,7 +218,11 @@ def send_query(query: str, params: dict = None):
 
 
 
+<<<<<<< Updated upstream
 def get_user(dni: str, email: str):
+=======
+def get_user(id_user):
+>>>>>>> Stashed changes
     """
     Obtiene los detalles de un usuario mediante su ID.
 
@@ -405,8 +413,8 @@ def get_all_faq():
 
 def get_all_testimonial():
     """
-    Obtiene todos los faqs en la base de datos y los devuelve como un JSON serializable.
-    :return: Un diccionario con el estado de la operación y los datos de los FAQs, o un mensaje de error si no se pueden obtener.
+    Obtiene todos los testimonios en la base de datos y los devuelve como un JSON serializable.
+    :return: Un diccionario con el estado de la operación y los datos de los Testimonios, o un mensaje de error si no se pueden obtener.
     """
     result, success = send_query(QUERY_GET_TESTIMONIAL)
         
@@ -619,7 +627,11 @@ def check_room_availability(type_room, id_hotel, check_in_date):
         if result:  
             room = result.fetchone()  
             if room:  
+<<<<<<< Updated upstream
                 return {"status": "success", "message": f"Habitación disponible encontrada: ID {room[0]}", "data": room[0]}
+=======
+                return {"status": "success", "message": f"Habitación disponible encontrada: ID {room[0]}"}
+>>>>>>> Stashed changes
             else:
                 return {"status": "error", "message": "No se encontraron habitaciones disponibles con los criterios dados."}
         else:

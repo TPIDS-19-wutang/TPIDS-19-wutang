@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: triviumuser
+      MYSQL_PASSWORD: triviumpassword
+      MYSQL_DATABASE: triviumdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d 
+    networks:
+      - tpids-19-wutang_app-network
+
+  backend:
+    build:
+      context: ./backend  # Contexto de construcción para el backend
+    container_name: flask-backend
+    ports:
+      - "5001:5001"
+    networks:
+      - tpids-19-wutang_app-network
+    environment:
+      - DATABASE_HOST=mysql-db
+      - DATABASE_USER=triviumuser
+      - DATABASE_PASSWORD=triviumpassword
+      - DATABASE_NAME=triviumdb
+    depends_on:
+      - mysql-db
+
+  frontend:
+    build:
+      context: ./Frontend  # Cambiado a la carpeta "Frontend"
+    container_name: flask-frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - tpids-19-wutang_app-network
+    environment:
+      - BACKEND_URL=http://backend:5001
+
+volumes:
+  db_data:
+    driver: local
+
+
+networks:
+  tpids-19-wutang_app-network:
+    external: true

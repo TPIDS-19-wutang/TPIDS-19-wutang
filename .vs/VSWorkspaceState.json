@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\database",
+    "\\Frontend",
+    "\\Frontend\\static",
+    "\\Frontend\\static\\css",
+    "\\Frontend\\templates"
+  ],
+  "SelectedNode": "\\backend\\database\\triviumdb.sql",
+  "PreviewInSolutionExplorer": false
+}

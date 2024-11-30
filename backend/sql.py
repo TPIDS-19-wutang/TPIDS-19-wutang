@@ -36,7 +36,7 @@ SELECT * FROM faq
 QUERY_GET_USER = """
 SELECT id_user, name, lastname, email, password, phone, dni, created_at 
 FROM users 
-WHERE email = :email AND dni = :dni
+WHERE id_user = :id_user
 """
 
 QUERY_CHECK_USER_BY_EMAIL = """
@@ -214,14 +214,14 @@ def send_query(query: str, params: dict = None):
 
 
 
-def get_user(dni: str, email: str):
+def get_user(id_user: int):
     """
     Obtiene los detalles de un usuario mediante su ID.
 
     :param id_user: El ID del usuario cuyo detalle se desea obtener.
     :return: Un diccionario con el estado de la operación y los detalles del usuario si se encuentra, o un mensaje de error si no.
     """
-    params = {"dni": dni, "email": email}
+    params = {"id_user": id_user}
     result, success = send_query(QUERY_GET_USER, params)
     if not success or result is None:
         return {"status": "error", "message": "No se pudo obtener el usuario"}

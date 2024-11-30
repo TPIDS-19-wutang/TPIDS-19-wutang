@@ -207,7 +207,7 @@ def reservas():
 def consultar_reserva():
     if request.method == "POST":
         reservation_code = request.form.get("reservation_code")
-        dni = request.form.get("dni")
+        lastname = request.form.get("lastname")
 
         
         try:
@@ -225,10 +225,10 @@ def consultar_reserva():
 
                     
                     if "data" in datos_user_json:
-                        dni_user = str(datos_user_json["data"].get("dni", ""))  # Convertir a string
+                        lastname_user = str(datos_user_json["data"].get("lastname", ""))
                         
-                        # Comparar DNI del usuario con el proporcionado
-                        if dni_user == dni:
+                        # Comparar apellido del usuario con el proporcionado
+                        if lastname_user == lastname:
                             reservation = datos_json["data"]
                             id_hotel = reservation.get("id_hotel")
 
@@ -247,7 +247,7 @@ def consultar_reserva():
                             else:
                                 error_message = "No se encontró el ID del hotel asociado a la reserva."
                         else:
-                            error_message = "Los DNI no coinciden."
+                            error_message = "Los apellidos no coinciden."
                     else:
                         error_message = "No se encontraron datos del usuario."
                 else:

@@ -23,12 +23,12 @@
     <h3>Detalles de tu Reserva</h3>
     <ul>
         <li><strong>Código:</strong> {{ reservation.id_reservation }}</li>
-        <li><strong>Nombre:</strong> {{ datos_user.name }}</li>
-        <li><strong>Apellido:</strong> {{ datos_user.lastname}}</li>
-        <li><strong>DNI:</strong> {{ datos_user.dni }}</li>
-        <li><strong>Email:</strong> {{ datos_user.email}}</li>
-        <li><strong>ROOM ID:</strong> {{ reservation.id_room}}</li>
-        <li><strong>Hotel Trivium:</strong> {{ hotel.location }}</li>
+        <li><strong>Nombre:</strong> {{ reservation.name }}</li>
+        <li><strong>Apellido:</strong> {{ reservation.lastname}}</li>
+        <li><strong>DNI:</strong> {{ reservation.dni }}</li>
+        <li><strong>Email:</strong> {{ reservation.email}}</li>
+        <li><strong>Room ID:</strong> {{ reservation.id_room}}</li>
+        <li><strong>Hotel Trivium:</strong> {{ reservation.location }}</li>
         <li><strong>Check-in:</strong> {{ reservation.check_in }}</li>
         <li><strong>Check-out:</strong> {{ reservation.check_out }}</li>
     </ul>

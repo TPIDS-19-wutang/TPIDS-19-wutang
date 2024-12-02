@@ -9,6 +9,8 @@ from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, Rectangle
 from kivy.uix.widget import Widget
 
+# Use this URL to connect the app to the local server from an Android emulator.
+# API_BASE_URL = "http://10.0.2.2:5001"
 API_BASE_URL = "http://127.0.0.1:5001"
 
 class Navbar(BoxLayout):

@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Color, Rectangle
 from kivy.uix.widget import Widget
+from kivy.uix.scrollview import ScrollView
 
 # Use this URL to connect the app to the local server from an Android emulator.
 # API_BASE_URL = "http://10.0.2.2:5001"
@@ -18,7 +19,7 @@ class Navbar(BoxLayout):
         super().__init__(**kwargs)
         self.orientation = "horizontal"
         self.size_hint_y = None
-        self.height = 60
+        self.height = 100
         self.padding = [20, 10]
         self.spacing = 10
         self.canvas.before.clear()
@@ -31,7 +32,7 @@ class Navbar(BoxLayout):
 
         title = Label(
             text="Hotel Trivium",
-            font_size=30,
+            font_size=32,
             color=(1, 1, 1, 1),
             bold=True
         )
@@ -68,14 +69,15 @@ class BaseScreen(Screen):
     def create_label(self, text, font_size=20, color=(0.2, 0.2, 0.2, 1), **kwargs):
         return Label(text=text, font_size=font_size, color=color, **kwargs)
 
-    def create_button(self, text, on_press_callback, height=50, **kwargs):
+    def create_button(self, text, on_press_callback, height=80, **kwargs):
         button = Button(
             text=text,
             size_hint_y=None,
             height=height,
             background_color=(0.85, 0.65, 0.13, 1),
             color=(1, 1, 1, 1),
-            bold=True
+            bold=True,
+            font_size=32,
         )
         button.bind(on_press=on_press_callback)
         return button
@@ -90,21 +92,20 @@ class HomeScreen(BaseScreen):
             hint_text="Código de reserva",
             multiline=False,
             size_hint_y=None,
-            height=60,
-            padding_y=[10, 10],
+            height=70,
+            padding_y=[15, 15],
             background_color=(1, 1, 1, 1),
-            foreground_color=(0, 0, 0, 1)
         )
         self.lastname_input = TextInput(
             hint_text="Apellido",
             multiline=False,
             size_hint_y=None,
-            height=60,
-            padding_y=[10, 10],
+            height=70,
+            padding_y=[15, 15],
             background_color=(1, 1, 1, 1),
             foreground_color=(0, 0, 0, 1)
         )
-        self.error_label = self.create_label("", font_size=18, color=(1, 0, 0, 1))
+        self.error_label = self.create_label("", font_size=32, color=(1, 0, 0, 1))
 
         self.search_button = self.create_button("Buscar Reserva", self.validate_reservation)
 
@@ -139,7 +140,12 @@ class ServicesScreen(BaseScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.main_content.spacing = 20
+        self.scroll_view = ScrollView(size_hint=(1, 1))
+        self.scrollable_layout = BoxLayout(orientation="vertical", size_hint_y=None, spacing=20, padding=[30, 20])
+        self.scrollable_layout.bind(minimum_height=self.scrollable_layout.setter('height'))
+
+        self.scroll_view.add_widget(self.scrollable_layout)
+        self.main_content.add_widget(self.scroll_view)
 
         self.location_label = self.create_label(
             "Lugar: Hotel Trivium",
@@ -163,25 +169,26 @@ class ServicesScreen(BaseScreen):
             bold=True
         )
 
-        self.main_content.add_widget(self.location_label)
-        self.main_content.add_widget(self.dates_label)
-        self.main_content.add_widget(Widget(size_hint_y=None, height=5))
-        self.main_content.add_widget(self.create_label("Servicios Contratados", font_size=34, size_hint_y=None, height=50))
+        self.scrollable_layout.add_widget(self.location_label)
+        self.scrollable_layout.add_widget(self.dates_label)
+        self.scrollable_layout.add_widget(Widget(size_hint_y=None, height=5))
+        self.scrollable_layout.add_widget(self.create_label("Servicios Contratados", font_size=34, size_hint_y=None, height=50))
 
         self.contracted_services_list = self._create_service_list()
-        self.main_content.add_widget(self.contracted_services_list)
-        self.main_content.add_widget(Widget(size_hint_y=None, height=5))
-        self.main_content.add_widget(self.create_label("Servicios Disponibles", font_size=34, size_hint_y=None, height=50))
+        self.scrollable_layout.add_widget(self.contracted_services_list)
+        self.scrollable_layout.add_widget(Widget(size_hint_y=None, height=5))
+        self.scrollable_layout.add_widget(self.create_label("Servicios Disponibles", font_size=34, size_hint_y=None, height=50))
         self.available_services_list = self._create_service_list()
-        self.main_content.add_widget(self.available_services_list)
+        self.scrollable_layout.add_widget(self.available_services_list)
 
         bottom_spacer = Widget(size_hint_y=1)
-        self.main_content.add_widget(bottom_spacer)
+        self.scrollable_layout.add_widget(bottom_spacer)
 
-        button_layout = BoxLayout(orientation="horizontal", spacing=10, size_hint_y=None, height=60)
+        button_layout = BoxLayout(orientation="horizontal", spacing=10, size_hint_y=None, height=80, padding=[20, 20])
         button_layout.add_widget(self.create_button("Contratar Servicios", self.confirm_services))
         button_layout.add_widget(self.create_button("Volver al Menú Principal", self.go_back_to_main))
-        self.main_content.add_widget(button_layout)
+
+        self.layout.add_widget(button_layout)
 
         self.selected_services = []
         self.contracted_services = []
@@ -230,12 +237,12 @@ class ServicesScreen(BaseScreen):
 
         if not self.contracted_services:
             self.contracted_services_list.add_widget(
-                self.create_label("No hay servicios contratados.", font_size=24, color=(1, 0, 0, 1))
+                self.create_label("No hay servicios contratados.", font_size=32, color=(1, 0, 0, 1))
             )
 
         if not self.available_services:
             self.available_services_list.add_widget(
-                self.create_label("No hay servicios disponibles.", font_size=24, color=(1, 0, 0, 1))
+                self.create_label("No hay servicios disponibles.", font_size=32, color=(1, 0, 0, 1))
             )
 
         self._populate_services(self.contracted_services_list, self.contracted_services, contracted=True)
@@ -282,10 +289,10 @@ class ServicesScreen(BaseScreen):
                 app.show_confirmation_screen(self.selected_services)
             else:
                 error_message = response_data.get("message", "Error al actualizar los servicios.")
-                self.main_content.add_widget(self.create_label(error_message, font_size=24, color=(1, 0, 0, 1)))
+                self.main_content.add_widget(self.create_label(error_message, font_size=32, color=(1, 0, 0, 1)))
 
         except requests.exceptions.RequestException:
-            error_label = self.create_label("Error de conexión con el servidor.", font_size=24, color=(1, 0, 0, 1))
+            error_label = self.create_label("Error de conexión con el servidor.", font_size=32, color=(1, 0, 0, 1))
             self.main_content.add_widget(error_label)
 
     def go_back_to_main(self, instance):
@@ -297,7 +304,7 @@ class ConfirmationScreen(BaseScreen):
         super().__init__(**kwargs)
         self.main_content.padding = [20, 20, 20, 20]
 
-        self.success_label = self.create_label("", font_size=32, halign="center", valign="middle")
+        self.success_label = self.create_label("", font_size=34, halign="center", valign="middle")
         
         self.main_content.add_widget(self.create_label("Confirmación", font_size=38, size_hint_y=None, height=50, bold=True))
         self.main_content.add_widget(self.success_label)

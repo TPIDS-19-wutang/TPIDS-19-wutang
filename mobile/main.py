@@ -217,7 +217,7 @@ class ServicesScreen(BaseScreen):
                 return "N/A"
         
     def load_services(self, id_reservation):
-        response = requests.get(f"{API_BASE_URL}/services/{id_reservation}")
+        response = requests.get(f"{API_BASE_URL}/reservations/{id_reservation}/services")
         services = response.json().get("data", {})
         self.contracted_services = services.get("contracted_services", [])
         self.available_services = services.get("available_services", [])
@@ -282,7 +282,7 @@ class ServicesScreen(BaseScreen):
         payload = {"services": combined_service_ids}
 
         try:
-            response = requests.put(f"{API_BASE_URL}/services/{id_reservation}", json=payload)
+            response = requests.put(f"{API_BASE_URL}/reservations/{id_reservation}/services", json=payload)
             response_data = response.json()
 
             if response.status_code == 200 and response_data.get("status") == "success":

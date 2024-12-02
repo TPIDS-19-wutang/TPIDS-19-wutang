@@ -411,6 +411,44 @@ Honestamente lo super recomiendo', 'Maria Lopez', 'Mendoza, Argentina'),
 y bien decoradas, y el personal siempre está dispuesto a ayudar con una sonrisa. La ubicación es ideal para
 explorar la ciudad; ¡sin duda volvería a hospedarme aquí!', 'Elena Costas', 'Salta, Argentina');
 
+-- Creación de la tabla `services`
+CREATE TABLE `services` (
+  `id_service` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_service`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Insertar algunos servicios
+INSERT INTO `services` (`name`, `description`, `price`) VALUES
+('Spa', 'Acceso al spa con todos los servicios incluidos', 120),
+('Masajes', 'Masajes relajantes de 1 hora', 50),
+('Desayuno', 'Desayuno buffet incluido', 30),
+('Cena Gourmet', 'Cena de lujo en nuestro restaurante principal', 70),
+('Cata de Vinos', 'Degustacion de vinos con sommelier profesional', 50),
+('Clases de Yoga', 'Sesion de yoga de 1 hora con instructor profesional', 20),
+('Guía Turístico', 'Servicios de guía turístico para excursiones locales', 50.00),
+('Gimnasio', 'Acceso al gimnasio 24/7', 15),
+('Servicio de Lavandería', 'Servicios de lavandería y planchado', 15.00),
+('Transporte Aeropuerto', 'Servicio de transporte desde y hacia el aeropuerto', 50),
+('Limpieza de Habitación', 'Servicio diario de limpieza y mantenimiento de la habitación', 10.00);
+
+-- Creación de la tabla `reservation_services` para vincular reservas y servicios
+CREATE TABLE `reservation_services` (
+  `id_reservation` int(11) NOT NULL,
+  `id_service` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_reservation`, `id_service`),
+  FOREIGN KEY (`id_reservation`) REFERENCES `reservations` (`id_reservation`),
+  FOREIGN KEY (`id_service`) REFERENCES `services` (`id_service`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Insertar algunos servicios en reservas
+INSERT INTO `reservation_services` (`id_reservation`, `id_service`) VALUES
+(1, 1),
+(1, 2);
+
 --
 -- Índices para tablas volcadas
 --

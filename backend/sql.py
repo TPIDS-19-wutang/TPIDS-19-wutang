@@ -144,10 +144,12 @@ QUERY_CREATE_RESERVATION = """
 INSERT INTO reservations (id_user, id_room, id_hotel, number_people,check_in, check_out) 
 VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
+
 QUERY_ADD_RESERVATION = """
 INSERT INTO reservations (id_user, id_room, id_hotel, number_people, check_in, check_out) 
 VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
+
 QUERY_GET_RESERVATIONS_BY_HOTEL = """
 SELECT * FROM reservations WHERE id_hotel = :id_hotel;
 """
@@ -163,14 +165,57 @@ SELECT * FROM reservations WHERE check_out > CURRENT_TIMESTAMP;
 QUERY_DELETE_OLD_RESERVATIONS = """
 DELETE FROM reservations WHERE check_out < CURRENT_TIMESTAMP;
 """
+
+QUERY_GET_RESERVATION_BY_ID_AND_LASTNAME ="""
+SELECT r.*, u.dni, u.email, u.name, u.lastname, u.phone, h.location, h.description
+FROM 
+    users u
+JOIN 
+    reservations r ON u.id_user = r.id_user
+JOIN 
+    hotels h ON r.id_hotel = h.id_hotel
+WHERE 
+    r.id_reservation = :id_reservation
+    AND u.lastname = :lastname
+"""
+
+QUERY_GET_SERVICES_BY_RESERVATION = """
+SELECT s.id_service, s.name, s.description, s.price
+FROM reservations AS r
+LEFT JOIN reservation_services AS rs ON rs.id_reservation = r.id_reservation
+LEFT JOIN services AS s ON s.id_service = rs.id_service
+WHERE r.id_reservation = :id_reservation;
+"""
+
+QUERY_UPDATE_SERVICE_BY_RESERVATION = """
+INSERT INTO reservation_services (id_reservation, id_service)
+VALUES (:id_reservation, :id_service)
+"""
+
+QUERY_CHECK_EXISTENT_SERVICES_BY_RESERVATION = """
+SELECT COUNT(*) FROM reservation_services WHERE id_reservation = :id_reservation
+"""
+
+QUERY_DELETE_SERVICE_BY_RESERVATION = """
+DELETE FROM reservation_services WHERE id_reservation = :id_reservation
+"""
+
+QUERY_DELETE_SERVICE_FROM_RESERVATION = """
+DELETE FROM reservation_services
+WHERE id_reservation = :id_reservation AND id_service = :id_service
+"""
+
+# -----------------------------------------------------QUERYS HOTELS----------------------------------------------------
+
 QUERY_ADD_HOTEL ="""
 INSERT INTO hotels (location, description, image, cant_rooms)
 VALUES (:location, :description, :image, :cant_rooms);
 """
 
 QUERY_DELETE_HOTEL = """
- DELETE FROM hotels WHERE id_hotel = :id_hotel;
+DELETE FROM hotels WHERE id_hotel = :id_hotel;
 """
+
 QUERY_UPDATE_HOTEL = """
 UPDATE hotels
 SET location = :location, description = :description, image = :image, cant_rooms = :cant_rooms
@@ -186,10 +231,32 @@ SELECT location
 FROM hotels 
 WHERE id_hotel = :id_hotel
 """
+
 QUERY_GET_HOTEL_BY_LOCATION = """
 SELECT id_hotel
 FROM hotels 
 WHERE location = :location
+"""
+
+# -----------------------------------------------------QUERYS SERVICES----------------------------------------------------
+
+QUERY_GET_ALL_SERVICES = """
+SELECT * FROM services
+"""
+
+QUERY_ADD_SERVICE = """
+INSERT INTO services (name, description, price) 
+VALUES (:name, :description, :price)
+"""
+
+QUERY_DELETE_SERVICE = """
+DELETE FROM services WHERE id_service = :id_service
+"""
+
+QUERY_UPDATE_SERVICE = """
+UPDATE services 
+SET name = :name, description = :description, price = :price
+WHERE id_service = :id_service
 """
 
 def send_query(query: str, params: dict = None):
@@ -204,11 +271,12 @@ def send_query(query: str, params: dict = None):
     """
     try:
         with engine.connect() as conn:
-            result = conn.execute(text(query), params or {})
-            if result.rowcount > 0:
-                return result, True
-            else:
-                return None, False 
+            with conn.begin():
+                result = conn.execute(text(query), params or {})
+                if result.rowcount > 0:
+                    return result, True
+                else:
+                    return None, False
     except SQLAlchemyError as err:
         return None, False
 
@@ -629,7 +697,7 @@ def check_room_availability(type_room, id_hotel, check_in_date):
 
 #------------------------------------------------------RESERVATIONS------------------------------------------------------------
         
-def get_all_reservation():
+def get_all_reservations():
     """
     Devuelve una lista con todas las reservas en la base de datos.
 
@@ -683,6 +751,39 @@ def get_reservation(id_reservation):
         return {"status": "success", "data": reservation}
     else:
         return {"status": "error", "message": "No se encontró reserva para el usuario"}
+
+def get_reservation_by_id_and_lastname(id_reservation, lastname):
+    """
+    Devuelve la reserva asociada a un código de reserva y apellido.
+
+    :param id_reservation: Código de reserva para buscar la reserva.
+    :param lastname: Apellido del usuario para buscar la reserva.
+    :return: Diccionario con el estado de la consulta y los datos o un mensaje de error.
+    """
+    params = {"id_reservation": id_reservation, "lastname": lastname}
+    reservation, success = send_query(QUERY_GET_RESERVATION_BY_ID_AND_LASTNAME, params)
+    print(reservation, success)
+
+    if not success or reservation is None:
+        return {"status": "error", "message": "No se pudo obtener la reserva"}
+
+    reservation_details = [{
+        "id_reservation": detail.id_reservation,
+        "id_user": detail.id_user,
+        "id_room": detail.id_room,
+        "number_people": detail.number_people,
+        "check_in": detail.check_in,
+        "check_out": detail.check_out,
+        "dni": detail.dni,
+        "email": detail.email,
+        "name": detail.name,
+        "lastname": detail.lastname,
+        "phone": detail.phone,
+        "location": detail.location,
+        "description": detail.description
+    } for detail in reservation]
+
+    return {"status": "success", "data": reservation_details[0]}
 
 def delete_reservation(id_user):
     """
@@ -821,7 +922,89 @@ def delete_reservation(id_user):
         return {"status": "success", "message": f"Reserva del usuario con ID {id_user} eliminada correctamente"}
     else:
         return {"status": "error", "message": f"No se pudo eliminar la reserva del usuario con ID {id_user}"}
-    
+
+def get_services_by_reservation(id_reservation):
+    """
+    Devuelve un diccionario con los servicios contratados y disponibles para una reserva específica.
+
+    :param id_reservation: ID de la reserva.
+    :return: Diccionario con los servicios contratados y disponibles.
+    """
+    params = {"id_reservation": id_reservation}
+    contracted_services, success_contracted = send_query(QUERY_GET_SERVICES_BY_RESERVATION, params)
+
+    if not success_contracted or contracted_services is None:
+        return {"status": "error", "message": "No se pudo obtener los servicios contratados"}
+
+    all_services, success_all = send_query(QUERY_GET_ALL_SERVICES)
+
+    if not success_all or all_services is None:
+        return {"status": "error", "message": "No se pudo obtener todos los servicios disponibles"}
+
+    contracted_services_list = [
+        {"id_service": row[0], "name": row[1], "description": row[2], "price": row[3]}
+        for row in contracted_services
+        if row[0] is not None
+    ]
+
+    all_services_list = [
+        {"id_service": row[0], "name": row[1], "description": row[2], "price": row[3]}
+        for row in all_services
+    ]
+
+    contracted_ids = {service["id_service"] for service in contracted_services_list}
+
+    available_services_list = [service for service in all_services_list if service["id_service"] not in contracted_ids]
+
+    return {
+        "status": "success",
+        "data": {
+            "contracted_services": contracted_services_list,
+            "available_services": available_services_list
+        }
+    }
+
+def update_services_by_reservation(id_reservation, new_services):
+    """
+    Función para actualizar los servicios contratados de una reserva.
+
+    :param id_reservation: ID de la reserva.
+    :param new_services: Lista de IDs de los nuevos servicios a contratar.
+    :return: Diccionario con el estado de la operación.
+    """
+    print(id_reservation, new_services)
+    params = {"id_reservation": id_reservation}
+    existing_services, check_success = send_query(QUERY_CHECK_EXISTENT_SERVICES_BY_RESERVATION, params)
+
+    if check_success and existing_services.fetchone()[0] != 0:
+        delete_query = "DELETE FROM reservation_services WHERE id_reservation = :id_reservation"
+        delete_result, delete_success = send_query(delete_query, {"id_reservation": id_reservation})
+        if not delete_success:
+            return {"status": "error", "message": "No se pudieron eliminar los servicios existentes"}
+
+    for service_id in new_services:
+        insert_params = {"id_reservation": id_reservation, "id_service": service_id}
+        insert_result, insert_success = send_query(QUERY_UPDATE_SERVICE_BY_RESERVATION, insert_params)
+        if not insert_success:
+            return {"status": "error", "message": f"No se pudo agregar el servicio con ID {service_id}"}
+
+    return {"status": "success", "message": "Servicios contratados actualizados correctamente"}
+
+def delete_service_from_reservation(id_reservation, id_service):
+    """
+    Función para eliminar un servicio específico asociado a una reserva.
+
+    :param id_reservation: ID de la reserva.
+    :param id_service: ID del servicio a eliminar.
+    :return: Diccionario con el estado de la operación.
+    """
+    params = {"id_reservation": id_reservation, "id_service": id_service}
+    result, success = send_query(QUERY_DELETE_SERVICE_FROM_RESERVATION, params)
+    if success:
+        return {"status": "success", "message": f"Servicio con ID {id_service} eliminado de la reserva {id_reservation}"}
+    else:
+        return {"status": "error", "message": f"No se pudo eliminar el servicio con ID {id_service} de la reserva {id_reservation}"}
+
 #-------------------------------------------------HOTEL------------------------------------------------
     
 def add_hotel(title, description, image, cant_rooms):
@@ -924,3 +1107,72 @@ def get_hotel_by_location(location):
 
     except Exception as e:
         return {"status": "error", "message": f"Error interno: {str(e)}"}
+    
+#------------------------------------------------------SERVICES------------------------------------------------------------
+        
+def get_all_services():
+    """
+    Devuelve una lista con todos los servicios en la base de datos.
+
+    :return: Diccionario con el estado de la consulta y los datos o un mensaje de error.
+    """
+    services, success = send_query(QUERY_GET_ALL_SERVICES)
+
+    if not success or services is None:
+        return {"status": "error", "message": "No se pudo obtener los servicios"}
+    
+    services_list = [{"id_service": service.id_service, "name": service.name, "description": service.description, "price": service.price} for service in services]
+    return {"status": "success", "data": services_list}
+
+def add_service(name, description, price):
+    """
+    Función para agregar un nuevo servicio al sistema.
+
+    :param name: Nombre del servicio.
+    :param description: Descripción del servicio.
+    :param price: Precio del servicio.
+    :return: Diccionario con el estado de la operación.
+    """
+    params = {"name": name, "description": description, "price": price}
+    result, success = send_query(QUERY_ADD_SERVICE, params)
+    if success:
+        return {"status": "success", "message": "Servicio agregado exitosamente"}
+    else:
+        return {"status": "error", "message": "No se pudo agregar el servicio"}
+
+
+def delete_service(id_service):
+    """
+    Función para eliminar un servicio del sistema.
+
+    :param id_service: ID del servicio a eliminar.
+    :return: Diccionario con el estado de la operación.
+    """
+    params = {"id_service": id_service}
+    result, success = send_query(QUERY_DELETE_SERVICE, params)
+    if success:
+        return {"status": "success", "message": f"Servicio con ID {id_service} eliminado correctamente"}
+    else:
+        return {"status": "error", "message": f"No se pudo eliminar el servicio con ID {id_service}"}
+
+def update_service(id_service, name, description, price):
+    """
+    Función para actualizar los detalles de un servicio.
+
+    :param id_service: ID del servicio a actualizar.
+    :param name: Nuevo nombre del servicio.
+    :param description: Nueva descripción del servicio.
+    :param price: Nuevo precio del servicio.
+    :return: Diccionario con el estado de la operación.
+    """
+    params = {
+        "id_service": id_service,
+        "name": name,
+        "description": description,
+        "price": price
+    }
+    result, success = send_query(QUERY_UPDATE_SERVICE, params)
+    if success:
+        return {"status": "success", "message": f"Servicio con ID {id_service} actualizado correctamente"}
+    else:
+        return {"status": "error", "message": f"No se pudo actualizar el servicio con ID {id_service}"}

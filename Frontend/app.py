@@ -209,51 +209,19 @@ def consultar_reserva():
         reservation_code = request.form.get("reservation_code")
         lastname = request.form.get("lastname")
 
-        
+        if not reservation_code or not lastname:
+            error_message = "Por favor, ingrese el código de reserva y el apellido."
+            return render_template("consultar_reserva.html", reservation=None, error_message=error_message)
+
         try:
-            # Hacer la solicitud GET con el codigo
-            datos = requests.get(f'{url}/reservation/{reservation_code}')
-            datos_json = datos.json()
+            response = requests.get(f'{url}/reservation/{reservation_code}', params={"lastname": lastname})
+            datos_json = response.json()
 
-            # Verificar si la respuesta de la reserva fue exitosa
             if datos_json.get("status") == "success":
-                # Obtener el ID del usuario asociado a la reserva
-                id_user = datos_json["data"].get("id_user")
-                if id_user:
-                    datos_user = requests.get(f'{url}/user/{id_user}')
-                    datos_user_json = datos_user.json()
-
-                    
-                    if "data" in datos_user_json:
-                        lastname_user = str(datos_user_json["data"].get("lastname", ""))
-                        
-                        # Comparar apellido del usuario con el proporcionado
-                        if lastname_user == lastname:
-                            reservation = datos_json["data"]
-                            id_hotel = reservation.get("id_hotel")
-
-                            if id_hotel:
-                                # Obtener los datos del hotel asociado a la reserva
-                                location = requests.get(f'{url}/hotel/{id_hotel}')
-                                location_json = location.json()
-
-                                
-                                location = location_json["data"]
-                                return render_template("consultar_reserva.html", 
-                                                           reservation=reservation, 
-                                                           hotel=location, 
-                                                           datos_user=datos_user_json["data"], 
-                                                           error_message=None)
-                            else:
-                                error_message = "No se encontró el ID del hotel asociado a la reserva."
-                        else:
-                            error_message = "Los apellidos no coinciden."
-                    else:
-                        error_message = "No se encontraron datos del usuario."
-                else:
-                    error_message = "No se encontró el ID del usuario en la reserva."
+                reservation_data = datos_json.get("data", {})
+                return render_template("consultar_reserva.html", reservation=reservation_data, error_message=None)
             else:
-                error_message = "No se encontró ninguna reserva con el código proporcionado."
+                error_message = "No se encontró ninguna reserva con el código y apellido proporcionado."
         except Exception as e:
             error_message = f"Error al procesar la reserva: ingrese formato valido"
 

@@ -197,16 +197,19 @@ def get_all_reservations_endp():
     Endpoint para obtener todas las reservaciones.
     Recupera todas las reservaciones almacenadas en el sistema.
     """
-    result = get_all_reservation()
+    result = get_all_reservations()
     return jsonify(result)
 
 @app.route('/reservation/<int:id_reservation>', methods=['GET'])
-def get_user_reservation_endp(id_reservation):
+def get_reservation_by_id_and_lastname_endp(id_reservation):
     """
-    Endpoint para obtener las reservaciones de un usuario especifico.
-    Recupera todas las reservaciones asociadas al usuario con el id proporcionado.
+    Endpoint para obtener una reserva específica asociadas al código de reserva y apellido proporcionado.
     """
-    result = get_reservation(id_reservation)
+    lastname = request.args.get('lastname')
+    if not lastname:
+        return jsonify({"status": "error", "message": "Falta el apellido en la solicitud."}), 400
+    
+    result = get_reservation_by_id_and_lastname(id_reservation, lastname)
     return jsonify(result)
 
 
@@ -279,6 +282,36 @@ def get_faq_endp():
     """
     return jsonify(get_all_faq())
 
+@app.route('/reservations/<int:id_reservation>/services', methods=['GET'])
+def get_services_by_reservation_endp(id_reservation):
+    """
+    Endpoint para obtener todos los servicios asociados a una reserva.
+    """
+    result = get_services_by_reservation(id_reservation)
+    return jsonify(result)
+
+@app.route('/reservations/<int:id_reservation>/services', methods=['PUT'])
+def update_services_by_reservation_endp(id_reservation):
+    """
+    Endpoint para actualizar los servicios contratados de una reserva.
+    Recibe una lista de IDs de servicios a contratar y actualiza los servicios asociados a la reserva.
+    """
+    data = request.get_json()
+    if not data or 'services' not in data:
+        return jsonify({"status": "error", "message": "La lista de servicios no es válida"}), 400
+
+    services = data['services']
+    result = update_services_by_reservation(id_reservation, services)
+    return jsonify(result)
+
+@app.route('/reservations/<int:id_reservation>/services/<int:id_service>', methods=['DELETE'])
+def delete_service_from_reservation_endp(id_reservation, id_service):
+    """
+    Endpoint para eliminar un servicio específico de una reserva.
+    """
+    result = delete_service_from_reservation(id_reservation, id_service)
+    return jsonify(result)
+
 #---------------------------------------------------HOTELES-----------------------------------------------------------------
 
 @app.route('/hotel', methods=['POST'])
@@ -330,7 +363,57 @@ def get_hotel_endp(id_hotel):
     
     return jsonify(response)
     
+#---------------------------------------------------SERVICES-----------------------------------------------------------------
 
+@app.route('/services', methods=['GET'])
+def get_all_services_endp():
+    """
+    Endpoint para obtener todos los servicios disponibles.
+    """
+    services = get_all_services()
+    return jsonify(services)
+
+@app.route('/services', methods=['POST'])
+def add_service_endp():
+    """
+    Endpoint para agregar un nuevo servicio al sistema.
+    """
+    data = request.get_json()
+    if not data or 'name' not in data or 'description' not in data or 'price' not in data:
+        return jsonify({"status": "error", "message": "Faltan datos requeridos (name, description, price)"}), 400
+
+    result = add_service(
+        name=data['name'],
+        description=data['description'],
+        price=data['price']
+    )
+    return jsonify(result)
+
+@app.route('/services/<int:id_service>', methods=['PUT'])
+def update_service_endp(id_service):
+    """
+    Endpoint para actualizar los detalles de un servicio específico.
+    """
+    data = request.get_json()
+    if not data or 'name' not in data or 'description' not in data or 'price' not in data:
+        return jsonify({"status": "error", "message": "Faltan datos requeridos (name, description, price)"}), 400
+
+    result = update_service(
+        id_service=id_service,
+        name=data['name'],
+        description=data['description'],
+        price=data['price']
+    )
+    return jsonify(result)
+
+
+@app.route('/services/<int:id_service>', methods=['DELETE'])
+def delete_service_endp(id_service):
+    """
+    Endpoint para eliminar un servicio específico del sistema.
+    """
+    result = delete_service(id_service)
+    return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True, port="5001")
+    app.run(debug=True, port="5001", host="0.0.0.0")

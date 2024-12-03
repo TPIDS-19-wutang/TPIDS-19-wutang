@@ -7,10 +7,9 @@ from mysql.connector import Error
 
 
 
-
-DB_USER = "root"
-DB_PASSWORD = "root"
-DB_HOST= "localhost"
+DB_USER = "triviumuser"
+DB_PASSWORD = "triviumpassword"
+DB_HOST= "mysql-db"
 DB_PORT = "3306"
 DB_NAME = "triviumdb"
 
@@ -23,18 +22,27 @@ except Exception as e:
     print(f"Error al conectar con SQLAlchemy: {e}")
 
 
-# ------------------------------------------------------QUERYS USERS----------------------------------------------------
-
-QUERY_DELETE_USER = """
-DELETE FROM users WHERE id_user = :id_user
-"""
+# ------------------------------------------------------QUERYS FAQ----------------------------------------------------
 
 QUERY_GET_FAQ = """
 SELECT * FROM faq
 """
 
+# ------------------------------------------------------QUERYS USERS----------------------------------------------------
+
+
+QUERY_DELETE_USER = """
+DELETE FROM users WHERE id_user = :id_user
+"""
+
+QUERY_FIND_ID_RESERVATION = """
+SELECT id_reservation
+FROM reservations
+WHERE id_user = :id_user AND id_hotel = :id_hotel AND id_room = :id_room AND check_in = :check_in AND check_out = :check_out 
+"""
+
 QUERY_GET_USER = """
-SELECT id_user, name, lastname, email, password, phone, dni, created_at 
+SELECT *
 FROM users 
 WHERE id_user = :id_user
 """
@@ -51,8 +59,12 @@ QUERY_CHECK_USER_BY_DNI = """
 SELECT id_user FROM users WHERE dni = :dni
 """
 
+QUERY_GET_ID_BY_EMAIL_AND_DNI = """
+SELECT id_user FROM users WHERE dni = :dni AND email = :email
+"""
+
 QUERY_GET_ALL_USERS = """
-SELECT id_user, name, lastname, email, password, phone, dni, created_at 
+SELECT *
 FROM users
 """
 
@@ -66,6 +78,10 @@ UPDATE users
 SET name = :name, lastname = :lastname, phone = :phone, dni = :dni 
 WHERE id_user = :id_user
 """
+QUERY_UPDATE_PASSWORD = """
+UPDATE users SET password = :password WHERE email = :email
+"""
+
 QUERY_LOG_IN = """
 SELECT * FROM users
 WHERE email = :email
@@ -110,18 +126,33 @@ QUERY_GET_ROOMS_BY_HOTEL = """
 SELECT id_room, type_room FROM reservations 
 WHERE id_hotel = :id_hotel"""
 
-QUERY_ROOMS_DISPONIBILITY = """SELECT rooms.id_room
+QUERY_ROOMS_DISPONIBILITY = """
+SELECT id_room
 FROM rooms
-WHERE rooms.type_room = :type_room
-AND rooms.id_hotel = :id_hotel
-AND rooms.id_room NOT IN (
-    SELECT reservations.id_room
+WHERE type_room = :type_room AND id_hotel = :id_hotel AND id_room NOT IN (
+    SELECT id_room
     FROM reservations
-    WHERE reservations.check_in < :check_in
-    AND (reservations.check_out >= :check_in OR reservations.check_out IS NULL)
+    WHERE check_in < :check_in
+    AND (
+        check_out >= :check_in OR check_out IS NULL
+    )
 )
 LIMIT 1;
 """
+
+"""
+SELECT id_room
+FROM rooms
+WHERE type_room = 'Doble' AND id_hotel = 1 AND id_room NOT IN (
+    SELECT id_room
+    FROM reservations
+    WHERE (check_in < '2024-12-02' AND check_out >= '2024-12-02') 
+          OR (check_in >= '2024-12-02' AND check_in < '2024-12-18')
+          OR (check_out IS NULL)
+)
+LIMIT 1;
+"""
+
 
 # -----------------------------------------------------QUERYS RESERVATIONS----------------------------------------------------
 
@@ -146,8 +177,8 @@ VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
 
 QUERY_ADD_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_people, check_in, check_out) 
-VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, :check_out)
 """
 
 QUERY_GET_RESERVATIONS_BY_HOTEL = """
@@ -278,6 +309,7 @@ def send_query(query: str, params: dict = None):
                 else:
                     return None, False
     except SQLAlchemyError as err:
+        print(f"Error al ejecutar la consulta: {err}")
         return None, False
 
 
@@ -300,8 +332,8 @@ def get_user(id_user: int):
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "dni": row[6],
-            "phone": row[5], 
+            "dni": row[5],
+            "phone": row[6], 
             "created_at": row[7]
         }
     return {"status": "success", "data": user}
@@ -325,8 +357,8 @@ def get_all_users():
             "name": row[1],
             "lastname": row[2],
             "email": row[3],
-            "dni": row[6],
-            "phone": row[5],
+            "dni": row[5],
+            "phone": row[6],
             "created_at": row[7]
         }
         users.append(user)
@@ -390,9 +422,8 @@ def register(email: str, password: str, name: str, lastname: str, dni: int, phon
      
         error_response, user_exists = check_user(email, dni)
         if user_exists:
-            return error_response  # Retorna el mensaje de error si el usuario ya existe
-
-        # Ejecutar la consulta de inserción
+            return error_response  
+        
         result, success = send_query(QUERY_ADD_USER, params)
 
         if success:
@@ -431,6 +462,28 @@ def update_user(id_user, name: str, lastname: str, phone: str, dni: int):
         return {"status": "error", "message": "El usuario no existe"}
     
 
+def get_user_by_email(email):
+    """
+    Función que obtiene un usuario por su correo electrónico.
+    """
+    result, success = send_query(QUERY_CHECK_USER_BY_EMAIL, {"email": email})
+    
+    if success and result:
+        return result.fetchone()  # Devuelve el primer resultado encontrado
+    return None
+
+def update_user_password(email, new_password):
+    """
+    Función para actualizar la contraseña de un usuario en la base de datos sin encriptar.
+    """
+    
+    params = {
+        "email": email, 
+        "password": new_password
+        }
+    result, success = send_query(QUERY_UPDATE_PASSWORD, params)
+    
+    return success
 
 
 def log_in(email: str, password: str):
@@ -551,6 +604,24 @@ def get_room(id_room):
         }
     
     return {"status": "success", "data": room}
+
+def  get_user_id_by_email_and_dni(email, dni):
+    """
+    Obtiene el id de un usuario segun mail y dni
+
+    :param id_room: El ID de la habitación que se desea obtener.
+    :return: Un diccionario con el estado de la operación y los detalles de la habitación, o un mensaje de error si no se puede obtener.
+    """
+    params = {"email": email, "dni": dni}
+    result, success = send_query(QUERY_GET_ID_BY_EMAIL_AND_DNI, params)
+    if not success or result is None:
+        return {"status": "error", "message": "No se pudo obtener el id"}
+    
+    row = result.fetchone()
+    if row:
+        id_user = row[0]
+    
+    return {"status": "success", "data": id_user}
 
 def delete_room(id_room):
     """
@@ -675,14 +746,13 @@ def get_rooms_by_hotel(id_hotel):
 
     return {"status": "success", "data": rooms}
 
-def check_room_availability(type_room, id_hotel, check_in_date):
+def check_room_availability(type_room, id_hotel, check_in):
     params = {
         'type_room': type_room,
         'id_hotel': id_hotel,
-        'check_in': check_in_date
+        'check_in': check_in
     }
     result, success = send_query(QUERY_ROOMS_DISPONIBILITY, params)
-
     if success:
         if result:  
             room = result.fetchone()  
@@ -801,7 +871,7 @@ def delete_reservation(id_user):
         return {"status": "error", "message": f"No se pudo eliminar la reserva del usuario con ID {id_user}"}
 
 
-def add_reservation(id_user, id_room, id_hotel, type_room, check_in, check_out):
+def add_reservation(id_user, id_room, id_hotel, number_people, type_room, check_in, check_out):
     """
     Agrega una nueva reserva a la base de datos.
 
@@ -817,6 +887,7 @@ def add_reservation(id_user, id_room, id_hotel, type_room, check_in, check_out):
         "id_user": id_user,
         "id_room": id_room,
         "id_hotel": id_hotel,
+        "number_people": number_people,
         "type_room": type_room,
         "check_in": check_in,
         "check_out": check_out,
@@ -824,7 +895,14 @@ def add_reservation(id_user, id_room, id_hotel, type_room, check_in, check_out):
     result, success = send_query(QUERY_ADD_RESERVATION, params)
 
     if success:
-        return {"status": "success", "message": "Reserva agregada exitosamente"}
+        id_reservation_result, success = send_query(QUERY_FIND_ID_RESERVATION, params)
+
+        if id_reservation_result and id_reservation_result.rowcount > 0:
+            row = id_reservation_result.fetchone()
+            columns = id_reservation_result.keys() 
+            id_reservation_dict = dict(zip(columns, row))
+            id_reservation = id_reservation_dict.get('id_reservation')
+            return {"status": "success", "message": "Reserva agregada exitosamente", "id_reservation": id_reservation}
     else:
         return {"status": "error", "message": "No se pudo agregar la reserva"}
     

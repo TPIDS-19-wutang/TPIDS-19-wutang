@@ -32,16 +32,7 @@
         <li><strong>Check-in:</strong> {{ reservation.check_in }}</li>
         <li><strong>Check-out:</strong> {{ reservation.check_out }}</li>
     </ul>
-
-    <form action="/reservation/update" method="post">
-        <input type="hidden" name="reservation_code" value="{{ reservation.code }}">
-        <button class="reserv-submit-button" type="submit">Modificar</button>
-    </form>
-
-    <form action="/reservation/cancel" method="post">
-        <input type="hidden" name="reservation_code" value="{{ reservation.code }}">
-        <button class="reserv-submit-button cancel" type="submit">Cancelar</button>
-    </form>
 </section>
 {% endif %}
 {% endblock %}
+{% set active_page = 'consultar_reserva' %}

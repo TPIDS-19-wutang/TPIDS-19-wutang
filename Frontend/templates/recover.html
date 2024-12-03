@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class="contact-form" action="/login" method="post">
+<br>
+<br>
+<form class="contact-form" action="/recover" method="post">
     <label class="contact-form-label" for="email">Email:</label>
     <input class="contact-form-input" type="text" id="email" name="email" required>
 
-    <button class="contact-submit-button" type="submit">Sign In</button>
+    <label class="contact-form-label" for="password">Password:</label>
+    <input class="contact-form-input" type="password" id="password" name="password" required>
+
+    <div>
+        <input type="checkbox" id="checkbox-login" name="checkbox-login" onclick="togglePassword()">
+        <label for="checkbox-login">Muestrame la contrasenia</label>
+    </div>
+
+
+    <button class="contact-submit-button" type="submit">Recover</button>
     <div class="nav nav-tabs d-flex justify-content-center border-0 div-login" id="nav-tab" role="tablist">
         <p class="btn-links-login">
             <a href="{{url_for('login')}}">
@@ -19,4 +30,5 @@
         </p>
     </div>
 </form>
+<script src="{{ url_for('static', filename='js/checkbox.js') }}"></script>
 {% endblock %}

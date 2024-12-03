@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<br>
+<br>
 <form class="contact-form" action="/register" method="post">
 
     <label class="contact-form-label" for="name">Nombre:</label>
@@ -23,7 +24,7 @@
     <input class="contact-form-input" type="password" id="password" name="password" required>
 
     <div>
-        <input type="checkbox" id="checkbox-login" name="checkbox-login">
+        <input type="checkbox" id="checkbox-login" name="checkbox-login" onclick="togglePassword()">
         <label for="checkbox-login">Muestrame la contrasenia</label>
     </div>
 
@@ -41,4 +42,5 @@
         </p>
         </div>
 </form>
+<script src="{{ url_for('static', filename='js/checkbox.js') }}"></script>
 {% endblock %}

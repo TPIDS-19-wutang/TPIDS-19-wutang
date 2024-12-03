@@ -7,70 +7,70 @@
 <p class="reserv-description">Por favor, completá el siguiente formulario para reservar tu hospedaje.</p>
 
 <section id="formulario-reserva">
-  <section>
-    <h3 class="titulos-reserv">Paso 1: Tus datos</h3>
-    <form class="reserv-form" id="roomForm" method="POST" action="{{ url_for('reservas') }}">
-      <!-- Datos del usuario -->
-      <label class="reserv-form-label" for="name">Nombre:</label>
-      <input class="reserv-form-input" type="text" id="name" name="name" required>
-      
-      <label class="reserv-form-label" for="lastname">Apellido:</label>
-      <input class="reserv-form-input" type="text" id="lastname" name="lastname" required>
-      
-      <label class="reserv-form-label" for="dni">Número de DNI:</label>
-      <input class="reserv-form-input" type="text" id="dni" name="dni" required>
-      
-      <label class="reserv-form-label" for="phone">Número de Teléfono:</label>
-      <input class="reserv-form-input" type="text" id="phone" name="phone" required>
-      
-      <label class="reserv-form-label" for="email">Correo electrónico:</label>
-      <input class="reserv-form-input" type="email" id="email" name="email" required>
-      
-      <h3 class="titulos-reserv">Paso 2: Información del hospedaje</h3>
-      <div class="billboard-select">
-        <label class="reserv-form-label" for="Location">Lugar:</label>
-        <select class="form-select mb-2 mb-lg-0" id="id_hotel" name="Location" aria-label="Location" required>
-          <option value="" disabled selected>Seleccionar</option>
-          <option value="Misiones">Misiones</option>
-          <option value="Cordoba">Córdoba</option>
-          <option value="Salta">Salta</option>
-          <option value="Santa Cruz">Santa Cruz</option>
-          <option value="Mendoza">Mendoza</option>
-          <option value="Ciudad de Buenos Aires">Ciudad de Buenos Aires</option>
-        </select>
-      </div>
-      <div class="billboard-select">
-        <label class="reserv-form-label" for="NumberOfPeople">Cantidad de personas:</label>
-        <select class="form-select mb-2 mb-lg-0" id="NumberOfPeople" name="NumberOfPeople" aria-label="NumberOfPeople" required>
-          <option value="" disabled selected>Seleccionar</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">+4</option>
-        </select>
-      </div>
-      <div class="billboard-select">
-        <label class="reserv-form-label" for="RoomType">Tipo de habitación:</label>
-        <select class="form-select mb-2 mb-lg-0" id="type_room" name="RoomType" aria-label="RoomType" required>
-          <option value="" disabled selected>Seleccionar</option>
-          <option value="Classic">Classic</option>
-          <option value="Doble">Doble</option>
-          <option value="Premium">Premium</option>
-          <option value="Deluxe">Deluxe</option>
-        </select>
-      </div><br>
-      <div class="billboard-select">
-        <label for="Checkin" class="reserv-form-label">Fecha de entrada:</label>
-        <input type="date" class="reserv-form-input" id="check_in" name="Checkin" required>
-        
-        <label for="Checkout" class="reserv-form-label">Fecha de salida:</label>
-        <input type="date" class="reserv-form-input" id="Checkout" name="Checkout" required>
-      </div>
-      
-      <button class="reserv-submit-button" type="submit">Enviar</button>
-    </form>
-  </section>
+    <section>
+        <h3 class="titulos-reserv">Paso 1: Tus datos</h3>
+        <form class="reserv-form" id="roomForm" method="POST" action="{{ url_for('reservas') }}">
+            <!-- Datos del usuario -->
+            <label class="reserv-form-label" for="name">Nombre:</label>
+            <input class="reserv-form-input" type="text" id="name" name="name" required>
+
+            <label class="reserv-form-label" for="lastname">Apellido:</label>
+            <input class="reserv-form-input" type="text" id="lastname" name="lastname" required>
+
+            <label class="reserv-form-label" for="dni">Número de DNI:</label>
+            <input class="reserv-form-input" type="text" id="dni" name="dni" required>
+
+            <label class="reserv-form-label" for="phone">Número de Teléfono:</label>
+            <input class="reserv-form-input" type="text" id="phone" name="phone" required>
+
+            <label class="reserv-form-label" for="email">Correo electrónico:</label>
+            <input class="reserv-form-input" type="email" id="email" name="email" required>
+
+            <h3 class="titulos-reserv">Paso 2: Información del hospedaje</h3>
+            <div class="billboard-select">
+                <label class="reserv-form-label" for="id_hotel">Lugar:</label>
+                <select class="form-select mb-2 mb-lg-0" id="id_hotel" name="id_hotel" aria-label="Seleccionar hotel" required>
+                    <option value="" disabled selected>Seleccionar</option>
+                    {% for hotel in hoteles %}
+                    <option value="{{hotel['id_hotel']}}" data-location="{{ hotel['location'] }}">{{hotel['location']}}</option>
+                    {%endfor%}
+                </select>
+                <input type="hidden" id="hotel_location" name="location">
+            </div>
+            <div class="billboard-select">
+                <label class="reserv-form-label" for="NumberOfPeople">Cantidad de personas:</label>
+                <select class="form-select mb-2 mb-lg-0" id="NumberOfPeople" name="NumberOfPeople" aria-label="NumberOfPeople" required>
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">+4</option>
+                </select>
+            </div>
+            <div class="billboard-select">
+                <label class="reserv-form-label" for="RoomType">Tipo de habitación:</label>
+                <select class="form-select mb-2 mb-lg-0" id="type_room" name="RoomType" aria-label="RoomType" required>
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Doble">Doble</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Deluxe">Deluxe</option>
+                </select>
+            </div><br>
+            <div class="billboard-select">
+                <label for="Checkin" class="reserv-form-label">Fecha de entrada:</label>
+                <input type="date" class="reserv-form-input" id="check_in" name="Checkin" required>
+
+                <label for="Checkout" class="reserv-form-label">Fecha de salida:</label>
+                <input type="date" class="reserv-form-input" id="Checkout" name="Checkout" required>
+            </div>
+
+            <button class="reserv-submit-button" type="submit">Enviar</button>
+        </form>
+    </section>
 </section>
+
+<script src="{{ url_for('static', filename='js/reservation.js') }}"></script>
 
 {% endblock %}
 {% set active_page = 'reservas' %}

@@ -160,6 +160,7 @@ def update_room_endpoint(id_room):
     )
     return jsonify(result)
 
+
 @app.route('/rooms/availability', methods=['GET'])
 def endp_room_availability():
     """
@@ -220,21 +221,29 @@ def add_reservation_endp():
     Crea una nueva reservacion con los datos proporcionados en el cuerpo de la solicitud.
     """
 
-    #NO COINCIDEN LOS DATOS QUE RECIBE DEL FRONT
-    data = request.get_json()
-    #recibe estos datos: {'name': 'carlos', 'lastname': 'vives', 'email': 'blas@gmail.com', 'phone': '1130218392', 'dni': '41451261', 'location': 'Salta', 'number_people': '1', 'type_room': 'Premium', 'check_in': '2024-12-04', 'check_out': '2024-12-07'}
-    #FALTAN OBTENER ID_USER, ID_ROOM E ID_HOTEL
-    #FALTA VERIFICAR DISPONIBILIDAD DE LA HABITACION
-    id_room = check_room_availability(data['type_room'], data['id_hotel'], data['check_in'])
+    data = request.form
     
-    result = add_reservation(
-        id_user=data['id_user'],
-        id_room=id_room,
-        id_hotel=data['id_hotel'],
-        type_room=data['type_room'],
-        check_in=data['check_in'],
-        check_out=data['check_out']
-    )
+    user = get_user_id_by_email_and_dni(data.get('email'), data.get('dni'))
+    
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"})
+    id_user = user['data'] 
+    
+    id_hotel=data.get('id_hotel')
+    number_people=data.get('number_people')
+    type_room= data.get('type_room')
+    check_in=data.get('check_in')
+    check_out=data.get('check_out')  
+    
+    room_response = check_room_availability(type_room, id_hotel, check_in)
+    
+    if room_response['status'] == "error":
+        return jsonify(room_response)  
+        
+    id_room = room_response['data']
+    
+    result = add_reservation(id_user, id_room, id_hotel, number_people, type_room, check_in, check_out)
+        
     return jsonify(result)
 
 @app.route('/reservation/<int:id_user>', methods=['DELETE'])
@@ -263,6 +272,29 @@ def get_reservations_by_user_endp(id_user):
     """
     result = get_reservation_by_user(id_user)
     return jsonify(result)
+
+
+@app.route("/recover_pass", methods=["POST"])
+def recover_endp():
+    """
+    Endpoint para recuperar o modificar la contraseña de un usuario.
+    Este endpoint recibe el email y la nueva contraseña, y la actualiza en la base de datos.
+    """
+    data = request.form
+    email = data.get("email")
+    new_password = data.get("password")
+
+    # Verificar si el usuario existe en la base de datos
+    user = get_user_by_email(email)
+    if not user:
+        return jsonify({"status": "error", "message": "Usuario no encontrado"})
+
+    # Actualizar la contraseña del usuario en la base de datos (sin encriptar)
+    success = update_user_password(email, new_password)
+    if success:
+        return jsonify({"status": "success", "message": "Contraseña actualizada exitosamente"})
+    else:
+        return jsonify({"status": "error", "message": "No se pudo actualizar la contraseña"})
 
 
 @app.route('/reservations/active', methods=['GET'])
@@ -416,4 +448,4 @@ def delete_service_endp(id_service):
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True, port="5001", host="0.0.0.0")
+     app.run(port="5001", host="0.0.0.0")

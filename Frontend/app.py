@@ -1,11 +1,21 @@
 from flask import Flask, redirect, request, render_template, session, url_for
 import requests
+from flask_mail import Mail, Message
 
 
-url = "http://127.0.0.1:5001"
+url = "http://backend:5001"
 
 app = Flask(__name__)
 app.secret_key = 'Trivium23246568!'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Cambia según el servidor SMTP
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'iblanco@fi.uba.ar'  # Tu correo
+app.config['MAIL_PASSWORD'] = 'JQjX-aa?'        # Contraseña o App Password
+app.config['MAIL_DEFAULT_SENDER'] = 'iblanco@fi.uba.ar'
+
+mail = Mail(app)
 
 
 @app.route("/")
@@ -103,10 +113,15 @@ def recover():
             "email": request.form["email"],
             "password": request.form["password"],
         }
-        requests.post(f'{url}/recover', data=form_data)
-        return redirect("/login")
+        try:
+            response = requests.post(f'{url}/recover_pass', data=form_data)
+            if response.status_code == 200:
+                return redirect("/login")
+            else:
+                return f"Error: {response.json().get('message', 'No se pudo actualizar la contraseña')}", 400
+        except Exception as e:
+            return f"Error al conectarse con el backend: {str(e)}", 500
     return render_template("recover.html")
-
 
 
 @app.route("/FAQ")
@@ -180,26 +195,73 @@ def rooms():
         cuartos = {}
     return render_template("rooms.html", cuartos=cuartos)
 
+
+def send_reservation_email(to_email, reservation_id):
+    if not reservation_id:
+        print("No se ha recibido un ID de reserva válido.")
+        return
+    subject = "Confirmación de reserva"
+    html_content = f"""
+    <html>
+    <body>
+        <h1>Reserva confirmada</h1>
+        <p>Gracias por realizar tu reserva. Aquí están los detalles:</p>
+        <p><strong>ID de la reserva:</strong> {reservation_id}</p>
+        <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
+    </body>
+    </html>
+    """
+
+    try:
+        msg = Message(subject=subject, recipients=[to_email])
+        msg.html = html_content
+        mail.send(msg)
+        print("Correo enviado exitosamente.")
+    except Exception as e:
+        print(f"Error enviando correo: {str(e)}")
+
 @app.route("/reservas", methods=["GET", "POST"])
 def reservas():
     if 'username' in session:
+        hotels = requests.get(f'{url}/hoteles_end')
+        hotel_json = hotels.json()
+        hoteles = hotel_json.get("data", [])
+
+        if hotel_json.get("status") == "success":
+          pass
+        else:
+            print(f"Error en el backend: {data.get('message', 'Sin mensaje')}")
+            hoteles = []      
         if request.method == "POST":
+            id_hotel = request.form.get("id_hotel")
+            location = request.form.get("location")
+            print(f"ID Hotel: {id_hotel}, Location: {location}")  # Depuración
+
             form_data = {
+                    "id_hotel": id_hotel,
                     "name": request.form["name"],
                     "lastname": request.form["lastname"],
                     "email": request.form["email"],
                     "phone": request.form["phone"],
                     "dni": request.form["dni"],
-                    "location": request.form["Location"],
+                    "location": location,
                     "number_people": request.form["NumberOfPeople"],
                     "type_room": request.form["RoomType"],
                     "check_in": request.form["Checkin"],
                     "check_out": request.form["Checkout"],
-                }
-            requests.post(f'{url}/reservation', data=form_data)
+            }
+            response = requests.post(f'{url}/reservation', data=form_data)
+            
+
+            if response.status_code == 200:
+                
+                id_reservation = response.json().get("id_reservation")
+                print(f"ID de reserva recibido: {id_reservation}")
+                send_reservation_email(form_data["email"], id_reservation)
+
 
             return redirect("/")
-        return render_template("reservas.html")
+        return render_template("reservas.html", hoteles=hoteles)
     else:
         return redirect(url_for('login'))
 
@@ -230,5 +292,6 @@ def consultar_reserva():
     return render_template("consultar_reserva.html", reservation=None, error_message=None)
 
 
+
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+    app.run(port="5000", host="0.0.0.0")

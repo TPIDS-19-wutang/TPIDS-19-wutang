@@ -274,6 +274,9 @@ UNLOCK TABLES;
 
 -- Dump completed on 2024-11-29  8:27:19
 
+INSERT INTO `reservations` (`id_user`, `id_room`, `id_hotel`, `number_people`, `check_in`, `check_out`) 
+VALUES (1, 1, 1, 1, "2024-12-10", "2024-12-24");
+
 CREATE TABLE `services` (
   `id_service` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,

@@ -38,7 +38,7 @@ services:
       context: ./Frontend  # Cambiado a la carpeta "Frontend"
     container_name: flask-frontend
     ports:
-      - "5000:5000"
+      - "4000:4000"
     networks:
       - tpids-19-wutang_app-network
     environment:

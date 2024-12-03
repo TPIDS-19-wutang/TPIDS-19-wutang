@@ -9,6 +9,6 @@ RUN apt-get update && apt-get install -y nano
 
 COPY . /TPwutang
 
-EXPOSE 5000
+EXPOSE 4000
 
 CMD ["python3", "app.py"]

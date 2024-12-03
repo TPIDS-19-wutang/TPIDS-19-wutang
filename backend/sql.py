@@ -129,12 +129,12 @@ WHERE id_hotel = :id_hotel"""
 QUERY_ROOMS_DISPONIBILITY = """
 SELECT id_room
 FROM rooms
-WHERE type_room = :type_room AND id_hotel = :id_hotel AND id_room NOT IN (
+WHERE id_hotel = :id_hotel AND id_room NOT IN (
     SELECT id_room
     FROM reservations
-    WHERE check_in < :check_in
+    WHERE check_in <= :check_in
     AND (
-        check_out >= :check_in OR check_out IS NULL
+        check_out >= :check_in
     )
 )
 LIMIT 1;
@@ -177,8 +177,8 @@ VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, check_out)
 """
 
 QUERY_ADD_RESERVATION = """
-INSERT INTO reservations (id_user, id_room, id_hotel, number_people, type_room, check_in, check_out) 
-VALUES (:id_user, :id_room, :id_hotel, :number_people, :type_room, :check_in, :check_out)
+INSERT INTO reservations (id_user, id_room, id_hotel, number_people, check_in, check_out) 
+VALUES (:id_user, :id_room, :id_hotel, :number_people, :check_in, :check_out)
 """
 
 QUERY_GET_RESERVATIONS_BY_HOTEL = """
@@ -871,7 +871,7 @@ def delete_reservation(id_user):
         return {"status": "error", "message": f"No se pudo eliminar la reserva del usuario con ID {id_user}"}
 
 
-def add_reservation(id_user, id_room, id_hotel, number_people, type_room, check_in, check_out):
+def add_reservation(id_user, id_room, id_hotel, number_people, check_in, check_out):
     """
     Agrega una nueva reserva a la base de datos.
 
@@ -888,7 +888,6 @@ def add_reservation(id_user, id_room, id_hotel, number_people, type_room, check_
         "id_room": id_room,
         "id_hotel": id_hotel,
         "number_people": number_people,
-        "type_room": type_room,
         "check_in": check_in,
         "check_out": check_out,
     }

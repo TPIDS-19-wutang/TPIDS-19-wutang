@@ -224,16 +224,16 @@ def add_reservation_endp():
     data = request.form
     
     user = get_user_id_by_email_and_dni(data.get('email'), data.get('dni'))
-    
+
     if not user:
         return jsonify({"error": "Usuario no encontrado"})
-    id_user = user['data'] 
+    id_user = user.get('data')
     
     id_hotel=data.get('id_hotel')
     number_people=data.get('number_people')
     type_room= data.get('type_room')
     check_in=data.get('check_in')
-    check_out=data.get('check_out')  
+    check_out=data.get('check_out') 
     
     room_response = check_room_availability(type_room, id_hotel, check_in)
     
@@ -242,8 +242,8 @@ def add_reservation_endp():
         
     id_room = room_response['data']
     
-    result = add_reservation(id_user, id_room, id_hotel, number_people, type_room, check_in, check_out)
-        
+    result = add_reservation(id_user, id_room, id_hotel, number_people, check_in, check_out)
+
     return jsonify(result)
 
 @app.route('/reservation/<int:id_user>', methods=['DELETE'])

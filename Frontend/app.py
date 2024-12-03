@@ -59,7 +59,6 @@ def index():
                     }  for testimonial in data_testimonios.get("data", [])
                 ]
             else:
-                print(f"Error en el backend: {data.get('message', 'Sin mensaje')}")
                 hotels_data = {}
                 testimonios = []
         else:
@@ -302,4 +301,4 @@ def consultar_reserva():
 
 
 if __name__ == "__main__":
-    app.run(port="5000", host="0.0.0.0")
+    app.run(port="4000", host="0.0.0.0")

@@ -769,7 +769,7 @@ img.abt-img {
     overflow: hidden;
     border: 1px solid #ccc;
     margin: 0 auto;
-    height: 100px;
+    flex-direction: column;
 }
 
 .prueba {

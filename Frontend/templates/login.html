@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h4 class="h4_register">Inicia sesión, si todavía no tenes cuenta registrate</h4>
 <br>
-<br>
-<form class="contact-form" action="/login" method="post">
-    <label class="contact-form-label" for="email">Email:</label>
-    <input class="contact-form-input" type="text" id="email" name="email" required>
+<form class="form login-form" action="/login" method="post">
+    <label class="form-label" for="email">Email:</label>
+    <input class="form-input" type="text" id="email" name="email" required>
 
-    <label class="contact-form-label" for="password">Contrasenia:</label>
-    <input class="contact-form-input" type="password" id="password" name="password" required>
+    <label class="form-label" for="password">Contrasenia:</label>
+    <input class="form-input" type="password" id="password" name="password" required>
 
     <div>
         <input type="checkbox" id="checkbox-login" name="checkbox-login" onclick="togglePassword()">

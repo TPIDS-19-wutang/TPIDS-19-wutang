@@ -209,7 +209,8 @@ i {
 .nav-link.active,
 .nav-link:focus,
 .nav-link:hover {
-    color: var(----body-text-color);
+    color: white !important;
+    text-shadow: 0 0 4px black !important;
 }
 
 .nav-item {
@@ -279,7 +280,15 @@ i {
 @media (max-width: 768px) {
     #hero_about {
         background-attachment: scroll;
+        height: 70vh;
         min-height: 100vh;
+    }
+}
+
+@media (max-width: 480px) {
+    #hero_about {
+        background-attachment: scroll;
+        height: auto;
     }
 }
 
@@ -434,9 +443,18 @@ i {
     padding-top: 50px;
 }
 
+.conteiner.rooms_container {
+    margin-top: 20%;
+}
+
 /* login form  */
 a.password:hover {
     color: var(--link-color);
+}
+
+.h4_register {
+    margin-top: 25%;
+    text-align: center;
 }
 
 .form-control:focus {
@@ -452,11 +470,7 @@ a.password:hover {
 }
 
 .site-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
     z-index: 99999;
-    transition: background 0.3s ease-out;
 }
 
 a.navbar-brand {
@@ -938,7 +952,7 @@ Contact page style start
     padding: 7%;
 }
 
-.contact-form {
+.form {
     max-width: 700px;
     margin: 0 auto;
     display: flex;
@@ -950,13 +964,13 @@ Contact page style start
     border: 1px solid rgb(245, 245, 245);
 }
 
-.contact-form-label {
+.form-label {
     margin-top: 15px;
     font-weight: 600;
     color: #2c3e50;
 }
 
-.contact-form-input, .contact-form-textarea {
+.form-input, .form-textarea {
     width: 100%;
     padding: 12px;
     margin-top: 5px;
@@ -967,9 +981,9 @@ Contact page style start
     transition: border-color 0.3s;
 }
 
-    .contact-form-input:focus, .contact-form-textarea:focus {
-        border-color: #007bff;
-    }
+.form-input:focus, .form-textarea:focus {
+    border-color: #007bff;
+}
 
 .contact-submit-button {
     background-color: var(--accent-color);
@@ -1395,7 +1409,7 @@ FAQ Style Template
     gap: 20px;
     justify-content: center;
     padding: 10px;
-    margin-top: 175px;
+    margin-top: 15%;
 }
 
 .acordion {
@@ -1440,3 +1454,28 @@ FAQ Style Template
     font-size: 0.75em;
 }
 
+/*--------------------------------------------------------------
+404 & 500 Style Template
+--------------------------------------------------------------*/
+
+.error_template {
+    padding: 40px 15px;
+    text-align: center;
+    margin-top: 20%;
+}
+
+.error_button {
+    font-size: 0.9em;
+    height: 50px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    color: rgb(245, 245, 245);
+    background-color: var(--accent-color);
+}
+
+.error_button:hover {
+    background-color: #5f4c31;
+}

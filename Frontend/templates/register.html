@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h4 class="h4_register">registrate</h4>
 <br>
-<br>
-<form class="contact-form" action="/register" method="post">
+<form class="form register_form" action="/register" method="post">
 
-    <label class="contact-form-label" for="name">Nombre:</label>
-    <input class="contact-form-input" type="text" id="name" name="name" required>
+    <label class="form-label" for="name">Nombre:</label>
+    <input class="form-input" type="text" id="name" name="name" required>
 
-    <label class="contact-form-label" for="lastname">Apellido:</label>
-    <input class="contact-form-input" type="text" id="lastname" name="lastname" required>
+    <label class="form-label" for="lastname">Apellido:</label>
+    <input class="form-input" type="text" id="lastname" name="lastname" required>
 
-    <label class="contact-form-label" for="dni">DNI:</label>
-    <input class="contact-form-input" type="text" id="dni" name="dni" required>
+    <label class="form-label" for="dni">DNI:</label>
+    <input class="form-input" type="text" id="dni" name="dni" required>
 
-    <label class="contact-form-label" for="phone">Telefono:</label>
-    <input class="contact-form-input" type="text" id="phone" name="phone" required>
+    <label class="form-label" for="phone">Telefono:</label>
+    <input class="form-input" type="text" id="phone" name="phone" required>
 
-    <label class="contact-form-label" for="email">Email:</label>
-    <input class="contact-form-input" type="text" id="email" name="email" required>
+    <label class="form-label" for="email">Email:</label>
+    <input class="form-input" type="text" id="email" name="email" required>
 
-    <label class="contact-form-label" for="password">Contrasenia:</label>
-    <input class="contact-form-input" type="password" id="password" name="password" required>
+    <label class="form-label" for="password">Contrasenia:</label>
+    <input class="form-input" type="password" id="password" name="password" required>
 
     <div>
         <input type="checkbox" id="checkbox-login" name="checkbox-login" onclick="togglePassword()">
